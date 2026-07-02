@@ -72,9 +72,36 @@ export const matchPairs = [
 ];
 
 export const destinationCards = [
-  { country: 'Philippines', capital: 'Manila', destination: 'Boracay', continent: 'Asia' },
-  { country: 'Japan', capital: 'Tokyo', destination: 'Kyoto', continent: 'Asia' },
-  { country: 'France', capital: 'Paris', destination: 'French Riviera', continent: 'Europe' },
-  { country: 'United States', capital: 'Washington, D.C.', destination: 'New York City', continent: 'North America' },
+  {
+    country: 'Philippines',
+    capital: 'Manila',
+    destination: 'Boracay',
+    continent: 'Asia',
+    latitude: 11.9674,
+    longitude: 121.9248,
+  },
+  {
+    country: 'Japan',
+    capital: 'Tokyo',
+    destination: 'Kyoto',
+    continent: 'Asia',
+    latitude: 35.0116,
+    longitude: 135.7681,
+  },
+  {
+    country: 'France',
+    capital: 'Paris',
+    destination: 'French Riviera',
+    continent: 'Europe',
+    latitude: 43.7102,
+    longitude: 7.262,
+  },
+  {
+    country: 'United States',
+    capital: 'Washington, D.C.',
+    destination: 'New York City',
+    continent: 'North America',
+    latitude: 40.7128,
+    longitude: -74.006,
+  },
 ];
-

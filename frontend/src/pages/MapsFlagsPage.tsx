@@ -4,10 +4,19 @@ import { airportCodes, destinationCards, flagChoices } from '../lib/static-data'
 
 export function MapsFlagsPage() {
   const [selectedContinent, setSelectedContinent] = useState('All');
+  const [selectedDestination, setSelectedDestination] = useState(destinationCards[0]);
   const filteredDestinations =
     selectedContinent === 'All'
       ? destinationCards
       : destinationCards.filter((item) => item.continent === selectedContinent);
+  const mapSpan = 0.18;
+  const mapBounds = [
+    selectedDestination.longitude - mapSpan,
+    selectedDestination.latitude - mapSpan,
+    selectedDestination.longitude + mapSpan,
+    selectedDestination.latitude + mapSpan,
+  ].join('%2C');
+  const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${mapBounds}&layer=mapnik&marker=${selectedDestination.latitude}%2C${selectedDestination.longitude}`;
 
   return (
     <div className="space-y-6">
@@ -18,6 +27,44 @@ export function MapsFlagsPage() {
           destination memory drills.
         </p>
       </Card>
+
+      <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-soft">
+          <iframe
+            title={`Map of ${selectedDestination.destination}`}
+            src={mapSrc}
+            className="h-[420px] w-full"
+            loading="lazy"
+          />
+        </div>
+        <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-soft">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-teal-700">
+            Real Map
+          </p>
+          <h2 className="mt-2 text-xl font-bold text-slate-900">
+            {selectedDestination.destination}
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            {selectedDestination.country} | Capital: {selectedDestination.capital}
+          </p>
+          <div className="mt-4 grid gap-2">
+            {destinationCards.map((item) => (
+              <button
+                key={item.destination}
+                type="button"
+                className={`rounded-md border px-3 py-2 text-left text-sm font-semibold transition ${
+                  selectedDestination.destination === item.destination
+                    ? 'border-teal-600 bg-teal-50 text-teal-800'
+                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                }`}
+                onClick={() => setSelectedDestination(item)}
+              >
+                {item.destination}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="space-y-4">
@@ -77,4 +124,3 @@ export function MapsFlagsPage() {
     </div>
   );
 }
-
