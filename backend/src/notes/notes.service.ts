@@ -18,8 +18,8 @@ export class NotesService {
         subjectId: filters?.subjectId,
         OR: filters?.search
           ? [
-              { title: { contains: filters.search, mode: 'insensitive' } },
-              { content: { contains: filters.search, mode: 'insensitive' } },
+              { title: { contains: filters.search } },
+              { content: { contains: filters.search } },
             ]
           : undefined,
       },

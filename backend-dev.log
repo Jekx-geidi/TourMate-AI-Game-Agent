@@ -1,0 +1,187 @@
+
+> backend@0.0.1 start:dev
+> nest start --watch
+
+[2J[3J[H[[90m4:07:22 PM[0m] Starting compilation in watch mode...
+
+[[90m4:07:30 PM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +26ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +12ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSubjectsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mLessonsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotesModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mQuizzesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFlashcardsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProgressModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAiModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAgentModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +7ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/logout, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSubjectsController {/api/subjects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/subjects, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/subjects/code/:code, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/subjects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/subjects/:id/lessons, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mLessonsController {/api/lessons}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/lessons/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotesController {/api/notes}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notes, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notes, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notes/:id, PUT} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notes/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mQuizzesController {/api/quizzes}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/quizzes/subject/:subjectId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/quizzes/:quizId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/quizzes/:quizId/submit, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFlashcardsController {/api/flashcards}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flashcards/subject/:subjectId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flashcards, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flashcards/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flashcards/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProgressController {/api/progress}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/progress, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/progress/update, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/progress/summary, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAiController {/api/ai}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/generate-quiz, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/generate-notes, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/generate-flashcards, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/study-plan, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAgentController {/api/agent}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/agent/status, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/agent/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21024  - [39m07/02/2026, 4:07:34 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/agent/study-review, POST} route[39m[38;5;3m +0ms[39m
+C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@prisma\client\src\runtime\core\engines\library\LibraryEngine.ts:440
+          throw new PrismaClientInitializationError(error.message, this.config.clientVersion!, error.error_code)
+                ^
+
+PrismaClientInitializationError: Can't reach database server at `localhost:5432`
+
+Please make sure your database server is running at `localhost:5432`.
+    at r (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@prisma\client\src\runtime\core\engines\library\LibraryEngine.ts:440:17)
+    at async Proxy.onModuleInit (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\src\prisma\prisma.service.ts:7:5)
+    at async Promise.all (index 0)
+    at async callModuleInitHook (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@nestjs\core\hooks\on-module-init.hook.js:43:5)
+    at async NestApplication.callInitHook (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@nestjs\core\nest-application-context.js:252:13)
+    at async NestApplication.init (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@nestjs\core\nest-application.js:105:9)
+    at async NestApplication.listen (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@nestjs\core\nest-application.js:177:13)
+    at async bootstrap (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\src\main.ts:26:3) {
+  clientVersion: '6.19.3',
+  errorCode: 'P1001',
+  retryable: undefined
+}
+
+Node.js v24.18.0
+[2J[3J[H[[90m4:08:39 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/notes/notes.service.ts[0m:[93m21[0m:[93m52[0m - [91merror[0m[90m TS2322: [0mType '({ title: { contains: string; mode: string; }; } | { content: { contains: string; mode: string; }; })[] | undefined' is not assignable to type 'NoteWhereInput[] | undefined'.
+  Type '({ title: { contains: string; mode: string; }; } | { content: { contains: string; mode: string; }; })[]' is not assignable to type 'NoteWhereInput[]'.
+    Type '{ title: { contains: string; mode: string; }; } | { content: { contains: string; mode: string; }; }' is not assignable to type 'NoteWhereInput'.
+      Type '{ title: { contains: string; mode: string; }; }' is not assignable to type 'NoteWhereInput'.
+        Types of property 'title' are incompatible.
+          Object literal may only specify known properties, and 'mode' does not exist in type 'StringFilter<"Note">'.
+
+[7m21[0m               { title: { contains: filters.search, mode: 'insensitive' } },
+[7m  [0m [91m                                                   ~~~~[0m
+
+[[90m4:08:40 PM[0m] Found 1 error. Watching for file changes.
+
+[2J[3J[H[[90m4:10:38 PM[0m] File change detected. Starting incremental compilation...
+
+[[90m4:10:39 PM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +20ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +7ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSubjectsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mLessonsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mNotesModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mQuizzesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFlashcardsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProgressModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAiModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAgentModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +6ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/register, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/logout, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSubjectsController {/api/subjects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/subjects, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/subjects/code/:code, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/subjects/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/subjects/:id/lessons, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mLessonsController {/api/lessons}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/lessons/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mNotesController {/api/notes}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notes, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notes, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notes/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/notes/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mQuizzesController {/api/quizzes}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/quizzes/subject/:subjectId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/quizzes/:quizId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/quizzes/:quizId/submit, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFlashcardsController {/api/flashcards}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flashcards/subject/:subjectId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flashcards, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flashcards/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/flashcards/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProgressController {/api/progress}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/progress, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/progress/update, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/progress/summary, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAiController {/api/ai}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/generate-quiz, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/generate-notes, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/generate-flashcards, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/ai/study-plan, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAgentController {/api/agent}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/agent/status, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/agent/chat, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 43792  - [39m07/02/2026, 4:10:41 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/agent/study-review, POST} route[39m[38;5;3m +0ms[39m
+C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@prisma\client\src\runtime\core\engines\library\LibraryEngine.ts:440
+          throw new PrismaClientInitializationError(error.message, this.config.clientVersion!, error.error_code)
+                ^
+
+PrismaClientInitializationError: error: Error validating datasource `db`: the URL must start with the protocol `file:`.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider = "sqlite"
+ 7 |   url      = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at r (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@prisma\client\src\runtime\core\engines\library\LibraryEngine.ts:440:17)
+    at async Proxy.onModuleInit (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\src\prisma\prisma.service.ts:7:5)
+    at async Promise.all (index 0)
+    at async callModuleInitHook (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@nestjs\core\hooks\on-module-init.hook.js:43:5)
+    at async NestApplication.callInitHook (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@nestjs\core\nest-application-context.js:252:13)
+    at async NestApplication.init (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@nestjs\core\nest-application.js:105:9)
+    at async NestApplication.listen (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\node_modules\@nestjs\core\nest-application.js:177:13)
+    at async bootstrap (C:\Users\ReilJakeEngaña\Downloads\TOURMATE AI\backend\src\main.ts:26:3) {
+  clientVersion: '6.19.3',
+  errorCode: 'P1012',
+  retryable: undefined
+}
+
+Node.js v24.18.0

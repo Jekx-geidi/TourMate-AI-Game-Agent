@@ -74,6 +74,21 @@ npx prisma migrate dev
 npx prisma db seed
 ```
 
+## Local Run Without Docker
+
+If Docker or PostgreSQL is not installed, use the local SQLite dev schema:
+
+```bash
+cd backend
+set DATABASE_URL=file:./dev.db
+npx prisma generate --schema prisma/schema.local.prisma
+npx prisma db push --schema prisma/schema.local.prisma
+npx prisma db seed
+npm run start:dev
+```
+
+This is only for local preview. The main schema remains PostgreSQL.
+
 ## Backend Setup
 
 ```bash
