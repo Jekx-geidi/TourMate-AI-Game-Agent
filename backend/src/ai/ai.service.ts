@@ -128,40 +128,12 @@ export class AiService {
   private async askProvider(
     message: string,
     subjectCode?: string,
-    mode:
       | 'chat'
       | 'generate-quiz'
       | 'generate-notes'
       | 'generate-flashcards'
       | 'study-plan' = 'chat',
   ) {
-    const hermesUrl = this.configService.get<string>('HERMES_AGENT_URL');
-    const openRouterKey = this.configService.get<string>('OPENROUTER_API_KEY');
-
-    this.lastCheckedAt = new Date().toISOString();
-
-    if (hermesUrl) {
-      try {
-        const hermesResponse = await axios.post(
-          hermesUrl,
-          {
-            systemPrompt: TOURMATE_SYSTEM_PROMPT,
-            message,
-            subjectCode,
-            mode,
-          },
-          { timeout: 10000 },
-        );
-
-        const reply = this.normalizeReply(hermesResponse.data);
-        this.lastProvider = 'hermes';
-        return { reply, provider: 'hermes' as const };
-      } catch (error) {
-        this.logger.warn(
-          `Hermes request failed, falling back: ${String(error)}`,
-        );
-      }
-    }
 
     if (openRouterKey) {
       try {
@@ -241,8 +213,6 @@ export class AiService {
         'Tourism Elective 4 explores heritage, culture, innovation, and tourism product development.',
       TMEL02:
         'Tourism Elective 2 focuses on marketing, itineraries, travel agencies, and customer service.',
-      PAFIT3:
-        'PAFIT3 supports wellness, safety, and healthy routines that help students stay energized.',
     };
 
     const base =
