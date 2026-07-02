@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: tourmate-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tourmate
+      POSTGRES_PASSWORD: tourmate_password
+      POSTGRES_DB: tourmate_ai
+    ports:
+      - "5432:5432"
+    volumes:
+      - tourmate_pg_data:/var/lib/postgresql/data
+
+volumes:
+  tourmate_pg_data:
+

@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(uuid())
+  name        String
+  email       String       @unique
+  password    String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  notes       Note[]
+  progress    Progress[]
+  quizResults QuizResult[]
+  chatLogs    ChatLog[]
+}
+
+model Subject {
+  id          String       @id @default(uuid())
+  code        String       @unique
+  title       String
+  description String
+  icon        String?
+  color       String?
+  lessons     Lesson[]
+  quizzes     Quiz[]
+  flashcards  Flashcard[]
+  notes       Note[]
+  progress    Progress[]
+  chatLogs    ChatLog[]
+  createdAt   DateTime     @default(now())
+}
+
+model Lesson {
+  id        String   @id @default(uuid())
+  subjectId String
+  title     String
+  content   String
+  summary   String?
+  order     Int      @default(0)
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([subjectId, order])
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  userId    String
+  subjectId String
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@index([userId, subjectId])
+}
+
+model Quiz {
+  id        String         @id @default(uuid())
+  subjectId String
+  title     String
+  type      String         @default("multiple_choice")
+  questions QuizQuestion[]
+  results   QuizResult[]
+  subject   Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+}
+
+model QuizQuestion {
+  id          String @id @default(uuid())
+  quizId      String
+  question    String
+  optionA     String
+  optionB     String
+  optionC     String
+  optionD     String
+  answer      String
+  explanation String
+  quiz        Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@index([quizId])
+}
+
+model QuizResult {
+  id        String   @id @default(uuid())
+  userId    String
+  quizId    String
+  score     Int
+  total     Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model Flashcard {
+  id        String   @id @default(uuid())
+  subjectId String
+  front     String
+  back      String
+  category  String?
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([subjectId])
+}
+
+model Progress {
+  id        String   @id @default(uuid())
+  userId    String
+  subjectId String
+  category  String
+  percent   Int      @default(0)
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, subjectId, category])
+  @@index([userId, updatedAt])
+}
+
+model ChatLog {
+  id        String   @id @default(uuid())
+  userId    String
+  subjectId String?
+  message   String
+  reply     String
+  provider  String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject   Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+}
+
