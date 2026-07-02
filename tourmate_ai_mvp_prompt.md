@@ -2,6 +2,8 @@
 
 Copy and paste this full prompt into your AI coding agent.
 
+**Updated version:** This prompt now strongly requires real interactive JavaScript/TypeScript behavior, not static UI only.
+
 ---
 
 # ROLE
@@ -1278,6 +1280,768 @@ This is an MVP. It includes basic learning content, games, quizzes, AI chat, and
 Some content is seeded sample data and should be updated by teachers or school admins later.
 AI answers should be verified with official school materials.
 ```
+
+
+---
+
+# IMPORTANT INTERACTIVITY UPDATE — DO NOT MAKE STATIC UI
+
+The app must feel alive and interactive. Do **not** build plain static pages. Every main feature must have real JavaScript/TypeScript interaction using React state, events, forms, timers, filters, drag/click behavior, API calls, loading states, and progress updates.
+
+Use React + TypeScript for all interactive frontend logic. Use JavaScript/TypeScript functions clearly, not only HTML layout.
+
+## Required Interactive Behavior
+
+### Global App Interactions
+
+- Sidebar opens/closes on mobile.
+- Dark mode toggle must work.
+- User profile dropdown must open/close.
+- Protected routes must redirect if not logged in.
+- Loading spinners must show while fetching data.
+- Empty states must show when no notes, quizzes, or progress exist.
+- Toast notifications must show for save, delete, login, quiz result, and AI errors.
+- Smooth page transitions using Framer Motion.
+
+### Dashboard Interactions
+
+Dashboard must include:
+
+- Daily study check-in form.
+- Clickable subject progress cards.
+- Recommended activity button.
+- Quick action buttons:
+  - Start quiz
+  - Open AI Tutor
+  - Create note
+  - Continue lesson
+- Interactive progress bars.
+- Study streak counter.
+- Today achievement input.
+- Local UI state for selected study mood:
+  - Motivated
+  - Tired
+  - Confused
+  - Ready for challenge
+
+### Subject Page Interactions
+
+Each subject page must include:
+
+- Search lessons by keyword.
+- Filter learning categories.
+- Clickable category tabs.
+- Expand/collapse lesson summaries.
+- Start lesson button.
+- Ask AI about this subject button.
+- Progress updates after activity completion.
+
+### Notes Interactions
+
+Notes feature must include:
+
+- Create note form.
+- Edit note inline.
+- Delete confirmation modal.
+- Search notes.
+- Filter notes by subject.
+- Autosave draft in localStorage before saving to backend.
+- AI buttons:
+  - Summarize this note
+  - Turn into quiz
+  - Turn into flashcards
+
+### Quiz Interactions
+
+Quiz must be fully interactive:
+
+- One question shown at a time.
+- User selects answer.
+- Next and previous buttons.
+- Progress indicator.
+- Submit button.
+- Score calculation.
+- Correct/incorrect feedback.
+- Explanation screen.
+- Save score to backend.
+- Retake quiz button.
+
+### Timed Quiz Interactions
+
+Timed quiz must include:
+
+- Countdown timer.
+- Auto-submit when timer reaches 0.
+- Warning color when time is low.
+- Score summary.
+- Review answers.
+
+### Flashcard Interactions
+
+Flashcards must include:
+
+- Click card to flip.
+- Next/previous buttons.
+- Shuffle button.
+- Learned button.
+- Review again button.
+- Progress tracker.
+- Smooth flip animation.
+
+### Games Interactions
+
+Games must not be fake. Implement real playable logic.
+
+Required games:
+
+1. Flashcard Flip Game
+2. Timed Quiz Game
+3. Match the Term Game
+4. Flag Guessing Game
+
+Optional bonus games:
+
+- Airport Code Guessing Game
+- Destination Guessing Game
+- Tourism Scenario Decision Game
+
+### AI Tutor Interactions
+
+AI Tutor must include:
+
+- Chat input.
+- Send button.
+- Enter key support.
+- Loading bubble while waiting.
+- Message history.
+- Subject context selector.
+- Suggested prompt chips.
+- Clear chat button.
+- Provider badge:
+  - Hermes
+  - OpenRouter
+- Error handling if AI provider fails.
+
+Suggested prompt chips:
+
+```txt
+Explain this lesson
+Create a 5-item quiz
+Give me flashcards
+Make a study plan
+Ask me a challenge question
+Summarize my notes
+Practice tourist conversation
+```
+
+### Agent Status Interactions
+
+Agent status page must include:
+
+- Check status button.
+- Auto-refresh every 30 seconds.
+- Status indicator:
+  - Connected
+  - Fallback active
+  - Offline
+- Last checked timestamp.
+- Current provider.
+- Recent AI request logs.
+
+---
+
+# REQUIRED FRONTEND INTERACTIVE COMPONENTS
+
+Create these React components with TypeScript logic.
+
+```txt
+frontend/src/components/interactive/DailyCheckIn.tsx
+frontend/src/components/interactive/SubjectSearch.tsx
+frontend/src/components/interactive/CategoryTabs.tsx
+frontend/src/components/interactive/InteractiveQuiz.tsx
+frontend/src/components/interactive/TimedQuiz.tsx
+frontend/src/components/interactive/FlashcardFlip.tsx
+frontend/src/components/interactive/MatchTermGame.tsx
+frontend/src/components/interactive/FlagGuessGame.tsx
+frontend/src/components/interactive/AIChatBox.tsx
+frontend/src/components/interactive/AgentStatusPanel.tsx
+frontend/src/hooks/useCountdown.ts
+frontend/src/hooks/useLocalStorage.ts
+frontend/src/hooks/useDebounce.ts
+```
+
+---
+
+# REQUIRED JAVASCRIPT / TYPESCRIPT LOGIC EXAMPLES
+
+Use these examples as guidance. Improve them as needed.
+
+## Flashcard Flip Component
+
+```tsx
+import { useState } from "react";
+import { motion } from "framer-motion";
+
+type Flashcard = {
+  id: string;
+  front: string;
+  back: string;
+};
+
+type Props = {
+  cards: Flashcard[];
+  onProgress?: (learnedCount: number) => void;
+};
+
+export function FlashcardFlip({ cards, onProgress }: Props) {
+  const [index, setIndex] = useState(0);
+  const [flipped, setFlipped] = useState(false);
+  const [learnedIds, setLearnedIds] = useState<string[]>([]);
+
+  const current = cards[index];
+
+  function nextCard() {
+    setFlipped(false);
+    setIndex((prev) => (prev + 1) % cards.length);
+  }
+
+  function previousCard() {
+    setFlipped(false);
+    setIndex((prev) => (prev - 1 + cards.length) % cards.length);
+  }
+
+  function markLearned() {
+    if (!learnedIds.includes(current.id)) {
+      const updated = [...learnedIds, current.id];
+      setLearnedIds(updated);
+      onProgress?.(updated.length);
+    }
+    nextCard();
+  }
+
+  if (!cards.length) {
+    return <p>No flashcards available yet.</p>;
+  }
+
+  return (
+    <div className="space-y-4">
+      <motion.button
+        type="button"
+        onClick={() => setFlipped((value) => !value)}
+        className="min-h-56 w-full rounded-2xl border bg-white p-8 text-center shadow-md dark:bg-slate-800"
+        animate={{ rotateY: flipped ? 180 : 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div className="text-xl font-semibold">
+          {flipped ? current.back : current.front}
+        </div>
+        <p className="mt-4 text-sm text-slate-500">Click to flip</p>
+      </motion.button>
+
+      <div className="flex flex-wrap gap-2">
+        <button onClick={previousCard} className="rounded-lg border px-4 py-2">Previous</button>
+        <button onClick={nextCard} className="rounded-lg border px-4 py-2">Next</button>
+        <button onClick={markLearned} className="rounded-lg bg-teal-700 px-4 py-2 text-white">Learned</button>
+      </div>
+
+      <p className="text-sm text-slate-500">
+        Learned {learnedIds.length} of {cards.length}
+      </p>
+    </div>
+  );
+}
+```
+
+## Timed Quiz Hook
+
+```tsx
+import { useEffect, useState } from "react";
+
+export function useCountdown(initialSeconds: number, onDone: () => void) {
+  const [secondsLeft, setSecondsLeft] = useState(initialSeconds);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    if (!isRunning) return;
+    if (secondsLeft <= 0) {
+      onDone();
+      setIsRunning(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setSecondsLeft((value) => value - 1);
+    }, 1000);
+
+    return () => window.clearTimeout(timer);
+  }, [secondsLeft, isRunning, onDone]);
+
+  function start() {
+    setIsRunning(true);
+  }
+
+  function reset() {
+    setSecondsLeft(initialSeconds);
+    setIsRunning(false);
+  }
+
+  return { secondsLeft, isRunning, start, reset };
+}
+```
+
+## Interactive Quiz Component
+
+```tsx
+import { useState } from "react";
+
+type Question = {
+  id: string;
+  question: string;
+  options: string[];
+  answer: string;
+  explanation: string;
+};
+
+type Props = {
+  questions: Question[];
+  onSubmitScore: (score: number, total: number) => Promise<void>;
+};
+
+export function InteractiveQuiz({ questions, onSubmitScore }: Props) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const current = questions[currentIndex];
+
+  function selectAnswer(value: string) {
+    setAnswers((prev) => ({ ...prev, [current.id]: value }));
+  }
+
+  function calculateScore() {
+    return questions.reduce((score, item) => {
+      return answers[item.id] === item.answer ? score + 1 : score;
+    }, 0);
+  }
+
+  async function submitQuiz() {
+    setIsSaving(true);
+    const score = calculateScore();
+    await onSubmitScore(score, questions.length);
+    setSubmitted(true);
+    setIsSaving(false);
+  }
+
+  if (!questions.length) return <p>No quiz questions available.</p>;
+
+  if (submitted) {
+    const score = calculateScore();
+    return (
+      <div className="space-y-4 rounded-2xl border bg-white p-6 shadow-sm dark:bg-slate-800">
+        <h2 className="text-2xl font-bold">Quiz Result</h2>
+        <p>You scored {score} out of {questions.length}.</p>
+        {questions.map((item) => (
+          <div key={item.id} className="rounded-xl border p-4">
+            <p className="font-semibold">{item.question}</p>
+            <p>Your answer: {answers[item.id] || "No answer"}</p>
+            <p>Correct answer: {item.answer}</p>
+            <p className="text-sm text-slate-500">{item.explanation}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4 rounded-2xl border bg-white p-6 shadow-sm dark:bg-slate-800">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-slate-500">Question {currentIndex + 1} of {questions.length}</p>
+        <p className="text-sm text-slate-500">Answered {Object.keys(answers).length}/{questions.length}</p>
+      </div>
+
+      <h2 className="text-xl font-semibold">{current.question}</h2>
+
+      <div className="grid gap-3">
+        {current.options.map((option) => (
+          <button
+            key={option}
+            onClick={() => selectAnswer(option)}
+            className={`rounded-xl border p-4 text-left transition hover:bg-teal-50 dark:hover:bg-slate-700 ${
+              answers[current.id] === option ? "border-teal-700 bg-teal-50 dark:bg-slate-700" : ""
+            }`}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <button
+          disabled={currentIndex === 0}
+          onClick={() => setCurrentIndex((value) => value - 1)}
+          className="rounded-lg border px-4 py-2 disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <button
+          disabled={currentIndex === questions.length - 1}
+          onClick={() => setCurrentIndex((value) => value + 1)}
+          className="rounded-lg border px-4 py-2 disabled:opacity-50"
+        >
+          Next
+        </button>
+        <button
+          disabled={isSaving}
+          onClick={submitQuiz}
+          className="rounded-lg bg-teal-700 px-4 py-2 text-white disabled:opacity-50"
+        >
+          {isSaving ? "Saving..." : "Submit"}
+        </button>
+      </div>
+    </div>
+  );
+}
+```
+
+## Match the Term Game
+
+```tsx
+import { useMemo, useState } from "react";
+
+type MatchItem = {
+  id: string;
+  term: string;
+  definition: string;
+};
+
+function shuffle<T>(items: T[]) {
+  return [...items].sort(() => Math.random() - 0.5);
+}
+
+export function MatchTermGame({ items }: { items: MatchItem[] }) {
+  const definitions = useMemo(() => shuffle(items), [items]);
+  const [selectedTermId, setSelectedTermId] = useState<string | null>(null);
+  const [matches, setMatches] = useState<Record<string, string>>({});
+
+  function chooseDefinition(definitionId: string) {
+    if (!selectedTermId) return;
+    setMatches((prev) => ({ ...prev, [selectedTermId]: definitionId }));
+    setSelectedTermId(null);
+  }
+
+  const score = Object.entries(matches).filter(([termId, definitionId]) => termId === definitionId).length;
+
+  return (
+    <div className="space-y-4">
+      <div className="rounded-xl bg-amber-50 p-4 text-amber-900">
+        Score: {score}/{items.length}
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <h3 className="font-semibold">Terms</h3>
+          {items.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setSelectedTermId(item.id)}
+              className={`w-full rounded-xl border p-3 text-left ${selectedTermId === item.id ? "border-teal-700 bg-teal-50" : ""}`}
+            >
+              {item.term}
+            </button>
+          ))}
+        </div>
+
+        <div className="space-y-2">
+          <h3 className="font-semibold">Definitions</h3>
+          {definitions.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => chooseDefinition(item.id)}
+              className="w-full rounded-xl border p-3 text-left hover:bg-slate-50 dark:hover:bg-slate-700"
+            >
+              {item.definition}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+## Flag Guessing Game
+
+```tsx
+import { useState } from "react";
+
+type FlagQuestion = {
+  flag: string;
+  answer: string;
+  options: string[];
+};
+
+export function FlagGuessGame({ questions }: { questions: FlagQuestion[] }) {
+  const [index, setIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selected, setSelected] = useState<string | null>(null);
+
+  const current = questions[index];
+  const isCorrect = selected === current.answer;
+
+  function choose(option: string) {
+    if (selected) return;
+    setSelected(option);
+    if (option === current.answer) setScore((value) => value + 1);
+  }
+
+  function next() {
+    setSelected(null);
+    setIndex((value) => (value + 1) % questions.length);
+  }
+
+  return (
+    <div className="space-y-4 rounded-2xl border bg-white p-6 text-center shadow-sm dark:bg-slate-800">
+      <p className="text-sm text-slate-500">Score: {score}</p>
+      <div className="text-7xl">{current.flag}</div>
+      <h2 className="text-xl font-bold">Which country is this?</h2>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        {current.options.map((option) => (
+          <button
+            key={option}
+            onClick={() => choose(option)}
+            className="rounded-xl border p-3 hover:bg-teal-50 dark:hover:bg-slate-700"
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+
+      {selected && (
+        <div className={isCorrect ? "text-green-600" : "text-red-600"}>
+          {isCorrect ? "Correct! Great job." : `Not quite. The correct answer is ${current.answer}.`}
+        </div>
+      )}
+
+      <button onClick={next} className="rounded-lg bg-teal-700 px-4 py-2 text-white">
+        Next Flag
+      </button>
+    </div>
+  );
+}
+```
+
+## AI Chat Box
+
+```tsx
+import { useState } from "react";
+
+type ChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+  provider?: string;
+};
+
+export function AIChatBox() {
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      role: "assistant",
+      content: "Welcome to TourMate AI! How are your studies today? What did you achieve today?",
+      provider: "system"
+    }
+  ]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function sendMessage(messageText = input) {
+    if (!messageText.trim()) return;
+
+    const userMessage: ChatMessage = { role: "user", content: messageText };
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: messageText })
+      });
+
+      if (!response.ok) throw new Error("AI request failed");
+
+      const data = await response.json();
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: data.reply, provider: data.provider }
+      ]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "Sorry, I could not reach the AI tutor right now. Please try again.",
+          provider: "error"
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const suggestions = [
+    "Explain MICE simply",
+    "Create a 5-item quiz",
+    "Give me flashcards",
+    "Make a study plan"
+  ];
+
+  return (
+    <div className="flex h-[600px] flex-col rounded-2xl border bg-white shadow-sm dark:bg-slate-800">
+      <div className="border-b p-4">
+        <h2 className="font-bold">TourMate AI Tutor</h2>
+        <p className="text-sm text-slate-500">Hospitable study companion</p>
+      </div>
+
+      <div className="flex-1 space-y-3 overflow-y-auto p-4">
+        {messages.map((message, idx) => (
+          <div
+            key={idx}
+            className={`max-w-[80%] rounded-2xl p-3 ${
+              message.role === "user" ? "ml-auto bg-teal-700 text-white" : "bg-slate-100 dark:bg-slate-700"
+            }`}
+          >
+            <p>{message.content}</p>
+            {message.provider && <p className="mt-1 text-xs opacity-70">{message.provider}</p>}
+          </div>
+        ))}
+        {loading && <div className="rounded-2xl bg-slate-100 p-3 dark:bg-slate-700">TourMate is thinking...</div>}
+      </div>
+
+      <div className="border-t p-4">
+        <div className="mb-3 flex flex-wrap gap-2">
+          {suggestions.map((item) => (
+            <button key={item} onClick={() => sendMessage(item)} className="rounded-full border px-3 py-1 text-sm">
+              {item}
+            </button>
+          ))}
+        </div>
+
+        <form
+          className="flex gap-2"
+          onSubmit={(event) => {
+            event.preventDefault();
+            sendMessage();
+          }}
+        >
+          <input
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            placeholder="Ask about your subject..."
+            className="flex-1 rounded-xl border px-4 py-2 dark:bg-slate-900"
+          />
+          <button disabled={loading} className="rounded-xl bg-teal-700 px-4 py-2 text-white disabled:opacity-50">
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+```
+
+## Daily Check-In Component
+
+```tsx
+import { useState } from "react";
+
+export function DailyCheckIn() {
+  const [mood, setMood] = useState("Motivated");
+  const [achievement, setAchievement] = useState("");
+  const [saved, setSaved] = useState(false);
+
+  function saveCheckIn() {
+    localStorage.setItem(
+      "tourmate_daily_checkin",
+      JSON.stringify({ mood, achievement, date: new Date().toISOString() })
+    );
+    setSaved(true);
+  }
+
+  return (
+    <div className="rounded-2xl border bg-white p-6 shadow-sm dark:bg-slate-800">
+      <h2 className="text-xl font-bold">How are your studies today?</h2>
+      <p className="text-sm text-slate-500">Tell TourMate what you achieved today.</p>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {["Motivated", "Tired", "Confused", "Ready for challenge"].map((item) => (
+          <button
+            key={item}
+            onClick={() => setMood(item)}
+            className={`rounded-full border px-4 py-2 ${mood === item ? "bg-teal-700 text-white" : ""}`}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+
+      <textarea
+        value={achievement}
+        onChange={(event) => setAchievement(event.target.value)}
+        placeholder="Example: I reviewed Airline Management and finished 1 quiz."
+        className="mt-4 min-h-28 w-full rounded-xl border p-3 dark:bg-slate-900"
+      />
+
+      <button onClick={saveCheckIn} className="mt-3 rounded-xl bg-teal-700 px-4 py-2 text-white">
+        Save Check-In
+      </button>
+
+      {saved && <p className="mt-2 text-sm text-green-600">Saved. Great work today!</p>}
+    </div>
+  );
+}
+```
+
+---
+
+# INTERACTIVE SEED DATA REQUIREMENT
+
+Add enough sample data so the interactive UI works immediately after running the app.
+
+Include:
+
+```txt
+At least 10 quiz questions per subject
+At least 10 flashcards per subject
+At least 10 match-term pairs
+At least 20 flags/countries/capitals
+At least 10 airport code items
+At least 10 tourism scenario questions
+At least 20 language phrases
+```
+
+---
+
+# INTERACTIVE ACCEPTANCE CRITERIA
+
+The MVP is only considered complete if:
+
+1. User can register and login.
+2. User can click a subject and open a subject dashboard.
+3. User can create, edit, delete, and search notes.
+4. User can play flashcard flip with real card state.
+5. User can answer quiz questions and get a real score.
+6. User can play timed quiz with countdown timer.
+7. User can match terms with definitions.
+8. User can play flag guessing game.
+9. User can chat with AI Tutor through backend API.
+10. User can see Hermes/OpenRouter status.
+11. User can save progress to backend.
+12. App works on desktop and mobile.
+13. App has real buttons, forms, state changes, API calls, and feedback.
+14. No page should be only static placeholder text.
+
 
 ---
 
