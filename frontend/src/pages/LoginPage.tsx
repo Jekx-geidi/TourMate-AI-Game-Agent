@@ -85,7 +85,9 @@ export function LoginPage() {
               <p className="mt-4 text-sm font-bold uppercase tracking-[0.42em] text-violet-700">
                 Student Login
               </p>
-              <h2 className="mt-3 text-3xl font-black text-slate-950">Welcome back, explorer!</h2>
+              <h2 className="mt-3 inline-block rounded-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 px-5 py-2 text-3xl font-black text-white shadow-pop">
+                Welcome back, explorer!
+              </h2>
               <p className="mt-2 text-sm leading-7 text-slate-600">
                 Log in to continue your journey. Your XP, badges, notes, and challenges are ready.
               </p>
