@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { getAllowedOrigins } from './common/utils/cors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,14 +18,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  const frontendUrl = configService.get<string>('FRONTEND_URL');
-  const allowedOrigins = new Set<string>([
-    frontendUrl ?? 'http://localhost:5173',
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'http://localhost:5174',
-    'http://127.0.0.1:5174',
-  ]);
+  const allowedOrigins = new Set<string>(getAllowedOrigins(process.env));
 
   app.enableCors({
     origin: (origin, callback) => {

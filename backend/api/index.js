@@ -28,9 +28,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
 
   // CORS
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
   const allowedOrigins = new Set([
-    frontendUrl,
+    ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+    ...(process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(',').map((origin) => origin.trim()).filter(Boolean) : []),
     'http://localhost:5173', 'http://127.0.0.1:5173',
     'http://localhost:5174', 'http://127.0.0.1:5174',
     'https://tourmate-ai-tan.vercel.app',

@@ -48,6 +48,7 @@ OPENROUTER_APP_NAME="TourMate AI"
 HERMES_AGENT_URL=""
 PORT=4000
 FRONTEND_URL="http://localhost:5173"
+CORS_ORIGINS=""
 ```
 
 ## Database Setup
