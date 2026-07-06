@@ -31,11 +31,11 @@ import { TermsPage } from './pages/TermsPage';
 
 const queryClient = new QueryClient();
 
-// Everyone lands on the login screen first; authenticated users go straight to their dashboard.
+// Signed-out users start on the landing page; authenticated users go straight to their dashboard.
 function RootGate() {
   const { user, isLoading } = useAuth();
   if (isLoading) return <LoadingSpinner label="Loading TourMate Game..." />;
-  return <Navigate to={user ? '/dashboard' : '/login'} replace />;
+  return <Navigate to={user ? '/dashboard' : '/welcome'} replace />;
 }
 
 const router = createBrowserRouter([
