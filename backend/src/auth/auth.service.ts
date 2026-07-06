@@ -1,28 +1,35 @@
 import {
   BadRequestException,
   Injectable,
+  ServiceUnavailableException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { createHash, randomInt } from 'crypto';
+import nodemailer from 'nodemailer';
 import { JwtPayload } from '../common/interfaces/jwt-payload.interface';
+import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
+import { RequestRegisterCodeDto } from './dto/request-register-code.dto';
 import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
 export class AuthService {
+  private static readonly REGISTER_CODE_PURPOSE = 'register';
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
   ) {}
 
-  async register(dto: RegisterDto) {
-    if (dto.password !== dto.confirmPassword) {
-      throw new BadRequestException('Passwords do not match.');
-    }
-
-    const existingUser = await this.usersService.findByEmail(dto.email);
+  async requestRegisterCode(dto: RequestRegisterCodeDto) {
+    const email = dto.email.trim().toLowerCase();
+    const existingUser = await this.usersService.findByEmail(email);
 
     if (existingUser) {
       throw new BadRequestException(
@@ -30,18 +37,113 @@ export class AuthService {
       );
     }
 
+    const code = randomInt(100000, 1000000).toString();
+    const expiresAt = new Date(
+      Date.now() + this.getVerificationTtlMinutes() * 60 * 1000,
+    );
+
+    await this.prisma.emailVerificationCode.upsert({
+      where: {
+        email_purpose: {
+          email,
+          purpose: AuthService.REGISTER_CODE_PURPOSE,
+        },
+      },
+      create: {
+        email,
+        purpose: AuthService.REGISTER_CODE_PURPOSE,
+        codeHash: this.hashVerificationCode(email, code),
+        expiresAt,
+      },
+      update: {
+        codeHash: this.hashVerificationCode(email, code),
+        expiresAt,
+      },
+    });
+
+    await this.sendVerificationEmail(email, code, expiresAt);
+
+    return {
+      message: `A verification code has been sent to ${email}.`,
+      expiresInMinutes: this.getVerificationTtlMinutes(),
+    };
+  }
+
+  async register(dto: RegisterDto) {
+    if (dto.password !== dto.confirmPassword) {
+      throw new BadRequestException('Passwords do not match.');
+    }
+
+    const email = dto.email.trim().toLowerCase();
+    const existingUser = await this.usersService.findByEmail(email);
+
+    if (existingUser) {
+      throw new BadRequestException(
+        'An account with this email already exists.',
+      );
+    }
+
+    const verification = await this.prisma.emailVerificationCode.findUnique({
+      where: {
+        email_purpose: {
+          email,
+          purpose: AuthService.REGISTER_CODE_PURPOSE,
+        },
+      },
+    });
+
+    if (!verification) {
+      throw new BadRequestException(
+        'Request a verification code first before creating your account.',
+      );
+    }
+
+    if (verification.expiresAt.getTime() < Date.now()) {
+      await this.prisma.emailVerificationCode.delete({
+        where: {
+          email_purpose: {
+            email,
+            purpose: AuthService.REGISTER_CODE_PURPOSE,
+          },
+        },
+      });
+      throw new BadRequestException(
+        'Your verification code has expired. Request a new one.',
+      );
+    }
+
+    const providedCodeHash = this.hashVerificationCode(
+      email,
+      dto.verificationCode.trim(),
+    );
+
+    if (providedCodeHash !== verification.codeHash) {
+      throw new BadRequestException('The verification code is not correct.');
+    }
+
     const hashedPassword = await bcrypt.hash(dto.password, 10);
     const user = await this.usersService.create({
       name: dto.name,
-      email: dto.email,
+      email,
       password: hashedPassword,
+    });
+
+    await this.prisma.emailVerificationCode.delete({
+      where: {
+        email_purpose: {
+          email,
+          purpose: AuthService.REGISTER_CODE_PURPOSE,
+        },
+      },
     });
 
     return this.buildAuthResponse(user);
   }
 
   async login(dto: LoginDto) {
-    const user = await this.usersService.findByEmail(dto.email);
+    const user = await this.usersService.findByEmail(
+      dto.email.trim().toLowerCase(),
+    );
 
     if (!user) {
       throw new UnauthorizedException('We could not find that account.');
@@ -88,5 +190,69 @@ export class AuthService {
         name: user.name,
       },
     };
+  }
+
+  private getVerificationTtlMinutes() {
+    return Math.max(
+      1,
+      Number(this.configService.get<string>('EMAIL_VERIFICATION_CODE_TTL_MINUTES') ?? '10'),
+    );
+  }
+
+  private hashVerificationCode(email: string, code: string) {
+    return createHash('sha256')
+      .update(`${email}:${code}`)
+      .digest('hex');
+  }
+
+  private async sendVerificationEmail(
+    email: string,
+    code: string,
+    expiresAt: Date,
+  ) {
+    const host = this.configService.get<string>('SMTP_HOST');
+    const port = Number(this.configService.get<string>('SMTP_PORT') ?? '587');
+    const user = this.configService.get<string>('SMTP_USER');
+    const pass = this.configService.get<string>('SMTP_PASS');
+    const from =
+      this.configService.get<string>('SMTP_FROM') ??
+      'TourMate AI <no-reply@tourmate.local>';
+
+    if (!host || Number.isNaN(port)) {
+      throw new ServiceUnavailableException(
+        'Email verification is not configured yet. Add SMTP settings first.',
+      );
+    }
+
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure:
+        (this.configService.get<string>('SMTP_SECURE') ?? 'false') === 'true',
+      auth: user || pass ? { user: user ?? '', pass: pass ?? '' } : undefined,
+    });
+
+    const expiresAtText = expiresAt.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+
+    await transporter.sendMail({
+      from,
+      to: email,
+      subject: 'Your TourMate AI verification code',
+      text: `Your TourMate AI verification code is ${code}. It expires at ${expiresAtText}.`,
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #1f2937; line-height: 1.6;">
+          <h2 style="margin-bottom: 12px;">TourMate AI verification</h2>
+          <p>Use this code to finish creating your account:</p>
+          <p style="font-size: 28px; font-weight: 700; letter-spacing: 8px; color: #7c3aed; margin: 20px 0;">
+            ${code}
+          </p>
+          <p>This code expires at ${expiresAtText}.</p>
+          <p>If you did not request this, you can ignore this email.</p>
+        </div>
+      `,
+    });
   }
 }

@@ -1,11 +1,14 @@
 import { api } from './api';
 
 export const authService = {
+  requestRegisterCode: async (payload: { email: string }) =>
+    (await api.post('/auth/register/request-code', payload)).data,
   register: async (payload: {
     name: string;
     email: string;
     password: string;
     confirmPassword: string;
+    verificationCode: string;
   }) => (await api.post('/auth/register', payload)).data,
   login: async (payload: { email: string; password: string }) =>
     (await api.post('/auth/login', payload)).data,
@@ -18,4 +21,3 @@ export const authService = {
     newPassword?: string;
   }) => (await api.patch('/users/me', payload)).data,
 };
-

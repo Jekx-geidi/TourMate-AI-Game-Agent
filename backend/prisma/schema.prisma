@@ -20,6 +20,19 @@ model User {
   chatLogs    ChatLog[]
 }
 
+model EmailVerificationCode {
+  id        String   @id @default(uuid())
+  email     String
+  purpose   String
+  codeHash  String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([email, purpose])
+  @@index([expiresAt])
+}
+
 model Subject {
   id          String       @id @default(uuid())
   code        String       @unique
@@ -140,4 +153,3 @@ model ChatLog {
 
   @@index([userId, createdAt])
 }
-
