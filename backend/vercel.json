@@ -1,12 +1,12 @@
 {
   "functions": {
-    "api/[...catchAll].js": {
+    "api/index.js": {
       "maxDuration": 30,
       "memory": 512
     }
   },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/api/[...catchAll].js" }
+    { "source": "/(.*)", "destination": "/api/index.js" }
   ],
   "buildCommand": "npm run build",
   "outputDirectory": "."
