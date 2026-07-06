@@ -22,11 +22,18 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.has(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('CORS policy: Origin not allowed'), false);
+      if (!origin) return callback(null, true);
+      // Allow explicit configured origins or any localhost origins during development
+      if (
+        allowedOrigins.has(origin) ||
+        origin.startsWith('http://localhost') ||
+        origin.startsWith('http://127.0.0.1') ||
+        origin.startsWith('https://localhost') ||
+        origin.startsWith('https://127.0.0.1')
+      ) {
+        return callback(null, true);
       }
+      return callback(new Error('CORS policy: Origin not allowed'), false);
     },
     credentials: true,
   });

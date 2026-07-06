@@ -38,8 +38,17 @@ async function bootstrap() {
   ]);
   app.enableCors({
     origin: (origin, cb) => {
-      if (!origin || allowedOrigins.has(origin)) cb(null, true);
-      else cb(new Error('CORS: not allowed'), false);
+      if (!origin) return cb(null, true);
+      if (
+        allowedOrigins.has(origin) ||
+        origin.startsWith('http://localhost') ||
+        origin.startsWith('http://127.0.0.1') ||
+        origin.startsWith('https://localhost') ||
+        origin.startsWith('https://127.0.0.1')
+      ) {
+        return cb(null, true);
+      }
+      return cb(new Error('CORS: not allowed'), false);
     },
     credentials: true,
   });
