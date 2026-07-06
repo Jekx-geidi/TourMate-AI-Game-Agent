@@ -1,17 +1,15 @@
 const path = require('path');
 
-// Set NODE_PATH so modules from the backend dir are found
+// Ensure modules from backend dir are found
 process.env.NODE_PATH = __dirname + '/node_modules';
 require('module').Module._initPaths();
-
-// Move CWD to backend root so relative paths work
 process.chdir(__dirname);
 
-// Vercel serverless handler - lazy bootstrap NestJS once
 let app = null;
 
 async function bootstrap() {
   if (app) return app;
+  
   const { NestFactory } = await import('@nestjs/core');
   const { AppModule } = await import(process.cwd() + '/dist/src/app.module');
   const { ConfigService } = await import('@nestjs/config');
@@ -19,8 +17,9 @@ async function bootstrap() {
   const helmet = (await import('helmet')).default;
 
   const a = await NestFactory.create(AppModule);
-  a.setGlobalPrefix('api');
-  a.use(helmet());
+  
+  // Don't set global prefix - Vercel's /api/* routing handles it
+  // Instead read it from the request path
   a.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
 
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
@@ -47,6 +46,14 @@ async function bootstrap() {
 }
 
 module.exports = async (req, res) => {
+  // Strip /api prefix if present (Vercel adds it back)
+  if (req.url.startsWith('/api/')) {
+    req.url = req.url.slice(4); // /api/agent/status -> /agent/status
+    if (!req.url) req.url = '/';
+  } else if (req.url === '/api') {
+    req.url = '/';
+  }
+  
   const srv = await bootstrap();
   srv.emit('request', req, res);
 };
