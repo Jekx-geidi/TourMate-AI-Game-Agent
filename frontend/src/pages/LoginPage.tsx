@@ -9,6 +9,7 @@ import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Input } from '../components/ui/input';
 import { useAuth } from '../hooks/use-auth';
+import { supabase } from '../lib/supabase';
 import { authService } from '../services/auth.service';
 
 export function LoginPage() {
@@ -17,8 +18,106 @@ export function LoginPage() {
   const { login } = useAuth();
   const [email, setEmail] = useState('student@tourmate.ai');
   const [password, setPassword] = useState('Tourmate123!');
+  const [otpCode, setOtpCode] = useState('');
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
   const [loading, setLoading] = useState(false);
+  const [sendingCode, setSendingCode] = useState(false);
+  const [verifyingCode, setVerifyingCode] = useState(false);
+
+  const ensureSupabase = () => {
+    if (!supabase) {
+      throw new Error(
+        'Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.',
+      );
+    }
+    return supabase;
+  };
+
+  const handleSendCode = async () => {
+    if (!email.trim()) {
+      setError('Enter your email first so we know where to send the code.');
+      return;
+    }
+
+    try {
+      setSendingCode(true);
+      setError('');
+      setNotice('');
+      const client = ensureSupabase();
+      const { error } = await client.auth.signInWithOtp({
+        email: email.trim(),
+        options: {
+          shouldCreateUser: false,
+          emailRedirectTo: `${window.location.origin}/login`,
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      setNotice(`A Supabase login code or magic link was sent to ${email.trim()}.`);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setError(
+          error.response?.data?.message ??
+            'We could not send the login code right now.',
+        );
+      } else if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('We could not send the login code right now.');
+      }
+    } finally {
+      setSendingCode(false);
+    }
+  };
+
+  const handleVerifyCodeLogin = async () => {
+    try {
+      setVerifyingCode(true);
+      setError('');
+      setNotice('');
+      const client = ensureSupabase();
+      const { data, error } = await client.auth.verifyOtp({
+        email: email.trim(),
+        token: otpCode.trim(),
+        type: 'email',
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      const accessToken = data.session?.access_token;
+
+      if (!accessToken) {
+        throw new Error(
+          'Supabase verification succeeded, but no session token was returned.',
+        );
+      }
+
+      const response = await authService.supabaseLogin({ accessToken });
+      login(response.accessToken, response.user);
+      navigate(location.state?.from ?? '/dashboard');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data?.message;
+        setError(
+          Array.isArray(message)
+            ? message.join(', ')
+            : message ?? 'Code login failed. Please try again.',
+        );
+      } else if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Code login failed. Please try again.');
+      }
+    } finally {
+      setVerifyingCode(false);
+    }
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#fcf8ff] px-4 py-8 sm:px-6 sm:py-12">
@@ -93,6 +192,11 @@ export function LoginPage() {
               </p>
             </div>
             {error ? <ErrorMessage message={error} /> : null}
+            {notice ? (
+              <div className="rounded-[1.5rem] border border-cyan-200 bg-cyan-50 px-4 py-3 text-sm text-cyan-800">
+                {notice}
+              </div>
+            ) : null}
             <div className="space-y-4">
               <Input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
               <Input
@@ -139,6 +243,42 @@ export function LoginPage() {
                 Create an account
               </Link>
             </p>
+            <div className="space-y-4 rounded-[1.75rem] border border-violet-200/70 bg-violet-50/60 p-5">
+              <div>
+                <p className="text-sm font-bold uppercase tracking-[0.32em] text-violet-700">
+                  Email Code Login
+                </p>
+                <p className="mt-2 text-sm leading-7 text-slate-600">
+                  Send a Supabase OTP to your email, then enter the 6-digit code
+                  to sign in without your password.
+                </p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+                <Input
+                  value={otpCode}
+                  onChange={(e) => setOtpCode(e.target.value)}
+                  placeholder="6-digit code"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="sm:min-w-[160px]"
+                  disabled={sendingCode}
+                  onClick={() => void handleSendCode()}
+                >
+                  {sendingCode ? 'Sending...' : 'Send Code'}
+                </Button>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full border-violet-300 text-violet-700 hover:bg-violet-100"
+                disabled={verifyingCode}
+                onClick={() => void handleVerifyCodeLogin()}
+              >
+                {verifyingCode ? 'Verifying...' : 'Verify Code & Log In'}
+              </Button>
+            </div>
             <p className="text-center text-xs text-slate-400">
               By continuing you agree to the{' '}
               <Link to="/terms" className="underline">

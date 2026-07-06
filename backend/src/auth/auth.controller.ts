@@ -5,6 +5,8 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RequestRegisterCodeDto } from './dto/request-register-code.dto';
 import { RegisterDto } from './dto/register.dto';
+import { SupabaseAuthDto } from './dto/supabase-auth.dto';
+import { SupabaseRegisterDto } from './dto/supabase-register.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -23,6 +25,16 @@ export class AuthController {
   @Post('login')
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
+  }
+
+  @Post('supabase/login')
+  supabaseLogin(@Body() dto: SupabaseAuthDto) {
+    return this.authService.loginWithSupabase(dto);
+  }
+
+  @Post('supabase/register')
+  supabaseRegister(@Body() dto: SupabaseRegisterDto) {
+    return this.authService.registerWithSupabase(dto);
   }
 
   @Post('logout')

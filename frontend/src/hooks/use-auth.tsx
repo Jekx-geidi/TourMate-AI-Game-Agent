@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { supabase } from '../lib/supabase';
 import { authService } from '../services/auth.service';
 import type { User } from '../types';
 
@@ -55,6 +56,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       logout: async () => {
         try {
           await authService.logout();
+          if (supabase) {
+            await supabase.auth.signOut({ scope: 'local' });
+          }
         } finally {
           localStorage.removeItem('tourmate_token');
           setUser(null);

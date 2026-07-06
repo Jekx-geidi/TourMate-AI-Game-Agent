@@ -7,6 +7,7 @@ import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Input } from '../components/ui/input';
 import { useAuth } from '../hooks/use-auth';
+import { supabase } from '../lib/supabase';
 import { authService } from '../services/auth.service';
 
 export function RegisterPage() {
@@ -16,13 +17,20 @@ export function RegisterPage() {
     name: '',
     email: '',
     verificationCode: '',
-    password: '',
-    confirmPassword: '',
   });
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [loading, setLoading] = useState(false);
   const [sendingCode, setSendingCode] = useState(false);
+
+  const ensureSupabase = () => {
+    if (!supabase) {
+      throw new Error(
+        'Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.',
+      );
+    }
+    return supabase;
+  };
 
   const handleSendCode = async () => {
     if (!form.email.trim()) {
@@ -33,11 +41,22 @@ export function RegisterPage() {
     try {
       setSendingCode(true);
       setError('');
-      const response = await authService.requestRegisterCode({
+      setNotice('');
+      const client = ensureSupabase();
+      const { error } = await client.auth.signInWithOtp({
         email: form.email.trim(),
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: `${window.location.origin}/register`,
+        },
       });
+
+      if (error) {
+        throw error;
+      }
+
       setNotice(
-        response.message ?? 'A verification code has been sent to your email.',
+        `A Supabase login code or magic link was sent to ${form.email.trim()}.`,
       );
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -45,11 +64,63 @@ export function RegisterPage() {
           error.response?.data?.message ??
             'We could not send the verification code right now.',
         );
+      } else if (error instanceof Error) {
+        setError(error.message);
       } else {
         setError('We could not send the verification code right now.');
       }
     } finally {
       setSendingCode(false);
+    }
+  };
+
+  const handleVerifyAndRegister = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      setNotice('');
+
+      const client = ensureSupabase();
+      const { data, error } = await client.auth.verifyOtp({
+        email: form.email.trim(),
+        token: form.verificationCode.trim(),
+        type: 'email',
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      const accessToken = data.session?.access_token;
+
+      if (!accessToken) {
+        throw new Error(
+          'Supabase verification succeeded, but no session token was returned.',
+        );
+      }
+
+      const response = await authService.supabaseRegister({
+        name: form.name.trim(),
+        accessToken,
+      });
+
+      login(response.accessToken, response.user);
+      navigate('/dashboard');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data?.message;
+        setError(
+          Array.isArray(message)
+            ? message.join(', ')
+            : message ?? 'Registration failed. Please try again.',
+        );
+      } else if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('Registration failed. Please try again.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,8 +137,8 @@ export function RegisterPage() {
               Create your account
             </h1>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              Enter your email, request a verification code, then finish creating
-              your TourMate AI account. No Google sign-in needed.
+              Enter your email, request a Supabase login code, then verify it to
+              create your TourMate AI account.
             </p>
           </div>
           {error ? <ErrorMessage message={error} /> : null}
@@ -106,52 +177,13 @@ export function RegisterPage() {
               }
               placeholder="6-digit verification code"
             />
-            <Input
-              type="password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              placeholder="Password"
-            />
-            <Input
-              type="password"
-              value={form.confirmPassword}
-              onChange={(e) =>
-                setForm({ ...form, confirmPassword: e.target.value })
-              }
-              placeholder="Confirm password"
-            />
           </div>
           <Button
             className="w-full"
             disabled={loading}
-            onClick={async () => {
-              try {
-                setLoading(true);
-                setError('');
-                setNotice('');
-                const response = await authService.register(form);
-                login(response.accessToken, response.user);
-                navigate('/dashboard');
-              } catch (error) {
-                if (axios.isAxiosError(error)) {
-                  const message = error.response?.data?.message;
-                  setError(
-                    Array.isArray(message)
-                      ? message.join(', ')
-                      : message ??
-                          'Registration failed. Please review your information and try again.',
-                  );
-                } else {
-                  setError(
-                    'Registration failed. Please review your information and try again.',
-                  );
-                }
-              } finally {
-                setLoading(false);
-              }
-            }}
+            onClick={() => void handleVerifyAndRegister()}
           >
-            {loading ? 'Creating account...' : 'Verify & Register'}
+            {loading ? 'Verifying...' : 'Verify & Register'}
           </Button>
           <p className="text-sm text-slate-600">
             Already have an account?{' '}
