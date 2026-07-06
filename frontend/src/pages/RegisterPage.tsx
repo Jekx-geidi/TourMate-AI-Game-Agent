@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ChevronLeft, X } from 'lucide-react';
 import axios from 'axios';
 import { DotGridBackground } from '../components/DotGridBackground';
 import { ErrorMessage } from '../components/ErrorMessage';
@@ -125,15 +126,31 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#fcf8ff] px-4 py-12">
+    <div className="relative min-h-screen overflow-hidden bg-[#fcf8ff] px-3 py-4 sm:px-4 sm:py-10">
       <DotGridBackground />
-      <div className="relative mx-auto flex min-h-[calc(100vh-6rem)] max-w-3xl items-center justify-center">
-        <Card className="w-full max-w-2xl space-y-6 border border-violet-200/70 bg-white/90 p-8 shadow-[0_30px_80px_-36px_rgba(124,58,237,0.30)] backdrop-blur-xl">
+      <div className="relative mx-auto flex min-h-[calc(100vh-2rem)] max-w-3xl items-center justify-center sm:min-h-[calc(100vh-5rem)]">
+        <Card className="w-full max-w-2xl space-y-5 border border-violet-200/70 bg-white/90 p-5 shadow-[0_30px_80px_-36px_rgba(124,58,237,0.30)] backdrop-blur-xl sm:p-8">
+          <div className="flex items-center justify-between gap-3">
+            <Link
+              className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-violet-700 transition hover:border-fuchsia-200 hover:bg-fuchsia-50"
+              to="/welcome"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back
+            </Link>
+            <Link
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700"
+              to="/login"
+            >
+              <X className="h-4 w-4" />
+              Exit
+            </Link>
+          </div>
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-violet-700">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-violet-700 sm:text-sm">
               Start Your Journey
             </p>
-            <h1 className="mt-3 text-3xl font-bold text-slate-950">
+            <h1 className="mt-3 text-2xl font-bold text-slate-950 sm:text-3xl">
               Create your account
             </h1>
             <p className="mt-2 text-sm leading-7 text-slate-600">
@@ -163,7 +180,7 @@ export function RegisterPage() {
               />
               <Button
                 type="button"
-                className="sm:min-w-[170px]"
+                className="w-full sm:min-w-[170px]"
                 disabled={sendingCode}
                 onClick={() => void handleSendCode()}
               >

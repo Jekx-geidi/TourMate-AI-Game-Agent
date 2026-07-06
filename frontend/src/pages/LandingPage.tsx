@@ -9,8 +9,8 @@ export function LandingPage() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#fcf8ff] text-slate-950">
       <DotGridBackground />
-      <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <header className="flex flex-wrap items-center justify-between gap-4 rounded-full border border-violet-200/70 bg-white/80 px-5 py-3 shadow-soft backdrop-blur-xl sm:px-6">
+      <div className="relative mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
+        <header className="flex flex-col gap-4 rounded-[1.75rem] border border-violet-200/70 bg-white/80 px-4 py-4 shadow-soft backdrop-blur-xl sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:rounded-full sm:px-6 sm:py-3">
           <div className="flex items-center gap-3">
             <img src={logo} alt="TourMate AI logo" className="h-12 w-12 rounded-2xl bg-white p-2 shadow-soft" />
             <div>
@@ -18,45 +18,45 @@ export function LandingPage() {
               <p className="text-sm text-slate-500">Built for BS Tourism Management students</p>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Link to="/login">
-              <Button variant="outline" className="border-violet-200 text-violet-700 hover:border-fuchsia-200 hover:bg-fuchsia-50">
+          <div className="grid w-full gap-3 sm:flex sm:w-auto sm:flex-wrap sm:items-center">
+            <Link className="w-full sm:w-auto" to="/login">
+              <Button variant="outline" className="w-full border-violet-200 text-violet-700 hover:border-fuchsia-200 hover:bg-fuchsia-50">
                 Log In
               </Button>
             </Link>
-            <Link to="/register">
-              <Button className="bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 text-white hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-600">
+            <Link className="w-full sm:w-auto" to="/register">
+              <Button className="w-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 text-white hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-600">
                 Create Account
               </Button>
             </Link>
           </div>
         </header>
 
-        <section className="grid gap-10 pb-10 pt-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:pb-16 lg:pt-16">
+        <section className="grid gap-6 pb-8 pt-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-10 lg:pb-16 lg:pt-16">
           <div>
             <p className="inline-flex rounded-full border border-violet-200/70 bg-white/82 px-4 py-2 text-xs font-semibold uppercase tracking-[0.34em] text-violet-700 shadow-soft backdrop-blur">
               Interactive study hub
             </p>
-            <h1 className="mt-6 max-w-4xl text-5xl font-black leading-[1.02] text-slate-950 sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] text-slate-950 sm:text-5xl lg:text-7xl">
               Learn tourism in a space that feels like motion, progress, and real direction.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
               TourMate AI combines lessons, subject games, map drills, AI tutoring, notes, quizzes,
               and progress tracking into one polished dashboard for tourism students.
             </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link to="/register">
-                <Button className="bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 px-6 py-3 text-base text-white hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-600">
+            <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
+              <Link className="w-full sm:w-auto" to="/register">
+                <Button className="w-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 px-6 py-3 text-base text-white hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-600">
                   Start Learning <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link to="/login">
-                <Button variant="outline" className="border-violet-200 px-6 py-3 text-base text-violet-700 hover:border-fuchsia-200 hover:bg-fuchsia-50">
+              <Link className="w-full sm:w-auto" to="/login">
+                <Button variant="outline" className="w-full border-violet-200 px-6 py-3 text-base text-violet-700 hover:border-fuchsia-200 hover:bg-fuchsia-50">
                   Continue Your Journey
                 </Button>
               </Link>
             </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
               <Card className="border border-violet-200/70 bg-gradient-to-br from-white to-violet-50/70 p-5">
                 <p className="text-3xl font-black text-violet-700">6</p>
                 <p className="mt-2 text-sm font-semibold text-slate-900">Core tourism subjects</p>
@@ -81,12 +81,12 @@ export function LandingPage() {
             </div>
           </div>
 
-          <div className="grid gap-5">
+          <div className="grid gap-4 sm:gap-5">
             <Card className="overflow-hidden border border-violet-300/60 bg-[linear-gradient(135deg,rgba(124,58,237,0.98),rgba(192,38,211,0.95)_58%,rgba(34,211,238,0.90))] p-0 text-white shadow-[0_35px_90px_-35px_rgba(168,85,247,0.72)]">
-              <div className="grid gap-8 p-8 sm:grid-cols-[1.1fr_0.9fr] sm:p-9">
+              <div className="grid gap-6 p-5 sm:grid-cols-[1.1fr_0.9fr] sm:p-8 lg:gap-8 lg:p-9">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.32em] text-white/70">Today in TourMate</p>
-                  <h2 className="mt-4 text-3xl font-black leading-tight">
+                  <h2 className="mt-4 text-2xl font-black leading-tight sm:text-3xl">
                     Move from quick review to deep understanding without switching tools.
                   </h2>
                   <p className="mt-4 text-sm leading-7 text-white/78">
@@ -106,8 +106,8 @@ export function LandingPage() {
               </div>
             </Card>
 
-            <div className="grid gap-5 sm:grid-cols-2">
-              <Card className="border border-violet-200/70 bg-gradient-to-br from-white to-violet-50/70 p-6">
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+              <Card className="border border-violet-200/70 bg-gradient-to-br from-white to-violet-50/70 p-5 sm:p-6">
                 <Compass className="h-10 w-10 text-violet-600" />
                 <h3 className="mt-5 text-xl font-bold">Tourism-first lessons</h3>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
@@ -115,7 +115,7 @@ export function LandingPage() {
                   with clearer paths.
                 </p>
               </Card>
-              <Card className="border border-cyan-200/70 bg-gradient-to-br from-white to-cyan-50/70 p-6">
+              <Card className="border border-cyan-200/70 bg-gradient-to-br from-white to-cyan-50/70 p-5 sm:p-6">
                 <MessageCircle className="h-10 w-10 text-cyan-600" />
                 <h3 className="mt-5 text-xl font-bold">Supportive AI tutoring</h3>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
@@ -123,7 +123,7 @@ export function LandingPage() {
                   flashcards.
                 </p>
               </Card>
-              <Card className="border border-fuchsia-200/70 bg-gradient-to-br from-white to-fuchsia-50/70 p-6">
+              <Card className="border border-fuchsia-200/70 bg-gradient-to-br from-white to-fuchsia-50/70 p-5 sm:p-6">
                 <MapPinned className="h-10 w-10 text-fuchsia-600" />
                 <h3 className="mt-5 text-xl font-bold">Maps and travel drills</h3>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
@@ -131,7 +131,7 @@ export function LandingPage() {
                   to the field.
                 </p>
               </Card>
-              <Card className="border border-violet-200/70 bg-gradient-to-br from-white to-violet-50/70 p-6">
+              <Card className="border border-violet-200/70 bg-gradient-to-br from-white to-violet-50/70 p-5 sm:p-6">
                 <Trophy className="h-10 w-10 text-violet-500" />
                 <h3 className="mt-5 text-xl font-bold">Challenge-based progress</h3>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
@@ -143,11 +143,11 @@ export function LandingPage() {
           </div>
         </section>
 
-        <section className="pb-12">
-          <Card className="flex flex-col gap-6 border border-violet-200/70 bg-gradient-to-r from-white to-violet-50/70 p-8 sm:flex-row sm:items-center sm:justify-between">
+        <section className="pb-10 sm:pb-12">
+          <Card className="flex flex-col gap-6 border border-violet-200/70 bg-gradient-to-r from-white to-violet-50/70 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.32em] text-violet-700">Ready to board?</p>
-              <h2 className="mt-3 text-3xl font-black text-slate-950">
+              <h2 className="mt-3 text-2xl font-black text-slate-950 sm:text-3xl">
                 Launch your tourism study system with one login.
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
@@ -155,14 +155,14 @@ export function LandingPage() {
                 across your tourism subjects.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Link to="/register">
-                <Button className="bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 text-white hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-600">
+            <div className="grid gap-3 sm:flex sm:flex-wrap">
+              <Link className="w-full sm:w-auto" to="/register">
+                <Button className="w-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 text-white hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-600">
                   Get Started
                 </Button>
               </Link>
-              <Link to="/login">
-                <Button variant="outline" className="border-violet-200 text-violet-700 hover:border-fuchsia-200 hover:bg-fuchsia-50">
+              <Link className="w-full sm:w-auto" to="/login">
+                <Button variant="outline" className="w-full border-violet-200 text-violet-700 hover:border-fuchsia-200 hover:bg-fuchsia-50">
                   Log In
                 </Button>
               </Link>
