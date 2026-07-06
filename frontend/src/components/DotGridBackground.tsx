@@ -34,7 +34,7 @@ function hexToRgb(hex: string) {
 
 export function DotGridBackground({
   className = '',
-  baseColor = '#151a66',
+  baseColor = '#8b5cf6',
   dotSize = 4,
   gap = 28,
   shockRadius = 120,
@@ -139,8 +139,8 @@ export function DotGridBackground({
 
   return (
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`} aria-hidden>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.92),rgba(247,249,255,0.86)_44%,rgba(236,242,255,0.92)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(56,189,248,0.12),transparent_28%),radial-gradient(circle_at_82%_14%,rgba(21,26,102,0.18),transparent_34%),radial-gradient(circle_at_50%_100%,rgba(45,212,191,0.10),transparent_30%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.96),rgba(252,247,255,0.92)_40%,rgba(243,247,255,0.95)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(216,70,239,0.16),transparent_28%),radial-gradient(circle_at_84%_14%,rgba(124,58,237,0.18),transparent_34%),radial-gradient(circle_at_72%_72%,rgba(34,211,238,0.16),transparent_28%),radial-gradient(circle_at_28%_100%,rgba(232,121,249,0.12),transparent_30%)]" />
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
     </div>
   );
