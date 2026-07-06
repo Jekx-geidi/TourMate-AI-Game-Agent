@@ -29,7 +29,7 @@ Build an MVP learning app where the student can:
 9. Learn maps, flags, countries, capitals, airport codes, and tourism destinations.
 10. Learn foreign language basics.
 11. Track study progress.
-12. See AI/Hermes/OpenRouter status inside the app.
+12. See AI/Hermes/TOURMATE AGENT status inside the app.
 
 ---
 
@@ -75,10 +75,10 @@ Reason:
 
 ## AI Integration
 
-- OpenRouter API as the main LLM provider
+- TOURMATE AGENT API as the main LLM provider
 - Optional Hermes Agent integration
 - If Hermes is available, use Hermes first
-- If Hermes is not available, fallback to OpenRouter
+- If Hermes is not available, fallback to TOURMATE AGENT
 
 ---
 
@@ -142,6 +142,8 @@ Create `.env.example`:
 DATABASE_URL="postgresql://tourmate:tourmate_password@localhost:5432/tourmate_ai"
 JWT_SECRET="change_this_secret"
 JWT_EXPIRES_IN="7d"
+GEMMA_API_KEY=""
+GEMMA_MODEL="google/gemini-1.5-mini"
 OPENROUTER_API_KEY=""
 OPENROUTER_MODEL="openai/gpt-4o-mini"
 OPENROUTER_SITE_URL="http://localhost:5173"
@@ -153,7 +155,7 @@ FRONTEND_URL="http://localhost:5173"
 
 Important rule:
 
-- Never expose `OPENROUTER_API_KEY` in the frontend.
+- Never expose `GEMMA_API_KEY` in the frontend.
 - AI requests must go through the backend only.
 
 ---

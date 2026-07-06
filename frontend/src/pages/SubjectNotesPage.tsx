@@ -77,7 +77,7 @@ export function SubjectNotesPage() {
     <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
       <div className="space-y-5">
         <Card className="space-y-4">
-          <h1 className="text-3xl font-black text-slate-950">{subject.code} Notes</h1>
+          <h1 className="text-3xl font-black text-slate-950 dark:text-white">{subject.code} Notes</h1>
           <Input
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -91,11 +91,11 @@ export function SubjectNotesPage() {
               />
             ) : (
               filtered.map((note) => (
-                <Card key={note.id} className="space-y-3 bg-slate-50">
+                <Card key={note.id} className="space-y-3 bg-slate-50 dark:bg-slate-800/60">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="font-semibold text-slate-900">{note.title}</p>
-                      <p className="mt-1 text-sm text-slate-500">
+                      <p className="font-semibold text-slate-900 dark:text-slate-100">{note.title}</p>
+                      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
                         Updated {new Date(note.updatedAt).toLocaleString()}
                       </p>
                     </div>
@@ -112,7 +112,7 @@ export function SubjectNotesPage() {
                       </Button>
                     </div>
                   </div>
-                  <p className="line-clamp-4 text-sm leading-6 text-slate-600">{note.content}</p>
+                  <p className="line-clamp-4 text-sm leading-6 text-slate-600 dark:text-slate-400">{note.content}</p>
                 </Card>
               ))
             )}
@@ -129,8 +129,8 @@ export function SubjectNotesPage() {
         <Card className="space-y-3">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <h2 className="text-xl font-bold text-slate-900">AI note helper</h2>
-              <p className="text-sm text-slate-500">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">AI note helper</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
                 Ask AI to summarize or turn your notes into review tools.
               </p>
             </div>
@@ -181,8 +181,8 @@ export function SubjectNotesPage() {
             </Button>
           </div>
           {aiOutput ? (
-            <Card className="bg-slate-50">
-              <p className="whitespace-pre-line text-sm leading-7 text-slate-700">{aiOutput}</p>
+            <Card className="bg-slate-50 dark:bg-slate-800/60">
+              <p className="whitespace-pre-line text-sm leading-7 text-slate-700 dark:text-slate-300">{aiOutput}</p>
             </Card>
           ) : null}
         </Card>

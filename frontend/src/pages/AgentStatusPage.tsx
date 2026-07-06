@@ -16,7 +16,7 @@ export function AgentStatusPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl font-black text-slate-950">AI provider status</h1>
+      <h1 className="text-4xl font-black text-slate-950 dark:text-white">AI provider status</h1>
       <AgentStatusCard status={data} />
     </div>
   );

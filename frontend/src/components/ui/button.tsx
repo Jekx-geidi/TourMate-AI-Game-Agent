@@ -3,15 +3,22 @@ import type { ButtonHTMLAttributes } from 'react';
 import { cn } from '../../lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-2 focus:ring-teal-400 disabled:cursor-not-allowed disabled:opacity-50',
+  'inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-2 focus:ring-fuchsia-300 disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
-        primary: 'bg-teal-700 text-white shadow-soft hover:bg-teal-800',
-        secondary: 'bg-blue-600 text-white hover:bg-blue-700',
-        ghost: 'bg-transparent text-slate-700 hover:bg-slate-100',
-        outline: 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50',
-        amber: 'bg-amber-500 text-slate-950 hover:bg-amber-400',
+        primary:
+          'bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white shadow-pop hover:from-violet-700 hover:to-fuchsia-600',
+        secondary:
+          'bg-gradient-to-r from-blue-400 to-indigo-500 text-white shadow-pop hover:from-blue-500 hover:to-indigo-600',
+        ghost:
+          'bg-transparent text-slate-700 hover:bg-violet-50 dark:text-slate-300 dark:hover:bg-violet-900/30',
+        outline:
+          'border border-violet-200 bg-white text-violet-700 hover:bg-violet-50 dark:border-violet-800/60 dark:bg-slate-900 dark:text-violet-300 dark:hover:bg-violet-900/30',
+        amber:
+          'bg-gradient-to-r from-amber-400 to-orange-500 text-white shadow-pop hover:from-amber-500 hover:to-orange-600',
+        white: 'bg-white text-violet-700 shadow-md hover:bg-violet-50',
+        glass: 'bg-white/15 text-white backdrop-blur hover:bg-white/25',
       },
     },
     defaultVariants: {

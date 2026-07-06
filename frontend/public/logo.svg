@@ -1,0 +1,53 @@
+<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TourMate Game logo">
+  <defs>
+    <linearGradient id="tmPin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="tmPad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c026d3"/>
+      <stop offset="0.55" stop-color="#9333ea"/>
+      <stop offset="1" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="tmPlane" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d946ef"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="tmArc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e879f9"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+
+  <!-- dashed travel orbit -->
+  <path d="M42 148 A 88 88 0 1 1 198 148" fill="none" stroke="#c4b5fd" stroke-width="5" stroke-dasharray="2 20" stroke-linecap="round"/>
+
+  <!-- colorful arc behind -->
+  <path d="M52 150 A 70 70 0 0 1 188 150" fill="none" stroke="url(#tmArc)" stroke-width="26" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- paper plane -->
+  <g transform="translate(186 30) rotate(24)">
+    <path d="M0 12 L38 0 L14 18 L20 32 L10 24 L0 30 Z" fill="url(#tmPlane)"/>
+  </g>
+
+  <!-- location pin -->
+  <g>
+    <path d="M120 22c-27 0-48 21-48 47 0 34 48 76 48 76s48-42 48-76c0-26-21-47-48-47z"
+      fill="url(#tmPin)" stroke="#ffffff" stroke-width="9"/>
+    <path d="M100 84 L146 58 L130 104 L122 86 Z" fill="#ffffff"/>
+  </g>
+
+  <!-- gamepad -->
+  <g>
+    <path d="M70 122 h100 a44 44 0 0 1 44 44 v6 a38 38 0 0 1 -66 26 l-6 -7 h-44 l-6 7 a38 38 0 0 1 -66 -26 v-6 a44 44 0 0 1 44 -44 z"
+      fill="url(#tmPad)" stroke="#ffffff" stroke-width="9"/>
+    <!-- d-pad -->
+    <rect x="72" y="148" width="16" height="46" rx="7" fill="#ffffff"/>
+    <rect x="57" y="163" width="46" height="16" rx="7" fill="#ffffff"/>
+    <!-- action buttons -->
+    <circle cx="162" cy="152" r="9" fill="#fbbf24"/>
+    <circle cx="184" cy="170" r="9" fill="#fb7185"/>
+    <circle cx="140" cy="170" r="9" fill="#22d3ee"/>
+    <circle cx="162" cy="188" r="9" fill="#22c55e"/>
+  </g>
+</svg>

@@ -18,14 +18,14 @@ export function Flashcard({
     <Card className="space-y-5 text-center">
       <button
         type="button"
-        className="flex min-h-64 w-full items-center justify-center rounded-3xl bg-gradient-to-br from-teal-50 to-sky-50 p-8 text-left"
+        className="flex min-h-64 w-full items-center justify-center rounded-3xl bg-gradient-to-br from-violet-50 dark:from-violet-950/40 to-fuchsia-50 dark:to-fuchsia-950/30 p-8 text-left"
         onClick={() => setFlipped((current) => !current)}
       >
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-700">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-violet-700 dark:text-violet-300">
             {flipped ? 'Answer' : 'Question'}
           </p>
-          <p className="mt-4 text-2xl font-bold leading-relaxed text-slate-900">
+          <p className="mt-4 text-2xl font-bold leading-relaxed text-slate-900 dark:text-slate-100">
             {flipped ? card.back : card.front}
           </p>
         </div>

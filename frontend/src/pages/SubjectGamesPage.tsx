@@ -1,28 +1,38 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Bot, Layers, Puzzle, Star, Timer } from 'lucide-react';
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { Flashcard as FlashcardComponent } from '../components/Flashcard';
 import { GameCard } from '../components/GameCard';
 import { LoadingSpinner } from '../components/LoadingSpinner';
+import { MatchingGame } from '../components/games/MatchingGame';
+import { ScenarioGame } from '../components/games/ScenarioGame';
+import { SequenceGame } from '../components/games/SequenceGame';
+import { TimedQuizGame } from '../components/games/TimedQuizGame';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
-import { flagChoices, matchPairs } from '../lib/static-data';
+import { useGame } from '../hooks/use-game';
+import { SUBJECT_GAMES } from '../lib/subject-games';
 import { flashcardsService } from '../services/flashcards.service';
 import { progressService } from '../services/progress.service';
 import { quizzesService } from '../services/quizzes.service';
-import type { FlashcardItem, Quiz } from '../types';
+import { subjectsService } from '../services/subjects.service';
+import type { FlashcardItem, Quiz, Subject } from '../types';
 
 export function SubjectGamesPage() {
   const { id = '' } = useParams();
-  const [gameAnswers, setGameAnswers] = useState<Record<string, string>>({});
-  const [timer, setTimer] = useState(60);
-  const [flagChoice, setFlagChoice] = useState('');
-  const [flagScore, setFlagScore] = useState<number | null>(null);
+  const { addXp, recordEvent } = useGame();
+  const [cardIndex, setCardIndex] = useState(0);
+
   const updateProgress = useMutation({
     mutationFn: (percent: number) =>
       progressService.update({ subjectId: id, category: 'games', percent }),
   });
 
+  const subjectQuery = useQuery<Subject>({
+    queryKey: ['subject', id],
+    queryFn: () => subjectsService.get(id),
+  });
   const flashcardsQuery = useQuery<FlashcardItem[]>({
     queryKey: ['flashcards', id],
     queryFn: () => flashcardsService.bySubject(id),
@@ -32,120 +42,151 @@ export function SubjectGamesPage() {
     queryFn: () => quizzesService.bySubject(id),
   });
 
-  const quiz = quizzesQuery.data?.[0];
-  const timedQuestions = useMemo(() => quiz?.questions.slice(0, 10) ?? [], [quiz]);
-  const currentFlag = flagChoices[0];
-  const answeredCount = Object.keys(gameAnswers).length;
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setTimer((current) => (current > 0 ? current - 1 : 0));
-    }, 1000);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
-  if (flashcardsQuery.isLoading || quizzesQuery.isLoading) {
-    return <LoadingSpinner label="Loading study games..." />;
+  if (subjectQuery.isLoading || flashcardsQuery.isLoading || quizzesQuery.isLoading) {
+    return <LoadingSpinner label="Loading the game arcade..." />;
   }
 
+  const subject = subjectQuery.data;
+  const config = subject ? SUBJECT_GAMES[subject.code] : undefined;
+  const quiz = quizzesQuery.data?.[0];
+  const timedQuestions = quiz?.questions.slice(0, 8) ?? [];
+  const flashcards = flashcardsQuery.data ?? [];
+  const currentCard = flashcards.length > 0 ? flashcards[cardIndex % flashcards.length] : null;
+
+  const finishGame = (xp: number, reason: string, progressPercent: number) => {
+    addXp(xp, reason);
+    recordEvent('game-completed');
+    updateProgress.mutate(progressPercent);
+  };
+
   return (
-    <div className="grid gap-6">
+    <div className="space-y-6">
+      <div className="relative overflow-hidden rounded-[2rem] brand-gradient p-8 text-white shadow-pop">
+        <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-black/10" />
+        <div className="relative">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
+            Game Mode
+          </p>
+          <h1 className="mt-2 text-4xl font-black">
+            {subject ? `${subject.code} Arcade` : 'Subject Arcade'}
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
+            Every game earns XP toward your level and daily challenges. Beat the signature
+            challenge, master the matching game, and survive the timed quiz!
+          </p>
+        </div>
+      </div>
+
+      {config ? (
+        <GameCard
+          title={config.signature.title}
+          description={config.signature.description}
+          icon={<Star className="h-5 w-5" />}
+        >
+          {config.signature.type === 'scenario' ? (
+            <ScenarioGame
+              scenarios={config.signature.scenarios}
+              role={config.signature.role}
+              onFinish={({ score, max }) =>
+                finishGame(
+                  35,
+                  `${config.signature.title} finished`,
+                  Math.max(30, Math.round((score / max) * 100)),
+                )
+              }
+            />
+          ) : (
+            <SequenceGame
+              steps={config.signature.steps}
+              prompt={config.signature.prompt}
+              onFinish={({ strikes }) =>
+                finishGame(
+                  30,
+                  `${config.signature.title} finished`,
+                  Math.max(30, 100 - strikes * 10),
+                )
+              }
+            />
+          )}
+        </GameCard>
+      ) : null}
+
+      {config ? (
+        <GameCard
+          title={config.matchTitle}
+          description={config.matchDescription}
+          icon={<Puzzle className="h-5 w-5" />}
+        >
+          <MatchingGame
+            pairs={config.matchPairs}
+            onFinish={({ misses }) => {
+              finishGame(25, `${config.matchTitle} finished`, Math.max(30, 100 - misses * 10));
+              recordEvent('match-completed');
+            }}
+          />
+        </GameCard>
+      ) : null}
+
       <GameCard
-        title="Flashcard Flip Game"
-        description="Click to flip the card, then mark if you learned it or need another review."
+        title="Timed Quiz Rush"
+        icon={<Timer className="h-5 w-5" />}
+        description="One question at a time, 15 seconds each. Build a streak and beat the clock!"
       >
-        {flashcardsQuery.data?.[0] ? (
-          <FlashcardComponent
-            card={flashcardsQuery.data[0]}
-            onLearned={() => updateProgress.mutate(35)}
-            onReviewAgain={() => updateProgress.mutate(15)}
+        {timedQuestions.length > 0 ? (
+          <TimedQuizGame
+            questions={timedQuestions}
+            onFinish={({ correct, total }) => {
+              finishGame(
+                40,
+                'Timed Quiz Rush finished',
+                Math.max(30, Math.round((correct / total) * 100)),
+              );
+              if (correct === total) recordEvent('perfect-score');
+            }}
           />
         ) : (
-          <Card>No flashcards available for this game.</Card>
+          <p className="text-sm text-slate-500 dark:text-slate-400">No quiz questions available for this subject yet.</p>
         )}
       </GameCard>
 
       <GameCard
-        title="Timed Quiz Game"
-        description="Answer 10 questions before time runs out and then compare with the correct answers."
+        title="Flashcard Warm-up"
+        icon={<Layers className="h-5 w-5" />}
+        description="Flip the card, test yourself, then move to the next one."
       >
-        <p className="text-sm font-semibold text-amber-600">
-          Time left: {timer}s | Answers marked: {answeredCount}/{timedQuestions.length}
-        </p>
-        <div className="grid gap-3">
-          {timedQuestions.map((question) => (
-            <Card key={question.id} className="bg-slate-50">
-              <p className="font-semibold text-slate-900">{question.question}</p>
-              <div className="mt-3 grid gap-2">
-                {(['A', 'B', 'C', 'D'] as const).map((letter) => (
-                  <label key={letter} className="text-sm text-slate-600">
-                    <input
-                      className="mr-2"
-                      type="radio"
-                      name={`timed-${question.id}`}
-                      onChange={() =>
-                        setGameAnswers((current) => ({ ...current, [question.id]: letter }))
-                      }
-                    />
-                    {letter}
-                  </label>
-                ))}
-              </div>
-              {timer === 0 ? (
-                <p className="mt-3 text-sm text-slate-500">
-                  Correct answer: {question.answer} | {question.explanation}
-                </p>
-              ) : null}
-            </Card>
-          ))}
-        </div>
+        {currentCard ? (
+          <div className="space-y-3">
+            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+              Card {(cardIndex % flashcards.length) + 1} of {flashcards.length}
+            </p>
+            <FlashcardComponent
+              card={currentCard}
+              onLearned={() => {
+                addXp(5, 'Flashcard learned');
+                setCardIndex((current) => current + 1);
+              }}
+              onReviewAgain={() => setCardIndex((current) => current + 1)}
+            />
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500 dark:text-slate-400">No flashcards available for this subject yet.</p>
+        )}
       </GameCard>
 
-      <GameCard
-        title="Match the Term Game"
-        description="Read the tourism term and match it with the correct meaning."
-      >
-        <div className="grid gap-4 md:grid-cols-2">
-          {matchPairs.map((pair) => (
-            <Card key={pair.term} className="bg-slate-50">
-              <p className="font-semibold text-slate-900">{pair.term}</p>
-              <p className="mt-2 text-sm text-slate-600">{pair.definition}</p>
-            </Card>
-          ))}
-        </div>
-      </GameCard>
-
-      <GameCard
-        title="Flag Guessing Game"
-        description="Pick the correct country for the flag and see your score immediately."
-      >
-        <p className="text-6xl">{currentFlag.flag}</p>
-        <div className="grid gap-3 md:grid-cols-2">
-          {flagChoices.map((choice) => (
-            <Button key={choice.country} variant="outline" onClick={() => setFlagChoice(choice.country)}>
-              {choice.country}
+      {subject ? (
+        <Card className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            Stuck on a game question? Your {config?.agentName ?? 'subject agent'} can explain it.
+          </p>
+          <Link to={`/subjects/${subject.id}/tutor`}>
+            <Button variant="outline">
+              <Bot className="mr-2 h-4 w-4" />
+              Ask the {config?.agentName ?? 'Subject Agent'}
             </Button>
-          ))}
-        </div>
-        <Button
-          onClick={() => {
-            const score = flagChoice === currentFlag.country ? 100 : 0;
-            setFlagScore(score);
-            updateProgress.mutate(score === 100 ? 50 : 20);
-          }}
-          disabled={!flagChoice}
-        >
-          Check answer
-        </Button>
-        {flagScore !== null ? (
-          <Card className="bg-slate-50 text-sm text-slate-700">
-            {flagChoice === currentFlag.country
-              ? 'Correct! Great job identifying the flag.'
-              : `Not quite. The correct answer is ${currentFlag.country}.`}
-          </Card>
-        ) : null}
-      </GameCard>
+          </Link>
+        </Card>
+      ) : null}
     </div>
   );
 }

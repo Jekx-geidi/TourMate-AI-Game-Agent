@@ -1,126 +1,198 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import type { LucideIcon } from 'lucide-react';
+import { Compass, Crosshair, Expand, Flag, Globe2, Plane, X } from 'lucide-react';
+import { CountryPanel } from '../components/CountryPanel';
+import { FindCountryGame } from '../components/games/FindCountryGame';
+import { FlagQuizGame } from '../components/games/FlagQuizGame';
+import { MatchingGame } from '../components/games/MatchingGame';
+import { WorldMap } from '../components/WorldMap';
+import type { MapCountry } from '../components/WorldMap';
 import { Card } from '../components/ui/card';
-import { airportCodes, destinationCards, flagChoices } from '../lib/static-data';
+import { useGame } from '../hooks/use-game';
+import { ALL_AIRPORTS, COUNTRIES, getCountryById } from '../lib/country-data';
+
+type Tab = 'explore' | 'find' | 'flags' | 'airports';
+
+const TABS: Array<{ id: Tab; label: string; icon: LucideIcon }> = [
+  { id: 'explore', label: 'World Explorer', icon: Globe2 },
+  { id: 'find', label: 'Map Challenge', icon: Crosshair },
+  { id: 'flags', label: 'Flag Quiz', icon: Flag },
+  { id: 'airports', label: 'Airport Codes', icon: Plane },
+];
+
+function shuffle<T>(items: T[]): T[] {
+  const copy = [...items];
+  for (let index = copy.length - 1; index > 0; index -= 1) {
+    const swap = Math.floor(Math.random() * (index + 1));
+    [copy[index], copy[swap]] = [copy[swap], copy[index]];
+  }
+  return copy;
+}
 
 export function MapsFlagsPage() {
-  const [selectedContinent, setSelectedContinent] = useState('All');
-  const [selectedDestination, setSelectedDestination] = useState(destinationCards[0]);
-  const filteredDestinations =
-    selectedContinent === 'All'
-      ? destinationCards
-      : destinationCards.filter((item) => item.continent === selectedContinent);
-  const mapSpan = 0.18;
-  const mapBounds = [
-    selectedDestination.longitude - mapSpan,
-    selectedDestination.latitude - mapSpan,
-    selectedDestination.longitude + mapSpan,
-    selectedDestination.latitude + mapSpan,
-  ].join('%2C');
-  const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${mapBounds}&layer=mapnik&marker=${selectedDestination.latitude}%2C${selectedDestination.longitude}`;
+  const { addXp, recordEvent, stats } = useGame();
+  const [tab, setTab] = useState<Tab>('explore');
+  const [selected, setSelected] = useState<MapCountry | null>(null);
+  const [airportRound, setAirportRound] = useState(0);
+  const [mapExpanded, setMapExpanded] = useState(false);
+
+  const airportPairs = useMemo(
+    () =>
+      shuffle(ALL_AIRPORTS)
+        .slice(0, 6)
+        .map((airport) => ({
+          left: airport.code,
+          right: `${airport.name} (${airport.country})`,
+        })),
+    [airportRound],
+  );
+
+  const selectedProfile = getCountryById(selected?.id);
+
+  const handleExploreClick = (country: MapCountry) => {
+    setSelected(country);
+    if (getCountryById(country.id)) {
+      recordEvent('country-explored', { countryId: country.id });
+    }
+  };
 
   return (
     <div className="space-y-6">
-      <Card className="space-y-3">
-        <h1 className="text-4xl font-black text-slate-950">Maps, Flags, Capitals, and Codes</h1>
-        <p className="text-sm leading-6 text-slate-600">
-          Practice tourism special topics including country facts, airport codes, and key
-          destination memory drills.
-        </p>
-      </Card>
-
-      <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-soft">
-          <iframe
-            title={`Map of ${selectedDestination.destination}`}
-            src={mapSrc}
-            className="h-[420px] w-full"
-            loading="lazy"
-          />
-        </div>
-        <div className="rounded-lg border border-slate-200 bg-white p-4 shadow-soft">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-teal-700">
-            Real Map
+      <div className="relative overflow-hidden rounded-[2rem] brand-gradient p-6 text-white shadow-pop sm:p-8">
+        <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-black/10" />
+        <div className="relative">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
+            Tourism Special Mode
           </p>
-          <h2 className="mt-2 text-xl font-bold text-slate-900">
-            {selectedDestination.destination}
-          </h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            {selectedDestination.country} | Capital: {selectedDestination.capital}
+          <h1 className="mt-2 text-3xl font-black sm:text-4xl">World Explorer</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
+            Tap any country on the interactive map to discover its flag, capital, culture, food,
+            destinations, and airport codes — then test yourself in the map, flag, and airport
+            challenges to earn XP!
           </p>
-          <div className="mt-4 grid gap-2">
-            {destinationCards.map((item) => (
-              <button
-                key={item.destination}
-                type="button"
-                className={`rounded-md border px-3 py-2 text-left text-sm font-semibold transition ${
-                  selectedDestination.destination === item.destination
-                    ? 'border-teal-600 bg-teal-50 text-teal-800'
-                    : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
-                }`}
-                onClick={() => setSelectedDestination(item)}
-              >
-                {item.destination}
-              </button>
-            ))}
-          </div>
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1.5 text-sm font-bold backdrop-blur">
+            <Compass className="h-4 w-4" />
+            Countries explored: {stats.countriesExplored.length}/{COUNTRIES.length}
+          </p>
         </div>
-      </section>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card className="space-y-4">
-          <h2 className="text-2xl font-bold text-slate-900">Country flashcards</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {flagChoices.map((item) => (
-              <Card key={item.country} className="bg-slate-50 text-center">
-                <p className="text-5xl">{item.flag}</p>
-                <p className="mt-3 font-semibold text-slate-900">{item.country}</p>
-              </Card>
-            ))}
-          </div>
-        </Card>
-        <Card className="space-y-4">
-          <h2 className="text-2xl font-bold text-slate-900">Airport code practice</h2>
-          <div className="grid gap-3">
-            {airportCodes.map((code) => (
-              <Card key={code.code} className="bg-slate-50">
-                <p className="text-lg font-bold text-teal-700">{code.code}</p>
-                <p className="mt-1 text-sm text-slate-600">{code.airport}</p>
-              </Card>
-            ))}
-          </div>
-        </Card>
       </div>
 
-      <Card className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 className="text-2xl font-bold text-slate-900">Popular destinations</h2>
-          <div className="flex gap-2">
-            {['All', 'Asia', 'Europe', 'North America'].map((continent) => (
-              <button
-                key={continent}
-                type="button"
-                className={`rounded-full px-4 py-2 text-sm font-semibold ${
-                  selectedContinent === continent
-                    ? 'bg-teal-700 text-white'
-                    : 'bg-slate-100 text-slate-700'
-                }`}
-                onClick={() => setSelectedContinent(continent)}
-              >
-                {continent}
-              </button>
-            ))}
+      <div className="flex flex-wrap gap-2">
+        {TABS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setTab(item.id)}
+            className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold transition sm:px-5 ${
+              tab === item.id
+                ? 'brand-gradient-r text-white shadow-pop'
+                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 ring-1 ring-violet-100 dark:ring-violet-900/60 hover:bg-violet-50 dark:hover:bg-violet-900/30'
+            }`}
+          >
+            <item.icon className="h-4 w-4" />
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'explore' ? (
+        <section className="grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(280px,1fr)]">
+          <div className="relative overflow-hidden rounded-2xl border border-violet-100 dark:border-violet-900/60 bg-white dark:bg-slate-900 p-2 shadow-soft">
+            <WorldMap selectedId={selected?.id} onCountryClick={handleExploreClick} />
+            <button
+              type="button"
+              onClick={() => setMapExpanded(true)}
+              className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white dark:bg-slate-900 px-3 py-2 text-xs font-bold text-violet-700 dark:text-violet-300 shadow-md ring-1 ring-violet-100 dark:ring-violet-900/60 transition hover:bg-violet-50 dark:hover:bg-violet-900/30"
+            >
+              <Expand className="h-4 w-4" />
+              Expand map
+            </button>
+            <p className="px-3 pb-2 pt-1 text-xs text-slate-400">
+              Purple countries have full profiles · Orange dots are small island/city destinations
+              · Use the buttons or double-click to zoom
+            </p>
+          </div>
+          <Card className="max-h-[560px] overflow-y-auto">
+            <CountryPanel country={selectedProfile} fallbackName={selected?.name} />
+          </Card>
+        </section>
+      ) : null}
+
+      {mapExpanded ? (
+        <div className="fixed inset-0 z-50 flex flex-col bg-white dark:bg-slate-900 p-3 sm:p-6">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-black text-slate-900 dark:text-slate-100 sm:text-2xl">
+              {selected?.name ?? 'World map'}
+            </h2>
+            <button
+              type="button"
+              aria-label="Close full map"
+              onClick={() => setMapExpanded(false)}
+              className="inline-flex items-center gap-2 rounded-full bg-violet-50 dark:bg-violet-950/40 px-4 py-2 text-sm font-bold text-violet-700 dark:text-violet-300 transition hover:bg-violet-100 dark:hover:bg-violet-900/40"
+            >
+              <X className="h-4 w-4" />
+              Close
+            </button>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="grid gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(280px,1fr)]">
+              <div className="rounded-2xl border border-violet-100 dark:border-violet-900/60 p-2">
+                <WorldMap selectedId={selected?.id} onCountryClick={handleExploreClick} />
+              </div>
+              <div className="rounded-2xl border border-violet-100 dark:border-violet-900/60 p-4">
+                <CountryPanel country={selectedProfile} fallbackName={selected?.name} />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {filteredDestinations.map((item) => (
-            <Card key={item.country} className="bg-slate-50">
-              <p className="font-semibold text-slate-900">{item.country}</p>
-              <p className="mt-2 text-sm text-slate-600">Capital: {item.capital}</p>
-              <p className="mt-1 text-sm text-slate-600">Destination: {item.destination}</p>
-            </Card>
-          ))}
-        </div>
-      </Card>
+      ) : null}
+
+      {tab === 'find' ? (
+        <Card>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Map Challenge</h2>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            We name a country — you find it on the map. Five rounds, three tries each.
+          </p>
+          <div className="mt-4">
+            <FindCountryGame />
+          </div>
+        </Card>
+      ) : null}
+
+      {tab === 'flags' ? (
+        <Card>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Flag Quiz</h2>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            Ten flags, four choices each. Answer 5 correctly to complete today’s flag challenge!
+          </p>
+          <div className="mt-4">
+            <FlagQuizGame />
+          </div>
+        </Card>
+      ) : null}
+
+      {tab === 'airports' ? (
+        <Card>
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Airport Code Match</h2>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            Match each IATA code with its airport. New random airports every round.
+          </p>
+          <div className="mt-4">
+            <MatchingGame
+              key={airportRound}
+              pairs={airportPairs}
+              xpReward={20}
+              onFinish={() => {
+                addXp(20, 'Airport Code Match finished');
+                recordEvent('game-completed');
+                recordEvent('match-completed');
+                window.setTimeout(() => setAirportRound((value) => value + 1), 4000);
+              }}
+            />
+          </div>
+        </Card>
+      ) : null}
     </div>
   );
 }

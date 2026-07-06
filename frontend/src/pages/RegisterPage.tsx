@@ -23,11 +23,11 @@ export function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
       <Card className="w-full max-w-xl space-y-6">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-teal-700">
+          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-violet-700 dark:text-violet-300">
             Start Your Journey
           </p>
-          <h1 className="mt-3 text-3xl font-bold text-slate-950">Create your account</h1>
-          <p className="mt-2 text-sm text-slate-600">
+          <h1 className="mt-3 text-3xl font-bold text-slate-950 dark:text-white">Create your account</h1>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             Build your own tourism study space with notes, quizzes, games, and AI help.
           </p>
         </div>
@@ -75,7 +75,7 @@ export function RegisterPage() {
         >
           {loading ? 'Creating account...' : 'Register'}
         </Button>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-slate-600 dark:text-slate-400">
           Already have an account?{' '}
           <Link className="font-semibold text-blue-600" to="/login">
             Log in

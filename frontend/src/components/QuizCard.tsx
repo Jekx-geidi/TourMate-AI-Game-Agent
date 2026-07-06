@@ -19,15 +19,15 @@ export function QuizCard({
 
   return (
     <Card className="space-y-4">
-      <p className="font-semibold text-slate-900">{question.question}</p>
+      <p className="font-semibold text-slate-900 dark:text-slate-100">{question.question}</p>
       <div className="grid gap-3">
         {options.map(([key, option]) => (
           <label
             key={key}
             className={`cursor-pointer rounded-2xl border px-4 py-3 text-sm transition ${
               value === key
-                ? 'border-teal-300 bg-teal-50 text-teal-800'
-                : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                ? 'border-violet-300 bg-violet-50 dark:bg-violet-950/40 text-violet-800 dark:text-violet-300'
+                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
             }`}
           >
             <input

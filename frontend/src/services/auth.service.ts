@@ -11,5 +11,11 @@ export const authService = {
     (await api.post('/auth/login', payload)).data,
   me: async () => (await api.get('/auth/me')).data,
   logout: async () => (await api.post('/auth/logout')).data,
+  updateProfile: async (payload: {
+    name?: string;
+    email?: string;
+    currentPassword?: string;
+    newPassword?: string;
+  }) => (await api.patch('/users/me', payload)).data,
 };
 

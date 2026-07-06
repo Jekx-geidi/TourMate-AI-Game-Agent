@@ -1,7 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { LoadingSpinner } from './components/LoadingSpinner';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { AuthProvider } from './hooks/use-auth';
+import { AuthProvider, useAuth } from './hooks/use-auth';
+import { GameProvider } from './hooks/use-game';
+import { ThemeProvider } from './hooks/use-theme';
 import { AppShell } from './routes/AppShell';
 import { AgentStatusPage } from './pages/AgentStatusPage';
 import { AiTutorPage } from './pages/AiTutorPage';
@@ -14,6 +17,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { ProgressPage } from './pages/ProgressPage';
+import { QuizStudioPage } from './pages/QuizStudioPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { SubjectDetailPage } from './pages/SubjectDetailPage';
 import { SubjectFlashcardsPage } from './pages/SubjectFlashcardsPage';
@@ -21,13 +25,22 @@ import { SubjectGamesPage } from './pages/SubjectGamesPage';
 import { SubjectLessonsPage } from './pages/SubjectLessonsPage';
 import { SubjectNotesPage } from './pages/SubjectNotesPage';
 import { SubjectQuizPage } from './pages/SubjectQuizPage';
+import { SubjectTutorPage } from './pages/SubjectTutorPage';
 import { SubjectsPage } from './pages/SubjectsPage';
 import { TermsPage } from './pages/TermsPage';
 
 const queryClient = new QueryClient();
 
+// Everyone lands on the login screen first; authenticated users go straight to their dashboard.
+function RootGate() {
+  const { user, isLoading } = useAuth();
+  if (isLoading) return <LoadingSpinner label="Loading TourMate Game..." />;
+  return <Navigate to={user ? '/dashboard' : '/login'} replace />;
+}
+
 const router = createBrowserRouter([
-  { path: '/', element: <LandingPage /> },
+  { path: '/', element: <RootGate /> },
+  { path: '/welcome', element: <LandingPage /> },
   { path: '/login', element: <LoginPage /> },
   { path: '/register', element: <RegisterPage /> },
   { path: '/terms', element: <TermsPage /> },
@@ -47,8 +60,10 @@ const router = createBrowserRouter([
       { path: '/subjects/:id/quiz', element: <SubjectQuizPage /> },
       { path: '/subjects/:id/flashcards', element: <SubjectFlashcardsPage /> },
       { path: '/subjects/:id/games', element: <SubjectGamesPage /> },
+      { path: '/subjects/:id/tutor', element: <SubjectTutorPage /> },
       { path: '/language', element: <LanguagePage /> },
       { path: '/maps-flags', element: <MapsFlagsPage /> },
+      { path: '/quiz-studio', element: <QuizStudioPage /> },
       { path: '/ai-tutor', element: <AiTutorPage /> },
       { path: '/agent-status', element: <AgentStatusPage /> },
       { path: '/profile', element: <ProfilePage /> },
@@ -61,9 +76,13 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <GameProvider>
+            <RouterProvider router={router} />
+          </GameProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

@@ -21,8 +21,12 @@ const config: Config = {
         accent: 'hsl(var(--accent))',
         'accent-foreground': 'hsl(var(--accent-foreground))',
       },
+      fontFamily: {
+        sans: ['Poppins', 'system-ui', 'sans-serif'],
+      },
       boxShadow: {
-        soft: '0 20px 55px -28px rgba(15, 118, 110, 0.35)',
+        soft: '0 20px 55px -28px rgba(126, 34, 206, 0.28)',
+        pop: '0 14px 35px -12px rgba(168, 85, 247, 0.45)',
       },
     },
   },

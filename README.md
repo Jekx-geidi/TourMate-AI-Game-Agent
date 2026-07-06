@@ -1,6 +1,6 @@
 # TourMate AI
 
-TourMate AI is a tourism-focused study companion for BS Tourism Management students. It combines lessons, quizzes, flashcards, note-taking, mini-games, progress tracking, maps and flags practice, language learning, and a backend AI tutor with Hermes-first and OpenRouter-fallback support.
+TourMate AI is a tourism-focused study companion for BS Tourism Management students. It combines lessons, quizzes, flashcards, note-taking, mini-games, progress tracking, maps and flags practice, language learning, and a backend AI tutor with Hermes-first and TOURMATE AGENT-fallback support.
 
 ## Features
 
@@ -13,13 +13,13 @@ TourMate AI is a tourism-focused study companion for BS Tourism Management stude
 - Flashcard review plus four working study mini-games
 - Maps, flags, capitals, destinations, and airport-code practice
 - AI tutor chat with backend-only provider calls
-- Agent status page showing Hermes and OpenRouter readiness
+- Agent status page showing Hermes and TOURMATE AGENT readiness
 
 ## Tech Stack
 
 - Frontend: React, TypeScript, Vite, Tailwind CSS, Framer Motion, Lucide React, React Router, TanStack Query, Axios
 - Backend: NestJS, TypeScript, Prisma, PostgreSQL, JWT, bcrypt
-- AI: Hermes Agent when available, OpenRouter fallback, local educational fallback when neither is configured
+- AI: Hermes Agent when available, TOURMATE AGENT fallback, local educational fallback when neither is configured
 
 ## Folder Structure
 
@@ -151,26 +151,27 @@ You can also register a new user from the app.
 
 ## How To Test AI Chat
 
-1. Add `OPENROUTER_API_KEY` to `backend/.env` for live AI responses.
-2. Open `/ai-tutor`.
-3. Ask a subject question.
-4. Confirm the response includes the active provider name.
+1. Add `GEMMA_API_KEY` to `backend/.env` for live AI responses.
+2. Optionally set `GEMMA_MODEL` to a Gemini-compatible model.
+3. Open `/ai-tutor`.
+4. Ask a subject question.
+5. Confirm the response includes the active provider name.
 
 If no AI provider is configured, the backend uses a safe educational local fallback so the tutor UI still works.
 
-## How To Connect OpenRouter
+## How To Connect Gemma / TOURMATE AGENT
 
-1. Set `OPENROUTER_API_KEY` in `backend/.env`.
-2. Optionally change `OPENROUTER_MODEL`.
+1. Set `GEMMA_API_KEY` in `backend/.env`.
+2. Optionally change `GEMMA_MODEL` for Gemini or keep `google/gemini-1.5-mini`.
 3. Restart the backend.
-4. Open `/agent-status` and confirm OpenRouter shows ready.
+4. Open `/agent-status` and confirm Gemma shows ready when configured.
 
 ## How To Connect Hermes Agent
 
 1. Set `HERMES_AGENT_URL` in `backend/.env`.
 2. Restart the backend.
 3. Open `/agent-status`.
-4. If Hermes responds, TourMate AI uses Hermes first and OpenRouter as fallback.
+4. If Hermes responds, TourMate AI uses Hermes first and TOURMATE AGENT as fallback.
 
 ## Database Schema Summary
 

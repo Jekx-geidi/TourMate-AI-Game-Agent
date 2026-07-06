@@ -6,28 +6,39 @@ import { Input } from './ui/input';
 
 type Message = { role: 'user' | 'assistant'; content: string; provider?: string };
 
+function formatProviderName(value: string) {
+  return value.toLowerCase() === 'openrouter' ? 'TOURMATE AGENT' : value;
+}
+
 export function ChatBox({
   title,
+  subtitle,
   placeholder,
+  intro,
+  suggestions,
   onSend,
 }: {
   title: string;
+  subtitle?: string;
   placeholder: string;
+  intro?: string;
+  suggestions?: string[];
   onSend: (message: string) => Promise<{ reply: string; provider: string }>;
 }) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
       content:
+        intro ??
         'How are your studies today? Tell me what you achieved today and I will help you review it step by step.',
     },
   ]);
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
 
-  const send = async () => {
-    if (!input.trim() || isSending) return;
-    const current = input;
+  const send = async (text?: string) => {
+    const current = (text ?? input).trim();
+    if (!current || isSending) return;
     setMessages((prev) => [...prev, { role: 'user', content: current }]);
     setInput('');
     setIsSending(true);
@@ -46,30 +57,50 @@ export function ChatBox({
   return (
     <Card className="space-y-4">
       <div>
-        <h3 className="text-xl font-bold text-slate-900">{title}</h3>
-        <p className="mt-2 text-sm text-slate-500">
-          Warm, beginner-friendly, and focused on real understanding.
+        <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{title}</h3>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          {subtitle ?? 'Warm, beginner-friendly, and focused on real understanding.'}
         </p>
       </div>
-      <div className="max-h-[26rem] space-y-3 overflow-y-auto rounded-3xl bg-slate-50 p-4">
+      <div className="max-h-[26rem] space-y-3 overflow-y-auto rounded-3xl bg-slate-50 dark:bg-slate-800/60 p-4">
         {messages.map((message, index) => (
           <div
             key={`${message.role}-${index}`}
             className={`rounded-3xl px-4 py-3 text-sm leading-6 ${
               message.role === 'assistant'
-                ? 'bg-white text-slate-700'
-                : 'ml-auto max-w-[85%] bg-teal-700 text-white'
+                ? 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300'
+                : 'ml-auto max-w-[85%] bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white'
             }`}
           >
-            <p>{message.content}</p>
+            <p className="whitespace-pre-wrap">{message.content}</p>
             {message.provider ? (
               <p className="mt-2 text-xs uppercase tracking-[0.24em] opacity-70">
-                {message.provider}
+                {formatProviderName(message.provider)}
               </p>
             ) : null}
           </div>
         ))}
+        {isSending ? (
+          <div className="rounded-3xl bg-white dark:bg-slate-900 px-4 py-3 text-sm text-slate-400">
+            Thinking...
+          </div>
+        ) : null}
       </div>
+      {suggestions && suggestions.length > 0 ? (
+        <div className="flex flex-wrap gap-2">
+          {suggestions.map((suggestion) => (
+            <button
+              key={suggestion}
+              type="button"
+              disabled={isSending}
+              onClick={() => void send(suggestion)}
+              className="rounded-full border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/40 px-3 py-1.5 text-xs font-semibold text-violet-800 dark:text-violet-300 transition hover:bg-violet-100 dark:hover:bg-violet-900/40 disabled:opacity-50"
+            >
+              {suggestion}
+            </button>
+          ))}
+        </div>
+      ) : null}
       <div className="flex gap-3">
         <Input
           value={input}

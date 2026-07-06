@@ -17,7 +17,22 @@ When the student asks for answers, explain the reasoning so they can learn.
 When useful, offer a short quiz or flashcard review.
 Keep explanations clear and beginner-friendly.`;
 
-type ProviderName = 'hermes' | 'openrouter' | 'local';
+const SUBJECT_AGENT_PROMPTS: Record<string, string> = {
+  TMEL03:
+    'You are acting as the TMEL03 Eco Agent, a specialist in sustainable tourism, ecotourism, tourism trends, destination development, and responsible travel.',
+  NMICE:
+    'You are acting as the NMICE Events Agent, a specialist in Meetings, Incentives, Conferences, and Exhibitions: event planning, venue selection, registration, and event evaluation.',
+  AIRMGT:
+    'You are acting as the AIRMGT Aviation Agent, a specialist in airline and airport operations, ticketing, reservations, passenger handling, ground services, aviation safety, and airline marketing.',
+  TMEL04:
+    'You are acting as the TMEL04 Heritage Agent, a specialist in heritage tourism, cultural tourism, tourism innovation, travel technology, and tourism product development.',
+  FOLA01:
+    'You are acting as the FOLA01 Language Agent, a specialist in foreign language basics for tourism: greetings, self-introduction, numbers, directions, hotel, airport, restaurant, and tourist assistance phrases. Include pronunciation help when teaching phrases.',
+  TMEL02:
+    'You are acting as the TMEL02 Travel Biz Agent, a specialist in tourism marketing, tour operations, travel agency basics, itinerary planning, and customer service.',
+};
+
+type ProviderName = 'hermes' | 'ollama' | 'gemma' | 'openrouter' | 'local';
 
 @Injectable()
 export class AiService {
@@ -95,10 +110,14 @@ export class AiService {
 
   async getStatus() {
     const hermesUrl = this.configService.get<string>('HERMES_AGENT_URL');
+    const gemmaKey = this.configService.get<string>('GEMMA_API_KEY');
     const openRouterKey = this.configService.get<string>('OPENROUTER_API_KEY');
+    const ollamaUrl = this.configService.get<string>('OLLAMA_URL') ?? 'http://localhost:11434';
 
     let hermesConnected = false;
+    const gemmaReady = Boolean(gemmaKey);
     const openRouterReady = Boolean(openRouterKey);
+    let ollamaConnected = false;
 
     if (hermesUrl) {
       try {
@@ -109,25 +128,45 @@ export class AiService {
       }
     }
 
+    try {
+      await axios.get(`${ollamaUrl}/api/models`, { timeout: 3000 });
+      ollamaConnected = true;
+    } catch {
+      ollamaConnected = false;
+    }
+
+    const selected = hermesConnected
+      ? 'hermes'
+      : ollamaConnected
+        ? 'ollama'
+        : gemmaReady
+          ? 'gemma'
+          : openRouterReady
+            ? 'openrouter'
+            : 'local';
+
     return {
       hermesStatus: hermesConnected ? 'connected' : 'not_connected',
+      gemmaStatus: gemmaReady ? 'ready' : 'not_configured',
+      ollamaStatus: ollamaConnected ? 'connected' : 'not_configured',
       openRouterStatus: openRouterReady ? 'ready' : 'not_configured',
-      currentProvider: hermesConnected
-        ? 'hermes'
-        : openRouterReady
-          ? 'openrouter'
-          : 'local',
+      currentProvider: selected,
       lastCheckedTime: this.lastCheckedAt,
       lastAiResponseProvider: this.lastProvider,
       message: hermesConnected
         ? 'Hermes Agent is connected. TourMate AI will use Hermes first.'
-        : 'Hermes Agent is not connected yet. TourMate AI is using OpenRouter fallback.',
+        : ollamaConnected
+          ? 'Ollama is available and will be used as the next-choice provider.'
+          : gemmaReady
+            ? 'Gemma is configured and will be used as the next-choice provider.'
+            : 'Hermes Agent is not connected yet. TourMate AI is using TOURMATE AGENT fallback.',
     };
   }
 
   private async askProvider(
     message: string,
     subjectCode?: string,
+    mode:
       | 'chat'
       | 'generate-quiz'
       | 'generate-notes'
@@ -135,6 +174,58 @@ export class AiService {
       | 'study-plan' = 'chat',
   ) {
 
+    const gemmaKey = this.configService.get<string>('GEMMA_API_KEY');
+    const openRouterKey = this.configService.get<string>('OPENROUTER_API_KEY');
+
+    const systemPrompt =
+      subjectCode && SUBJECT_AGENT_PROMPTS[subjectCode]
+        ? `${TOURMATE_SYSTEM_PROMPT}\n\n${SUBJECT_AGENT_PROMPTS[subjectCode]}`
+        : TOURMATE_SYSTEM_PROMPT;
+    const userPrompt = `Subject: ${subjectCode ?? 'General Tourism Study'}\n${message}`;
+
+    // 1) Google AI Studio — Gemma (primary provider).
+    // Gemma models do not support a system role, so the system prompt is prepended.
+    if (gemmaKey) {
+      const gemmaModel =
+        this.configService.get<string>('GEMMA_MODEL') ?? 'gemma-3-27b-it';
+      try {
+        const response = await axios.post(
+          `https://generativelanguage.googleapis.com/v1beta/models/${gemmaModel}:generateContent`,
+          {
+            contents: [
+              {
+                role: 'user',
+                parts: [{ text: `${systemPrompt}\n\n---\n\n${userPrompt}` }],
+              },
+            ],
+            generationConfig: {
+              temperature: 0.7,
+              maxOutputTokens: 768,
+            },
+          },
+          {
+            headers: { 'x-goog-api-key': gemmaKey },
+            timeout: 20000,
+          },
+        );
+
+        const reply: string | undefined =
+          response.data?.candidates?.[0]?.content?.parts
+            ?.map((part: { text?: string }) => part.text ?? '')
+            .join('')
+            .trim() || undefined;
+
+        if (reply) {
+          this.lastProvider = 'gemma';
+          return { reply, provider: 'gemma' as const };
+        }
+        this.logger.warn('Gemma returned an empty reply, trying next provider.');
+      } catch (error) {
+        this.logger.warn(`Gemma (Google AI Studio) request failed: ${String(error)}`);
+      }
+    }
+
+    // 2) OpenRouter fallback.
     if (openRouterKey) {
       try {
         const response = await axios.post(
@@ -144,11 +235,8 @@ export class AiService {
               this.configService.get<string>('OPENROUTER_MODEL') ??
               'openai/gpt-4o-mini',
             messages: [
-              { role: 'system', content: TOURMATE_SYSTEM_PROMPT },
-              {
-                role: 'user',
-                content: `Subject: ${subjectCode ?? 'General Tourism Study'}\n${message}`,
-              },
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt },
             ],
           },
           {
@@ -171,10 +259,37 @@ export class AiService {
         this.lastProvider = 'openrouter';
         return { reply, provider: 'openrouter' as const };
       } catch (error) {
-        this.logger.warn(
-          `OpenRouter request failed, using local fallback: ${String(error)}`,
-        );
+        this.logger.warn(`OpenRouter request failed: ${String(error)}`);
       }
+    }
+
+    // Try Ollama next (local LLM)
+    const ollamaUrl = this.configService.get<string>('OLLAMA_URL') ?? 'http://localhost:11434';
+    const ollamaModel = this.configService.get<string>('OLLAMA_MODEL') ?? 'ollama-v3';
+
+    try {
+      const prompt = `Subject: ${subjectCode ?? 'General Tourism Study'}\n${message}`;
+
+      const response = await axios.post(
+        `${ollamaUrl}/api/generate`,
+        {
+          model: ollamaModel,
+          prompt,
+        },
+        { timeout: 20000 },
+      );
+
+      // Parse common Ollama response shapes
+      const data = response.data || {};
+      const replyText =
+        data?.choices?.[0]?.content || data?.choices?.[0]?.text || data?.text || data?.result?.[0]?.content ||
+        (typeof data === 'string' ? data : JSON.stringify(data));
+
+      const reply = this.normalizeReply(replyText);
+      this.lastProvider = 'ollama';
+      return { reply, provider: 'ollama' as const };
+    } catch (err) {
+      this.logger.warn(`Ollama request failed, falling back: ${String(err)}`);
     }
 
     const reply = this.localFallback(message, subjectCode, mode);

@@ -31,8 +31,8 @@ export function SubjectFlashcardsPage() {
   return (
     <div className="space-y-6">
       <Card className="space-y-2">
-        <h1 className="text-3xl font-black text-slate-950">Flashcard review</h1>
-        <p className="text-sm text-slate-600">
+        <h1 className="text-3xl font-black text-slate-950 dark:text-white">Flashcard review</h1>
+        <p className="text-sm text-slate-600 dark:text-slate-400">
           Flip the card, check your memory, and track your progress.
         </p>
       </Card>
@@ -45,7 +45,7 @@ export function SubjectFlashcardsPage() {
         }}
         onReviewAgain={() => setIndex((value) => (value + 1) % cards.length)}
       />
-      <Card className="text-sm text-slate-600">Progress in this review set: {percent}%</Card>
+      <Card className="text-sm text-slate-600 dark:text-slate-400">Progress in this review set: {percent}%</Card>
     </div>
   );
 }

@@ -11,8 +11,13 @@ export const learningCategories = [
   },
   {
     title: 'Game Mode',
-    description: 'Term matching, timed quiz, memory review, and tourism mini-games.',
+    description: 'Signature subject challenge, term matching, timed quiz rush, and flashcard games — all earning XP.',
     route: 'games',
+  },
+  {
+    title: 'Subject Agent',
+    description: 'A dedicated AI agent for this subject. Ask questions, request quizzes, get simple explanations.',
+    route: 'tutor',
   },
   {
     title: 'Tourism Special Mode',

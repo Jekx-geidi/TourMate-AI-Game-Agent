@@ -16,18 +16,18 @@ export function ProgressPage() {
   return (
     <div className="space-y-6">
       <Card className="space-y-4">
-        <h1 className="text-4xl font-black text-slate-950">Progress</h1>
-        <p className="text-sm text-slate-600">
+        <h1 className="text-4xl font-black text-slate-950 dark:text-white">Progress</h1>
+        <p className="text-sm text-slate-600 dark:text-slate-400">
           Track your quiz consistency, subject momentum, and overall growth.
         </p>
       </Card>
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
-          <p className="text-sm text-slate-500">Overall progress</p>
-          <p className="mt-2 text-4xl font-black text-teal-700">{data.overallProgress}%</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Overall progress</p>
+          <p className="mt-2 text-4xl font-black text-violet-700 dark:text-violet-300">{data.overallProgress}%</p>
         </Card>
         <Card>
-          <p className="text-sm text-slate-500">Quiz average</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Quiz average</p>
           <p className="mt-2 text-4xl font-black text-blue-600">{data.quizAverage}%</p>
         </Card>
       </div>

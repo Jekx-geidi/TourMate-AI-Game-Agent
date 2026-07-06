@@ -11,6 +11,7 @@ import { ProgressModule } from './progress/progress.module';
 import { QuizzesModule } from './quizzes/quizzes.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -27,5 +28,6 @@ import { UsersModule } from './users/users.module';
     AiModule,
     AgentModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}

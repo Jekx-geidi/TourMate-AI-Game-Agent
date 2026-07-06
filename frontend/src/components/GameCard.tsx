@@ -4,20 +4,28 @@ import { Card } from './ui/card';
 export function GameCard({
   title,
   description,
+  icon,
   children,
 }: {
   title: string;
   description: string;
+  icon?: ReactNode;
   children: ReactNode;
 }) {
   return (
     <Card className="space-y-4">
-      <div>
-        <h3 className="text-xl font-bold text-slate-900">{title}</h3>
-        <p className="mt-2 text-sm text-slate-600">{description}</p>
+      <div className="flex items-start gap-3">
+        {icon ? (
+          <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-2.5 text-white shadow-pop">
+            {icon}
+          </div>
+        ) : null}
+        <div>
+          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">{title}</h3>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{description}</p>
+        </div>
       </div>
       {children}
     </Card>
   );
 }
-

@@ -24,10 +24,10 @@ export function NoteEditor({ note, subjectId, onSave, isSaving }: NoteEditorProp
   return (
     <Card className="space-y-4">
       <div>
-        <p className="text-sm font-semibold text-slate-900">
+        <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
           {note ? 'Edit note' : 'Create a new note'}
         </p>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-slate-500 dark:text-slate-400">
           Capture ideas, examples, and review reminders while you study.
         </p>
       </div>
