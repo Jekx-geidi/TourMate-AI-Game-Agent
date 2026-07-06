@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Compass, Sparkles, Trophy, X } from 'lucide-react';
+import { ChevronLeft, Compass, Sparkles, Trophy } from 'lucide-react';
 import axios from 'axios';
 import logo from '../assets/logo.svg';
 import { DotGridBackground } from '../components/DotGridBackground';
@@ -194,20 +194,13 @@ export function LoginPage() {
 
           <Card className="relative order-1 w-full max-w-xl justify-self-center space-y-5 border border-violet-200/70 bg-white/88 p-5 shadow-[0_30px_80px_-36px_rgba(124,58,237,0.30)] backdrop-blur-xl sm:p-8 lg:order-2 lg:p-10">
             <div className="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-fuchsia-400/60 to-transparent" />
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
               <Link
                 className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-violet-700 transition hover:border-fuchsia-200 hover:bg-fuchsia-50"
                 to="/welcome"
               >
                 <ChevronLeft className="h-4 w-4" />
                 Back
-              </Link>
-              <Link
-                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700"
-                to="/welcome"
-              >
-                <X className="h-4 w-4" />
-                Exit
               </Link>
             </div>
             <div className="text-center">
