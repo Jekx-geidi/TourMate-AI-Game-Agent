@@ -116,7 +116,7 @@ export function LoginPage() {
                   if (axios.isAxiosError(error)) {
                     if (!error.response) {
                       setError(
-                        'Unable to reach the backend. Is the backend running on http://localhost:4000?',
+                        'Unable to reach the TourMate API. Check that your deployed app can reach its /api backend.',
                       );
                     } else if (error.response.status === 401) {
                       setError('Email or password is incorrect.');
