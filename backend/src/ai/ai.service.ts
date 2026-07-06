@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { PrismaService } from '../prisma/prisma.service';
 import { ChatDto } from './dto/chat.dto';
 import { GenerateContentDto } from './dto/generate-content.dto';
@@ -39,11 +40,18 @@ export class AiService {
   private readonly logger = new Logger(AiService.name);
   private lastProvider: ProviderName = 'local';
   private lastCheckedAt: string | null = null;
+  private genAI: GoogleGenerativeAI | null = null;
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly configService: ConfigService,
-  ) {}
+  ) {
+    const googleKey = this.configService.get<string>('GOOGLE_API_KEY');
+    this.logger.log(`GOOGLE_API_KEY loaded: ${googleKey ? 'YES (' + googleKey.slice(0, 10) + '...)' : 'NO'}`);
+    if (googleKey) {
+      this.genAI = new GoogleGenerativeAI(googleKey);
+    }
+  }
 
   async chat(userId: string, dto: ChatDto) {
     const { reply, provider } = await this.askProvider(
@@ -173,7 +181,6 @@ export class AiService {
       | 'generate-flashcards'
       | 'study-plan' = 'chat',
   ) {
-
     const gemmaKey = this.configService.get<string>('GEMMA_API_KEY');
     const openRouterKey = this.configService.get<string>('OPENROUTER_API_KEY');
 
@@ -263,7 +270,7 @@ export class AiService {
       }
     }
 
-    // Try Ollama next (local LLM)
+    // 3) Ollama — local LLM fallback
     const ollamaUrl = this.configService.get<string>('OLLAMA_URL') ?? 'http://localhost:11434';
     const ollamaModel = this.configService.get<string>('OLLAMA_MODEL') ?? 'ollama-v3';
 
@@ -295,23 +302,6 @@ export class AiService {
     const reply = this.localFallback(message, subjectCode, mode);
     this.lastProvider = 'local';
     return { reply, provider: 'local' as const };
-  }
-
-  private normalizeReply(payload: unknown) {
-    if (typeof payload === 'string') {
-      return payload;
-    }
-
-    if (payload && typeof payload === 'object') {
-      const candidate = payload as Record<string, unknown>;
-      return (
-        (typeof candidate.reply === 'string' && candidate.reply) ||
-        (typeof candidate.message === 'string' && candidate.message) ||
-        JSON.stringify(candidate)
-      );
-    }
-
-    return 'How are your studies today? I can help you review the topic step by step.';
   }
 
   private localFallback(message: string, subjectCode?: string, mode?: string) {
@@ -351,5 +341,9 @@ export class AiService {
     }
 
     return `${base}\n\nHere is a simple explanation based on your question: ${message}\n\nStart with the main definition, then connect it to a real tourism situation. How are your studies today, and do you want a quick review or a challenge quiz next?`;
+  }
+
+  private normalizeReply(reply: string): string {
+    return reply.trim();
   }
 }
