@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { getAllowedOrigins } from './common/utils/cors';
 
 async function bootstrap() {
@@ -10,6 +11,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   app.setGlobalPrefix('api');
+  app.useGlobalFilters(new AllExceptionsFilter());
   app.use(helmet());
   app.useGlobalPipes(
     new ValidationPipe({

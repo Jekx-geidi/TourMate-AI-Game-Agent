@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 import axios from 'axios';
-import { DotGridBackground } from '../components/DotGridBackground';
+import logo from '../assets/logo.svg';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { Button } from '../components/ui/button';
-import { Card } from '../components/ui/card';
 import { Input } from '../components/ui/input';
+import { PasswordInput } from '../components/ui/password-input';
 import { useAuth } from '../hooks/use-auth';
 import { authService } from '../services/auth.service';
 
@@ -23,6 +23,11 @@ export function RegisterPage() {
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
+    if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
     try {
       setLoading(true);
       setError('');
@@ -36,16 +41,19 @@ export function RegisterPage() {
 
       login(response.accessToken, response.user);
       navigate('/dashboard');
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const message = error.response?.data?.message;
-        setError(
-          Array.isArray(message)
-            ? message.join(', ')
-            : message ?? 'Registration failed. Please try again.',
-        );
-      } else if (error instanceof Error) {
-        setError(error.message);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        if (!err.response) {
+          setError('Unable to reach the server. Please try again in a moment.');
+        } else {
+          const message = err.response.data?.message;
+          setError(
+            (Array.isArray(message) ? message.join(', ') : message) ??
+              'Registration failed. Please try again.',
+          );
+        }
+      } else if (err instanceof Error) {
+        setError(err.message);
       } else {
         setError('Registration failed. Please try again.');
       }
@@ -55,71 +63,100 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-slate-50 px-3 py-4 sm:px-4 sm:py-10">
-      <DotGridBackground />
-      <div className="relative mx-auto flex min-h-[calc(100vh-2rem)] max-w-3xl items-center justify-center sm:min-h-[calc(100vh-5rem)]">
-        <Card className="w-full max-w-2xl space-y-5 border border-slate-200/80 bg-white/90 p-5 shadow-soft backdrop-blur-xl sm:p-8">
-          <div className="flex items-center gap-3">
-            <Link
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-cyan-50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 transition hover:border-cyan-200 hover:bg-cyan-100/70"
-              to="/welcome"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              Back
-            </Link>
-          </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-700 sm:text-sm">
-              Start Your Journey
-            </p>
-            <h1 className="mt-3 text-2xl font-bold text-slate-950 sm:text-3xl">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10">
+      <div className="w-full max-w-sm">
+        <Link
+          className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-500 transition hover:text-slate-800"
+          to="/welcome"
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Back
+        </Link>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-8">
+          <div className="mb-6 text-center">
+            <img src={logo} alt="TourMate AI" className="mx-auto h-12 w-12" />
+            <h1 className="mt-4 text-xl font-semibold text-slate-900">
               Create your account
             </h1>
-            <p className="mt-2 text-sm leading-7 text-slate-600">
-              Create your TourMate AI account with your name, email, and password.
+            <p className="mt-1 text-sm text-slate-500">
+              Start learning with TourMate AI.
             </p>
           </div>
-          {error ? <ErrorMessage message={error} /> : null}
-          <div className="grid gap-4">
-            <Input
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="Name"
-            />
-            <Input
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              placeholder="Email"
-            />
-            <Input
-              type="password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              placeholder="Password"
-            />
-            <Input
-              type="password"
-              value={form.confirmPassword}
-              onChange={(e) =>
-                setForm({ ...form, confirmPassword: e.target.value })
-              }
-              placeholder="Confirm password"
-            />
-          </div>
-          <Button
-            className="w-full"
-            disabled={loading}
-            onClick={() => void handleRegister()}
+
+          {error ? (
+            <div className="mb-4">
+              <ErrorMessage message={error} />
+            </div>
+          ) : null}
+
+          <form
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              void handleRegister();
+            }}
           >
-            {loading ? 'Creating account...' : 'Create account'}
-          </Button>
-          <p className="text-sm text-slate-600">
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-slate-700">Name</label>
+              <Input
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="Your name"
+                autoComplete="name"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-slate-700">Email</label>
+              <Input
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="you@example.com"
+                autoComplete="email"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-slate-700">
+                Password
+              </label>
+              <PasswordInput
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                placeholder="At least 8 characters"
+                autoComplete="new-password"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-slate-700">
+                Confirm password
+              </label>
+              <PasswordInput
+                value={form.confirmPassword}
+                onChange={(e) =>
+                  setForm({ ...form, confirmPassword: e.target.value })
+                }
+                placeholder="Re-enter your password"
+                autoComplete="new-password"
+              />
+            </div>
+            <Button
+              type="submit"
+              variant="dark"
+              className="w-full rounded-xl"
+              disabled={loading}
+            >
+              {loading ? 'Creating account…' : 'Create account'}
+            </Button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-slate-500">
             Already have an account?{' '}
-            <Link className="font-semibold text-cyan-700" to="/login">
+            <Link className="font-medium text-slate-900 hover:underline" to="/login">
               Log in
             </Link>
           </p>
-        </Card>
+        </div>
       </div>
     </div>
   );

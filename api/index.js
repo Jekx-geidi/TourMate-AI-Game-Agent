@@ -28,10 +28,14 @@ async function bootstrap() {
   const { NestFactory } = require('@nestjs/core');
   const { ValidationPipe } = require('@nestjs/common');
   const { AppModule } = require(APP_MODULE);
+  const {
+    AllExceptionsFilter,
+  } = require(path.join(BACKEND_ROOT, 'dist', 'src', 'common', 'filters', 'all-exceptions.filter.js'));
 
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api');
+  app.useGlobalFilters(new AllExceptionsFilter());
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
   );
