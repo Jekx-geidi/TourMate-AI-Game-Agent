@@ -10,7 +10,7 @@ process.env.NODE_PATH = __dirname + '/node_modules';
 Module._initPaths();
 process.chdir(__dirname);
 
-const BACKEND_DIST = path.join(__dirname, 'dist');
+const BACKEND_DIST = path.join(__dirname, '..', 'dist');
 const BACKEND_SRC = path.join(BACKEND_DIST, 'src');
 
 let appServer = null;
@@ -35,6 +35,8 @@ async function bootstrap() {
     'http://localhost:5174', 'http://127.0.0.1:5174',
     'https://tourmate-ai-tan.vercel.app',
     'https://tourmate-ai-jekjek110805s-projects.vercel.app',
+    'https://tourmate-ai-six.vercel.app',
+    'https://tourmate-ai-backend.vercel.app',
   ]);
   app.enableCors({
     origin: (origin, cb) => {
