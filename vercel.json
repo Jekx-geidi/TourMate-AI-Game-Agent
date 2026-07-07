@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "echo 'dependencies are installed per-package in buildCommand'",
-  "buildCommand": "npm --prefix frontend install && npm --prefix frontend run build && npm --prefix backend install && npm --prefix backend run build && npm --prefix backend prune --omit=dev",
+  "buildCommand": "npm --prefix frontend install && npm --prefix frontend run build && npm --prefix backend install && npm --prefix backend run build && npm --prefix backend run prisma:deploy && npm --prefix backend prune --omit=dev",
   "outputDirectory": "frontend/dist",
   "functions": {
     "api/index.js": {

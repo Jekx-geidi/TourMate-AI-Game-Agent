@@ -63,23 +63,23 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10 dark:bg-slate-950">
       <div className="w-full max-w-sm">
         <Link
-          className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-500 transition hover:text-slate-800"
+          className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-500 transition hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
           to="/welcome"
         >
           <ChevronLeft className="h-4 w-4" />
           Back
         </Link>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-8">
+        <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900">
           <div className="mb-6 text-center">
             <img src={logo} alt="TourMate AI" className="mx-auto h-12 w-12" />
-            <h1 className="mt-4 text-xl font-semibold text-slate-900">
+            <h1 className="mt-4 text-xl font-semibold text-slate-900 dark:text-slate-100">
               Create your account
             </h1>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               Start learning with TourMate AI.
             </p>
           </div>
@@ -98,7 +98,7 @@ export function RegisterPage() {
             }}
           >
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-700">Name</label>
+              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Name</label>
               <Input
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -107,7 +107,7 @@ export function RegisterPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-700">Email</label>
+              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
               <Input
                 type="email"
                 value={form.email}
@@ -117,7 +117,7 @@ export function RegisterPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-700">
+              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                 Password
               </label>
               <PasswordInput
@@ -128,7 +128,7 @@ export function RegisterPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-700">
+              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                 Confirm password
               </label>
               <PasswordInput
@@ -143,16 +143,16 @@ export function RegisterPage() {
             <Button
               type="submit"
               variant="dark"
-              className="w-full rounded-xl"
+              className="w-full rounded-xl dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
               disabled={loading}
             >
               {loading ? 'Creating account…' : 'Create account'}
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-500">
+          <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
             Already have an account?{' '}
-            <Link className="font-medium text-slate-900 hover:underline" to="/login">
+            <Link className="font-medium text-slate-900 hover:underline dark:text-slate-100" to="/login">
               Log in
             </Link>
           </p>

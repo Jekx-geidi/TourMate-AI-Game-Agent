@@ -2,8 +2,17 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 // Local development falls back to a bundled SQLite file. In any deployed
-// environment DATABASE_URL must be provided (a Postgres connection string).
-process.env.DATABASE_URL ??= 'file:./dev.db';
+// environment a real Postgres DATABASE_URL must be provided — silently using
+// the bundled SQLite file there yields a read-only database whose writes fail.
+if (!process.env.DATABASE_URL) {
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error(
+      'DATABASE_URL is not set. Configure a Postgres connection string in your ' +
+        'deployment environment (e.g. Vercel Project Settings → Environment Variables).',
+    );
+  }
+  process.env.DATABASE_URL = 'file:./dev.db';
+}
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {

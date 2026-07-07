@@ -10,6 +10,9 @@ import { PasswordInput } from '../components/ui/password-input';
 import { useAuth } from '../hooks/use-auth';
 import { authService } from '../services/auth.service';
 
+const DEMO_EMAIL = 'student@tourmate.ai';
+const DEMO_PASSWORD = 'Tourmate123!';
+
 export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,6 +21,12 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const fillDemoAccount = () => {
+    setEmail(DEMO_EMAIL);
+    setPassword(DEMO_PASSWORD);
+    setError('');
+  };
 
   const handleLogin = async () => {
     try {
@@ -48,27 +57,27 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10">
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10 dark:bg-slate-950">
       <div className="w-full max-w-sm">
         <Link
-          className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-500 transition hover:text-slate-800"
+          className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-500 transition hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"
           to="/welcome"
         >
           <ChevronLeft className="h-4 w-4" />
           Back
         </Link>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-8">
+        <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm sm:p-8 dark:border-slate-800 dark:bg-slate-900">
           <div className="mb-6 text-center">
             <img
               src={logo}
               alt="TourMate AI"
               className="mx-auto h-12 w-12"
             />
-            <h1 className="mt-4 text-xl font-semibold text-slate-900">
+            <h1 className="mt-4 text-xl font-semibold text-slate-900 dark:text-slate-100">
               Welcome back
             </h1>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               Log in to continue to TourMate AI.
             </p>
           </div>
@@ -87,7 +96,7 @@ export function LoginPage() {
             }}
           >
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-700">Email</label>
+              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
               <Input
                 type="email"
                 value={email}
@@ -97,7 +106,7 @@ export function LoginPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-slate-700">
+              <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                 Password
               </label>
               <PasswordInput
@@ -110,22 +119,31 @@ export function LoginPage() {
             <Button
               type="submit"
               variant="dark"
-              className="w-full rounded-xl"
+              className="w-full rounded-xl dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-slate-200"
               disabled={loading}
             >
               {loading ? 'Logging in…' : 'Log in'}
             </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full rounded-xl"
+              onClick={fillDemoAccount}
+              disabled={loading}
+            >
+              Use demo account
+            </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-slate-500">
+          <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
             New here?{' '}
-            <Link className="font-medium text-slate-900 hover:underline" to="/register">
+            <Link className="font-medium text-slate-900 hover:underline dark:text-slate-100" to="/register">
               Create an account
             </Link>
           </p>
         </div>
 
-        <p className="mt-6 text-center text-xs text-slate-400">
+        <p className="mt-6 text-center text-xs text-slate-400 dark:text-slate-500">
           By continuing you agree to the{' '}
           <Link to="/terms" className="underline">
             Terms
