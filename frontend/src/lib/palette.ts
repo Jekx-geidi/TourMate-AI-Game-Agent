@@ -1,11 +1,11 @@
 // Vibrant card gradients cycled across lists, matching the reference design's
-// mint / blue / orange / pink / purple ranking cards.
+// mint / blue / orange / pink / cyan ranking cards.
 export const CARD_GRADIENTS = [
   'bg-gradient-to-br from-emerald-300 to-emerald-500',
   'bg-gradient-to-br from-blue-400 to-indigo-500',
   'bg-gradient-to-br from-amber-400 to-orange-500',
   'bg-gradient-to-br from-rose-400 to-pink-600',
-  'bg-gradient-to-br from-violet-400 to-purple-600',
+  'bg-gradient-to-br from-cyan-400 to-cyan-600',
   'bg-gradient-to-br from-sky-400 to-cyan-500',
 ];
 

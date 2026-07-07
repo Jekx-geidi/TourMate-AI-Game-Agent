@@ -84,7 +84,7 @@ export function FlagQuizGame() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-          Flag {index + 1}/{rounds.length} · Score: {score}
+          Flag {index + 1}/{rounds.length} Â· Score: {score}
         </p>
       </div>
       <p className="text-center text-8xl">{current.answer.flag}</p>
@@ -105,7 +105,7 @@ export function FlagQuizGame() {
                   ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300'
                   : revealed && isPicked
                     ? 'border-rose-400 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300'
-                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 enabled:hover:border-violet-300 enabled:hover:bg-violet-50/50 dark:hover:bg-violet-900/20'
+                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 enabled:hover:border-cyan-300 enabled:hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20'
               }`}
             >
               {option.name}

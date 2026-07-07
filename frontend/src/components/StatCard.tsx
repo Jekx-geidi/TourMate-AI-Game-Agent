@@ -1,12 +1,10 @@
 import type { ReactNode } from 'react';
-import { cardGradient } from '../lib/palette';
 
 export function StatCard({
   label,
   value,
   hint,
   icon,
-  tone = 0,
 }: {
   label: string;
   value: string;
@@ -16,16 +14,16 @@ export function StatCard({
 }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-[1.75rem] p-6 text-white shadow-pop ${cardGradient(tone)}`}
+      className="relative overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white p-6 text-slate-900 shadow-soft dark:border-slate-700/70 dark:bg-slate-900 dark:text-slate-100"
     >
-      <div className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-white/15" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-slate-950 to-cyan-700" />
       <div className="relative flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-white/80">{label}</p>
-          <p className="mt-2 text-3xl font-extrabold">{value}</p>
-          <p className="mt-2 text-xs leading-5 text-white/80">{hint}</p>
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">{label}</p>
+          <p className="mt-2 text-3xl font-extrabold text-cyan-700 dark:text-cyan-300">{value}</p>
+          <p className="mt-2 text-xs leading-5 text-slate-500 dark:text-slate-400">{hint}</p>
         </div>
-        <div className="rounded-2xl bg-white/25 p-3 backdrop-blur">{icon}</div>
+        <div className="rounded-2xl bg-cyan-50 p-3 text-cyan-700 ring-1 ring-cyan-100 dark:bg-cyan-950/30 dark:text-cyan-300 dark:ring-cyan-900/50">{icon}</div>
       </div>
     </div>
   );

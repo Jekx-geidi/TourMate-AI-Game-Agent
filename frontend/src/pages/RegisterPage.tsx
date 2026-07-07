@@ -55,13 +55,13 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#fcf8ff] px-3 py-4 sm:px-4 sm:py-10">
+    <div className="relative min-h-screen overflow-hidden bg-slate-50 px-3 py-4 sm:px-4 sm:py-10">
       <DotGridBackground />
       <div className="relative mx-auto flex min-h-[calc(100vh-2rem)] max-w-3xl items-center justify-center sm:min-h-[calc(100vh-5rem)]">
-        <Card className="w-full max-w-2xl space-y-5 border border-violet-200/70 bg-white/90 p-5 shadow-[0_30px_80px_-36px_rgba(124,58,237,0.30)] backdrop-blur-xl sm:p-8">
+        <Card className="w-full max-w-2xl space-y-5 border border-slate-200/80 bg-white/90 p-5 shadow-soft backdrop-blur-xl sm:p-8">
           <div className="flex items-center gap-3">
             <Link
-              className="inline-flex items-center gap-2 rounded-full border border-violet-200 bg-violet-50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-violet-700 transition hover:border-fuchsia-200 hover:bg-fuchsia-50"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-cyan-50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-700 transition hover:border-cyan-200 hover:bg-cyan-100/70"
               to="/welcome"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -69,7 +69,7 @@ export function RegisterPage() {
             </Link>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-violet-700 sm:text-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-700 sm:text-sm">
               Start Your Journey
             </p>
             <h1 className="mt-3 text-2xl font-bold text-slate-950 sm:text-3xl">
@@ -115,7 +115,7 @@ export function RegisterPage() {
           </Button>
           <p className="text-sm text-slate-600">
             Already have an account?{' '}
-            <Link className="font-semibold text-violet-700" to="/login">
+            <Link className="font-semibold text-cyan-700" to="/login">
               Log in
             </Link>
           </p>

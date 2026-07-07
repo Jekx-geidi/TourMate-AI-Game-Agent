@@ -34,11 +34,11 @@ export function SubjectLessonsPage() {
         ))}
       </div>
       <Card className="space-y-5">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-violet-700 dark:text-violet-300">
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-700 dark:text-cyan-300">
           Lesson {selected.order}
         </p>
         <h1 className="text-3xl font-black text-slate-950 dark:text-white">{selected.title}</h1>
-        <p className="rounded-2xl bg-violet-50 dark:bg-violet-950/40 p-4 text-sm leading-6 text-violet-800 dark:text-violet-300">
+        <p className="rounded-2xl bg-cyan-50 dark:bg-cyan-950/40 p-4 text-sm leading-6 text-cyan-800 dark:text-cyan-300">
           {selected.summary}
         </p>
         <p className="whitespace-pre-line text-base leading-8 text-slate-700 dark:text-slate-300">

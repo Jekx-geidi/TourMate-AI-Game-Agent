@@ -5,20 +5,20 @@
 @tailwind utilities;
 
 :root {
-  --background: 270 40% 99%;
+  --background: 220 24% 98%;
   --foreground: 222 47% 11%;
   --card: 0 0% 100%;
   --card-foreground: 222 47% 11%;
-  --border: 270 30% 92%;
-  --input: 270 30% 92%;
-  --muted: 270 60% 96%;
+  --border: 220 18% 89%;
+  --input: 220 18% 89%;
+  --muted: 220 22% 95%;
   --muted-foreground: 215 16% 47%;
-  --primary: 271 81% 56%;
+  --primary: 210 82% 38%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 217 91% 56%;
+  --secondary: 188 65% 35%;
   --secondary-foreground: 0 0% 100%;
-  --accent: 38 92% 50%;
-  --accent-foreground: 24 10% 10%;
+  --accent: 32 85% 45%;
+  --accent-foreground: 222 47% 11%;
   font-family: 'Poppins', system-ui, sans-serif;
 }
 
@@ -35,11 +35,8 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #fdfcff;
-  background-image:
-    radial-gradient(ellipse 42% 34% at -4% -6%, rgba(168, 85, 247, 0.28), transparent 70%),
-    radial-gradient(ellipse 36% 30% at 104% 104%, rgba(192, 38, 211, 0.24), transparent 70%),
-    radial-gradient(ellipse 26% 20% at 96% -4%, rgba(217, 70, 239, 0.12), transparent 70%);
+  background-color: #f6f8fb;
+  background-image: linear-gradient(180deg, #fbfcff 0%, #f1f5f9 100%);
   background-attachment: fixed;
   color: hsl(var(--foreground));
   -webkit-font-smoothing: antialiased;
@@ -53,10 +50,8 @@ body {
 }
 
 .dark body {
-  background-color: #0d0818;
-  background-image:
-    radial-gradient(ellipse 42% 34% at -4% -6%, rgba(139, 92, 246, 0.18), transparent 70%),
-    radial-gradient(ellipse 36% 30% at 104% 104%, rgba(192, 38, 211, 0.14), transparent 70%);
+  background-color: #0c111d;
+  background-image: linear-gradient(180deg, #111827 0%, #0c111d 100%);
   color: hsl(var(--foreground));
 }
 
@@ -86,14 +81,14 @@ a {
 
 @layer utilities {
   .glass-panel {
-    @apply border border-white/70 bg-white/90 backdrop-blur-xl dark:border-slate-700/60 dark:bg-slate-900/85;
+    @apply border border-slate-200/80 bg-white/90 backdrop-blur-xl dark:border-slate-700/70 dark:bg-slate-900/90;
   }
 
   .brand-gradient {
-    @apply bg-gradient-to-br from-violet-600 via-purple-600 to-fuchsia-500;
+    @apply bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-800;
   }
 
   .brand-gradient-r {
-    @apply bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500;
+    @apply bg-gradient-to-r from-slate-950 via-slate-900 to-cyan-800;
   }
 }

@@ -13,7 +13,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
   const navigate = useNavigate();
 
   return (
-    <header className="sticky top-0 z-20 brand-gradient-r shadow-pop">
+    <header className="sticky top-0 z-20 brand-gradient-r shadow-soft">
       <div className="mx-auto flex max-w-none items-center justify-between gap-3 px-3 py-3 sm:px-6 sm:py-4 lg:px-6">
         <div className="flex items-center gap-2">
           {onMenuClick ? (
@@ -32,7 +32,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
             </div>
             <div>
               <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-white">
-                TourMate <span className="text-amber-300">Game</span>
+                TourMate <span className="text-cyan-200">Game</span>
               </p>
               <p className="hidden text-xs text-white/75 sm:block">
                 Learn tourism by playing

@@ -69,7 +69,7 @@ export function ChatBox({
             className={`rounded-3xl px-4 py-3 text-sm leading-6 ${
               message.role === 'assistant'
                 ? 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300'
-                : 'ml-auto max-w-[85%] bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white'
+                : 'ml-auto max-w-[85%] bg-gradient-to-r from-slate-950 to-cyan-700 text-white'
             }`}
           >
             <p className="whitespace-pre-wrap">{message.content}</p>
@@ -94,7 +94,7 @@ export function ChatBox({
               type="button"
               disabled={isSending}
               onClick={() => void send(suggestion)}
-              className="rounded-full border border-violet-200 dark:border-violet-800/60 bg-violet-50 dark:bg-violet-950/40 px-3 py-1.5 text-xs font-semibold text-violet-800 dark:text-violet-300 transition hover:bg-violet-100 dark:hover:bg-violet-900/40 disabled:opacity-50"
+              className="rounded-full border border-slate-200 bg-cyan-50 px-3 py-1.5 text-xs font-semibold text-cyan-800 transition hover:bg-cyan-100 disabled:opacity-50 dark:border-cyan-900/60 dark:bg-cyan-950/40 dark:text-cyan-300 dark:hover:bg-cyan-900/40"
             >
               {suggestion}
             </button>

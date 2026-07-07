@@ -24,7 +24,7 @@ export function ProgressPage() {
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <p className="text-sm text-slate-500 dark:text-slate-400">Overall progress</p>
-          <p className="mt-2 text-4xl font-black text-violet-700 dark:text-violet-300">{data.overallProgress}%</p>
+          <p className="mt-2 text-4xl font-black text-cyan-700 dark:text-cyan-300">{data.overallProgress}%</p>
         </Card>
         <Card>
           <p className="text-sm text-slate-500 dark:text-slate-400">Quiz average</p>

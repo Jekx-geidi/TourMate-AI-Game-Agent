@@ -78,14 +78,14 @@ export function SubjectQuizPage() {
   return (
     <div className="space-y-6">
       <Card className="space-y-3">
-        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-violet-700 dark:text-violet-300">
+        <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-700 dark:text-cyan-300">
           Practice Mode
         </p>
         <h1 className="text-3xl font-black text-slate-950 dark:text-white">{subject.code} Mastery Quiz</h1>
         <p className="text-sm text-slate-600 dark:text-slate-400">
           Answer carefully, then review the explanations to deepen your understanding. Questions
           are shuffled every time. Want to pick topics and question styles?{' '}
-          <Link to="/quiz-studio" className="font-semibold text-violet-600 dark:text-violet-400">
+          <Link to="/quiz-studio" className="font-semibold text-cyan-600 dark:text-cyan-400">
             Open the Quiz Studio
           </Link>
           .
@@ -110,7 +110,7 @@ export function SubjectQuizPage() {
       {result ? (
         <Card className="space-y-4">
           <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Quiz result</h2>
-          <p className="text-lg font-semibold text-violet-700 dark:text-violet-300">
+          <p className="text-lg font-semibold text-cyan-700 dark:text-cyan-300">
             Score: {result.score}/{result.total} ({result.percentage}%)
           </p>
           <p className="text-sm text-slate-600 dark:text-slate-400">{result.message}</p>

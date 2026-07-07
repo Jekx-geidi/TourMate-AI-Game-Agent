@@ -17,7 +17,7 @@ export function SubjectsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-violet-700 dark:text-violet-300">
+        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-700 dark:text-cyan-300">
           Subjects
         </p>
         <h1 className="mt-3 text-4xl font-black text-slate-950 dark:text-white">

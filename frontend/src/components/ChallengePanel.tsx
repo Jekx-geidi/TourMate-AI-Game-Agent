@@ -45,12 +45,12 @@ export function ChallengePanel() {
     <Card className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-slate-100">
-          <span className="rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-1.5 text-white shadow-pop">
+          <span className="rounded-xl bg-cyan-50 p-1.5 text-cyan-700 ring-1 ring-cyan-100 dark:bg-cyan-950/30 dark:text-cyan-300 dark:ring-cyan-900/50">
             <Target className="h-4 w-4" />
           </span>
           Daily challenges
         </h2>
-        <span className="rounded-full bg-violet-100 dark:bg-violet-900/40 px-3 py-1 text-xs font-bold text-violet-800 dark:text-violet-300">
+        <span className="rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800 dark:bg-cyan-950/40 dark:text-cyan-300">
           Lv {level.level} · {level.title}
         </span>
       </div>
@@ -62,7 +62,7 @@ export function ChallengePanel() {
             <div
               key={challenge.id}
               className={`rounded-2xl border p-3 ${
-                done ? 'border-emerald-200 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-950/40' : 'border-violet-100 dark:border-violet-900/60 bg-violet-50/50'
+                done ? 'border-emerald-200 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-950/40' : 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900'
               }`}
             >
               <div className="flex items-center justify-between gap-2 text-sm">
@@ -75,7 +75,7 @@ export function ChallengePanel() {
                     className={`rounded-lg p-1.5 text-white shadow ${
                       done
                         ? 'bg-gradient-to-br from-emerald-400 to-emerald-600'
-                        : 'bg-gradient-to-br from-violet-400 to-fuchsia-500'
+                        : 'bg-gradient-to-br from-slate-950 to-cyan-700'
                     }`}
                   >
                     <IconChip name={challenge.icon} className="h-3.5 w-3.5" />
@@ -93,7 +93,7 @@ export function ChallengePanel() {
               <div className="mt-2 flex items-center gap-2">
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
                   <div
-                    className={`h-full rounded-full transition-all ${done ? 'bg-emerald-500' : 'bg-violet-500'}`}
+                    className={`h-full rounded-full transition-all ${done ? 'bg-emerald-500' : 'bg-cyan-700'}`}
                     style={{ width: `${(progress / challenge.target) * 100}%` }}
                   />
                 </div>

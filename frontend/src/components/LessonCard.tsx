@@ -12,8 +12,8 @@ export function LessonCard({
 }) {
   return (
     <button type="button" className="w-full text-left" onClick={onClick}>
-      <Card className={active ? 'border-violet-300 bg-violet-50/70' : ''}>
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-violet-700 dark:text-violet-300">
+      <Card className={active ? 'border-cyan-300 bg-cyan-50/70' : ''}>
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-700 dark:text-cyan-300">
           Lesson {lesson.order}
         </p>
         <h3 className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{lesson.title}</h3>

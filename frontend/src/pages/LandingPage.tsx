@@ -7,25 +7,25 @@ import { Card } from '../components/ui/card';
 
 export function LandingPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#fcf8ff] text-slate-950">
+    <div className="relative min-h-screen overflow-hidden bg-slate-50 text-slate-950">
       <DotGridBackground />
       <div className="relative mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
-        <header className="flex flex-col gap-4 rounded-[1.75rem] border border-violet-200/70 bg-white/80 px-4 py-4 shadow-soft backdrop-blur-xl sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:rounded-full sm:px-6 sm:py-3">
+        <header className="flex flex-col gap-4 rounded-[1.75rem] border border-slate-200/80 bg-white/90 px-4 py-4 shadow-soft backdrop-blur-xl sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:rounded-full sm:px-6 sm:py-3">
           <div className="flex items-center gap-3">
             <img src={logo} alt="TourMate AI logo" className="h-12 w-12 rounded-2xl bg-white p-2 shadow-soft" />
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.38em] text-violet-700/80">TourMate AI</p>
+              <p className="text-xs font-bold uppercase tracking-[0.38em] text-cyan-700">TourMate AI</p>
               <p className="text-sm text-slate-500">Built for BS Tourism Management students</p>
             </div>
           </div>
           <div className="grid w-full gap-3 sm:flex sm:w-auto sm:flex-wrap sm:items-center">
             <Link className="w-full sm:w-auto" to="/login">
-              <Button variant="outline" className="w-full border-violet-200 text-violet-700 hover:border-fuchsia-200 hover:bg-fuchsia-50">
+              <Button variant="outline" className="w-full">
                 Log In
               </Button>
             </Link>
             <Link className="w-full sm:w-auto" to="/register">
-              <Button className="w-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 text-white hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-600">
+              <Button className="w-full">
                 Create Account
               </Button>
             </Link>
@@ -34,7 +34,7 @@ export function LandingPage() {
 
         <section className="grid gap-6 pb-8 pt-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-10 lg:pb-16 lg:pt-16">
           <div>
-            <p className="inline-flex rounded-full border border-violet-200/70 bg-white/82 px-4 py-2 text-xs font-semibold uppercase tracking-[0.34em] text-violet-700 shadow-soft backdrop-blur">
+            <p className="inline-flex rounded-full border border-slate-200/80 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.34em] text-cyan-700 shadow-soft backdrop-blur">
               Interactive study hub
             </p>
             <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] text-slate-950 sm:text-5xl lg:text-7xl">
@@ -46,33 +46,33 @@ export function LandingPage() {
             </p>
             <div className="mt-6 grid gap-3 sm:flex sm:flex-wrap">
               <Link className="w-full sm:w-auto" to="/register">
-                <Button className="w-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 px-6 py-3 text-base text-white hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-600">
+                <Button className="w-full px-6 py-3 text-base">
                   Start Learning <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link className="w-full sm:w-auto" to="/login">
-                <Button variant="outline" className="w-full border-violet-200 px-6 py-3 text-base text-violet-700 hover:border-fuchsia-200 hover:bg-fuchsia-50">
+                <Button variant="outline" className="w-full px-6 py-3 text-base">
                   Continue Your Journey
                 </Button>
               </Link>
             </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              <Card className="border border-violet-200/70 bg-gradient-to-br from-white to-violet-50/70 p-5">
-                <p className="text-3xl font-black text-violet-700">6</p>
+              <Card className="border border-slate-200/80 bg-white/90 p-5">
+                <p className="text-3xl font-black text-cyan-700">6</p>
                 <p className="mt-2 text-sm font-semibold text-slate-900">Core tourism subjects</p>
                 <p className="mt-2 text-sm leading-6 text-slate-500">
                   From MICE to airline operations and language basics.
                 </p>
               </Card>
-              <Card className="border border-cyan-200/70 bg-gradient-to-br from-white to-cyan-50/70 p-5">
-                <p className="text-3xl font-black text-cyan-600">AI</p>
+              <Card className="border border-slate-200/80 bg-white/90 p-5">
+                <p className="text-3xl font-black text-cyan-700">AI</p>
                 <p className="mt-2 text-sm font-semibold text-slate-900">Study help on demand</p>
                 <p className="mt-2 text-sm leading-6 text-slate-500">
                   Ask for summaries, drills, explanations, and learning support.
                 </p>
               </Card>
-              <Card className="border border-fuchsia-200/70 bg-gradient-to-br from-white to-fuchsia-50/70 p-5">
-                <p className="text-3xl font-black text-fuchsia-600">XP</p>
+              <Card className="border border-slate-200/80 bg-white/90 p-5">
+                <p className="text-3xl font-black text-cyan-700">XP</p>
                 <p className="mt-2 text-sm font-semibold text-slate-900">Gamified momentum</p>
                 <p className="mt-2 text-sm leading-6 text-slate-500">
                   Turn consistent review into streaks, badges, and progress gains.
@@ -82,7 +82,7 @@ export function LandingPage() {
           </div>
 
           <div className="grid gap-4 sm:gap-5">
-            <Card className="overflow-hidden border border-violet-300/60 bg-[linear-gradient(135deg,rgba(124,58,237,0.98),rgba(192,38,211,0.95)_58%,rgba(34,211,238,0.90))] p-0 text-white shadow-[0_35px_90px_-35px_rgba(168,85,247,0.72)]">
+            <Card className="overflow-hidden border border-slate-800/70 brand-gradient p-0 text-white shadow-soft">
               <div className="grid gap-6 p-5 sm:grid-cols-[1.1fr_0.9fr] sm:p-8 lg:gap-8 lg:p-9">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.32em] text-white/70">Today in TourMate</p>
@@ -107,32 +107,32 @@ export function LandingPage() {
             </Card>
 
             <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
-              <Card className="border border-violet-200/70 bg-gradient-to-br from-white to-violet-50/70 p-5 sm:p-6">
-                <Compass className="h-10 w-10 text-violet-600" />
+              <Card className="border border-slate-200/80 bg-white/90 p-5 sm:p-6">
+                <Compass className="h-10 w-10 text-cyan-700" />
                 <h3 className="mt-5 text-xl font-bold">Tourism-first lessons</h3>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   Learn destination development, hospitality, airline systems, and event planning
                   with clearer paths.
                 </p>
               </Card>
-              <Card className="border border-cyan-200/70 bg-gradient-to-br from-white to-cyan-50/70 p-5 sm:p-6">
-                <MessageCircle className="h-10 w-10 text-cyan-600" />
+              <Card className="border border-slate-200/80 bg-white/90 p-5 sm:p-6">
+                <MessageCircle className="h-10 w-10 text-cyan-700" />
                 <h3 className="mt-5 text-xl font-bold">Supportive AI tutoring</h3>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   Ask for explanations in simple English and convert notes into quizzes, summaries, or
                   flashcards.
                 </p>
               </Card>
-              <Card className="border border-fuchsia-200/70 bg-gradient-to-br from-white to-fuchsia-50/70 p-5 sm:p-6">
-                <MapPinned className="h-10 w-10 text-fuchsia-600" />
+              <Card className="border border-slate-200/80 bg-white/90 p-5 sm:p-6">
+                <MapPinned className="h-10 w-10 text-cyan-700" />
                 <h3 className="mt-5 text-xl font-bold">Maps and travel drills</h3>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   Practice flags, capitals, destinations, and airport codes in a way that feels close
                   to the field.
                 </p>
               </Card>
-              <Card className="border border-violet-200/70 bg-gradient-to-br from-white to-violet-50/70 p-5 sm:p-6">
-                <Trophy className="h-10 w-10 text-violet-500" />
+              <Card className="border border-slate-200/80 bg-white/90 p-5 sm:p-6">
+                <Trophy className="h-10 w-10 text-cyan-700" />
                 <h3 className="mt-5 text-xl font-bold">Challenge-based progress</h3>
                 <p className="mt-3 text-sm leading-7 text-slate-600">
                   Use study streaks, XP, games, and challenge loops to make consistency more visible
@@ -144,9 +144,9 @@ export function LandingPage() {
         </section>
 
         <section className="pb-10 sm:pb-12">
-          <Card className="flex flex-col gap-6 border border-violet-200/70 bg-gradient-to-r from-white to-violet-50/70 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <Card className="flex flex-col gap-6 border border-slate-200/80 bg-white/90 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-violet-700">Ready to board?</p>
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-cyan-700">Ready to board?</p>
               <h2 className="mt-3 text-2xl font-black text-slate-950 sm:text-3xl">
                 Launch your tourism study system with one login.
               </h2>
@@ -157,12 +157,12 @@ export function LandingPage() {
             </div>
             <div className="grid gap-3 sm:flex sm:flex-wrap">
               <Link className="w-full sm:w-auto" to="/register">
-                <Button className="w-full bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-500 text-white hover:from-violet-700 hover:via-purple-700 hover:to-fuchsia-600">
+                <Button className="w-full">
                   Get Started
                 </Button>
               </Link>
               <Link className="w-full sm:w-auto" to="/login">
-                <Button variant="outline" className="w-full border-violet-200 text-violet-700 hover:border-fuchsia-200 hover:bg-fuchsia-50">
+                <Button variant="outline" className="w-full">
                   Log In
                 </Button>
               </Link>
@@ -174,11 +174,11 @@ export function LandingPage() {
           <Link to="/terms" className="hover:text-slate-600 hover:underline">
             Terms & Conditions
           </Link>
-          <span className="mx-2">·</span>
+          <span className="mx-2">|</span>
           <Link to="/privacy" className="hover:text-slate-600 hover:underline">
             Privacy Policy
           </Link>
-          <span className="mx-2">·</span>
+          <span className="mx-2">|</span>
           <span className="inline-flex items-center gap-1">
             <Sparkles className="h-3.5 w-3.5" />
             Built for curious tourism students

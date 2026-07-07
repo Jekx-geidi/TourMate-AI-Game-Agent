@@ -89,7 +89,7 @@ export function QuizStudioPage() {
           </p>
           <h1 className="mt-2 text-3xl font-black sm:text-4xl">Quiz Studio</h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
-            Build your own quiz: pick your topics, choose the question style, set how many items —
+            Build your own quiz: pick your topics, choose the question style, set how many items â€”
             every quiz is freshly shuffled from a bank of {QUESTION_BANK.length.toLocaleString()}{' '}
             questions.
           </p>
@@ -117,7 +117,7 @@ export function QuizStudioPage() {
           <Card className="space-y-5">
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                1 · Choose your topics
+                1 Â· Choose your topics
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 Leave everything unselected to draw from the whole bank.
@@ -139,7 +139,7 @@ export function QuizStudioPage() {
                       className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition ${
                         active
                           ? 'brand-gradient-r text-white shadow-pop'
-                          : 'bg-white text-slate-600 ring-1 ring-violet-100 hover:bg-violet-50 dark:bg-slate-900 dark:text-slate-400 dark:ring-violet-900/60 dark:hover:bg-violet-900/30'
+                          : 'bg-white text-slate-600 ring-1 ring-cyan-100 hover:bg-cyan-50 dark:bg-slate-900 dark:text-slate-400 dark:ring-cyan-900/60 dark:hover:bg-cyan-900/30'
                       }`}
                     >
                       {active ? <Check className="h-3.5 w-3.5" /> : null}
@@ -155,7 +155,7 @@ export function QuizStudioPage() {
 
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                2 · Choose the method
+                2 Â· Choose the method
               </h2>
               <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
                 {QUIZ_METHODS.map((item) => (
@@ -165,8 +165,8 @@ export function QuizStudioPage() {
                     onClick={() => setMethod(item.id)}
                     className={`rounded-2xl border p-3 text-left transition ${
                       method === item.id
-                        ? 'border-violet-500 bg-violet-50 ring-2 ring-violet-300 dark:bg-violet-950/40 dark:ring-violet-700'
-                        : 'border-slate-200 bg-white hover:border-violet-300 dark:border-slate-700 dark:bg-slate-900'
+                        ? 'border-cyan-500 bg-cyan-50 ring-2 ring-cyan-300 dark:bg-cyan-950/40 dark:ring-cyan-700'
+                        : 'border-slate-200 bg-white hover:border-cyan-300 dark:border-slate-700 dark:bg-slate-900'
                     }`}
                   >
                     <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
@@ -180,7 +180,7 @@ export function QuizStudioPage() {
 
             <div>
               <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                3 · How many items?
+                3 Â· How many items?
               </h2>
               <div className="mt-3 flex flex-wrap gap-2">
                 {COUNT_OPTIONS.map((option) => (
@@ -191,7 +191,7 @@ export function QuizStudioPage() {
                     className={`rounded-full px-5 py-2 text-sm font-bold transition ${
                       count === option
                         ? 'brand-gradient-r text-white shadow-pop'
-                        : 'bg-white text-slate-600 ring-1 ring-violet-100 hover:bg-violet-50 dark:bg-slate-900 dark:text-slate-400 dark:ring-violet-900/60 dark:hover:bg-violet-900/30'
+                        : 'bg-white text-slate-600 ring-1 ring-cyan-100 hover:bg-cyan-50 dark:bg-slate-900 dark:text-slate-400 dark:ring-cyan-900/60 dark:hover:bg-cyan-900/30'
                     }`}
                   >
                     {option}
@@ -215,13 +215,13 @@ export function QuizStudioPage() {
         <Card className="space-y-4">
           <div className="flex items-center justify-between text-sm font-semibold text-slate-500 dark:text-slate-400">
             <span>
-              Question {index + 1}/{quiz.length} · {question.topic}
+              Question {index + 1}/{quiz.length} Â· {question.topic}
             </span>
             <span>Correct: {correctCount}</span>
           </div>
           <div className="h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all"
+              className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-cyan-500 transition-all"
               style={{ width: `${(index / quiz.length) * 100}%` }}
             />
           </div>
@@ -266,7 +266,7 @@ export function QuizStudioPage() {
                           ? 'border-emerald-400 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
                           : revealed && isPicked
                             ? 'border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300'
-                            : 'border-slate-200 bg-white text-slate-700 enabled:hover:border-violet-300 enabled:hover:bg-violet-50/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+                            : 'border-slate-200 bg-white text-slate-700 enabled:hover:border-cyan-300 enabled:hover:bg-cyan-50/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
                       }`}
                     >
                       {option}
@@ -287,7 +287,7 @@ export function QuizStudioPage() {
                 }`}
               >
                 {isCorrect ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
-                {isCorrect ? 'Correct!' : `Not quite — the answer is "${question.answer}".`}
+                {isCorrect ? 'Correct!' : `Not quite â€” the answer is "${question.answer}".`}
               </p>
               <p className="rounded-xl bg-slate-50 p-3 text-sm text-slate-600 dark:bg-slate-800/60 dark:text-slate-400">
                 {question.explanation}

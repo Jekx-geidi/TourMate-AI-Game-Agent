@@ -76,7 +76,7 @@ export function MatchingGame({
   return (
     <div className="space-y-3">
       <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-        Matched {matched.length}/{pairs.length} · Misses: {misses}
+        Matched {matched.length}/{pairs.length} Â· Misses: {misses}
       </p>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="grid gap-2">
@@ -90,8 +90,8 @@ export function MatchingGame({
                 isLeftMatched(left)
                   ? 'border-emerald-200 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 line-through'
                   : selectedLeft === left
-                    ? 'border-violet-500 bg-violet-50 dark:bg-violet-950/40 text-violet-800 dark:text-violet-300 ring-2 ring-violet-300'
-                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:border-violet-300 hover:bg-violet-50/50 dark:hover:bg-violet-900/20'
+                    ? 'border-cyan-500 bg-cyan-50 dark:bg-cyan-950/40 text-cyan-800 dark:text-cyan-300 ring-2 ring-cyan-300'
+                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:border-cyan-300 hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20'
               }`}
             >
               {left}
@@ -110,7 +110,7 @@ export function MatchingGame({
                   ? 'border-emerald-200 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400'
                   : wrongFlash === right
                     ? 'border-rose-400 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300'
-                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:border-violet-300 hover:bg-violet-50/50 dark:hover:bg-violet-900/20'
+                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:border-cyan-300 hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20'
               }`}
             >
               {right}

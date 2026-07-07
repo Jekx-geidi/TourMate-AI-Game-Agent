@@ -89,7 +89,7 @@ export function TimedQuizGame({
         headline={`${correctCount}/${questions.length} correct (${percent}%)`}
         detail={
           percent === 100
-            ? 'Perfect score under pressure — incredible!'
+            ? 'Perfect score under pressure â€” incredible!'
             : percent >= 70
               ? 'Strong performance! Review the ones you missed and go for 100%.'
               : 'Nice try! Study the lessons and beat your score next round.'
@@ -120,7 +120,7 @@ export function TimedQuizGame({
       <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
         <div
           className={`h-full rounded-full transition-all duration-1000 ease-linear ${
-            timerPercent > 50 ? 'bg-violet-500' : timerPercent > 25 ? 'bg-amber-500' : 'bg-rose-500'
+            timerPercent > 50 ? 'bg-cyan-500' : timerPercent > 25 ? 'bg-amber-500' : 'bg-rose-500'
           }`}
           style={{ width: `${answered ? 100 : timerPercent}%` }}
         />
@@ -144,7 +144,7 @@ export function TimedQuizGame({
                   ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300'
                   : answered && isPicked
                     ? 'border-rose-400 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300'
-                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 enabled:hover:border-violet-300 enabled:hover:bg-violet-50/50 dark:hover:bg-violet-900/20'
+                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 enabled:hover:border-cyan-300 enabled:hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20'
               }`}
             >
               <span className="font-bold">{letter}.</span> {text}

@@ -69,7 +69,7 @@ export function SequenceGame({
     <div className="space-y-4">
       <p className="text-sm text-slate-600 dark:text-slate-400">{prompt}</p>
       <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-        Step {placed.length + 1} of {steps.length} · Mistakes: {strikes}
+        Step {placed.length + 1} of {steps.length} Â· Mistakes: {strikes}
       </p>
       <div className="grid gap-2">
         {placed.map((step, index) => (
@@ -93,7 +93,7 @@ export function SequenceGame({
             className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition ${
               shakeStep === step
                 ? 'border-rose-400 bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300'
-                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:border-violet-300 hover:bg-violet-50/50 dark:hover:bg-violet-900/20'
+                : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:border-cyan-300 hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20'
             }`}
           >
             {step}

@@ -25,8 +25,8 @@ const config: Config = {
         sans: ['Poppins', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        soft: '0 20px 55px -28px rgba(126, 34, 206, 0.28)',
-        pop: '0 14px 35px -12px rgba(168, 85, 247, 0.45)',
+        soft: '0 22px 60px -34px rgba(15, 23, 42, 0.24)',
+        pop: '0 16px 36px -18px rgba(8, 145, 178, 0.45)',
       },
     },
   },
@@ -34,4 +34,3 @@ const config: Config = {
 };
 
 export default config;
-

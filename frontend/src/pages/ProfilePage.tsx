@@ -20,7 +20,7 @@ function SectionHeader({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-2.5 text-white shadow-pop">
+      <div className="rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-500 p-2.5 text-white shadow-pop">
         {icon}
       </div>
       <div>
@@ -49,7 +49,7 @@ function Toggle({
       onClick={() => onChange(!checked)}
       className={`relative h-7 w-12 rounded-full transition ${
         checked
-          ? 'bg-gradient-to-r from-violet-600 to-fuchsia-500'
+          ? 'bg-gradient-to-r from-cyan-600 to-cyan-500'
           : 'bg-slate-300 dark:bg-slate-700'
       }`}
     >
@@ -118,7 +118,7 @@ export function ProfilePage() {
             <h1 className="text-3xl font-black">{user?.name}</h1>
             <p className="text-sm text-white/80">{user?.email}</p>
             <p className="mt-2 inline-block rounded-full bg-white/20 px-4 py-1 text-sm font-bold backdrop-blur">
-              Level {level.level} · {level.title} · {stats.xp} XP
+              Level {level.level} Â· {level.title} Â· {stats.xp} XP
             </p>
           </div>
         </div>
@@ -208,7 +208,7 @@ export function ProfilePage() {
             onClick={() => setTheme('light')}
             className={`flex items-center gap-2 rounded-2xl border px-5 py-3 text-sm font-bold transition ${
               theme === 'light'
-                ? 'border-violet-500 bg-violet-50 text-violet-800 ring-2 ring-violet-300 dark:bg-violet-950/40 dark:text-violet-300'
+                ? 'border-cyan-500 bg-cyan-50 text-cyan-800 ring-2 ring-cyan-300 dark:bg-cyan-950/40 dark:text-cyan-300'
                 : 'border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400'
             }`}
           >
@@ -219,7 +219,7 @@ export function ProfilePage() {
             onClick={() => setTheme('dark')}
             className={`flex items-center gap-2 rounded-2xl border px-5 py-3 text-sm font-bold transition ${
               theme === 'dark'
-                ? 'border-violet-500 bg-violet-50 text-violet-800 ring-2 ring-violet-300 dark:bg-violet-950/40 dark:text-violet-300'
+                ? 'border-cyan-500 bg-cyan-50 text-cyan-800 ring-2 ring-cyan-300 dark:bg-cyan-950/40 dark:text-cyan-300'
                 : 'border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400'
             }`}
           >
@@ -255,7 +255,7 @@ export function ProfilePage() {
         <SectionHeader
           icon={<ShieldAlert className="h-5 w-5" />}
           title="Advanced"
-          description="Careful — these actions cannot be undone."
+          description="Careful â€” these actions cannot be undone."
         />
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-rose-200 bg-rose-50/50 p-4 dark:border-rose-900/60 dark:bg-rose-950/20">
           <div>

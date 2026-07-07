@@ -16,7 +16,7 @@ export function GameCard({
     <Card className="space-y-4">
       <div className="flex items-start gap-3">
         {icon ? (
-          <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-2.5 text-white shadow-pop">
+          <div className="rounded-2xl bg-cyan-50 p-2.5 text-cyan-700 ring-1 ring-cyan-100 dark:bg-cyan-950/30 dark:text-cyan-300 dark:ring-cyan-900/50">
             {icon}
           </div>
         ) : null}

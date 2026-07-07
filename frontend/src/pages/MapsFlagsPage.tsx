@@ -68,7 +68,7 @@ export function MapsFlagsPage() {
           <h1 className="mt-2 text-3xl font-black sm:text-4xl">World Explorer</h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
             Tap any country on the interactive map to discover its flag, capital, culture, food,
-            destinations, and airport codes — then test yourself in the map, flag, and airport
+            destinations, and airport codes â€” then test yourself in the map, flag, and airport
             challenges to earn XP!
           </p>
           <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1.5 text-sm font-bold backdrop-blur">
@@ -87,7 +87,7 @@ export function MapsFlagsPage() {
             className={`inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-bold transition sm:px-5 ${
               tab === item.id
                 ? 'brand-gradient-r text-white shadow-pop'
-                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 ring-1 ring-violet-100 dark:ring-violet-900/60 hover:bg-violet-50 dark:hover:bg-violet-900/30'
+                : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 ring-1 ring-cyan-100 dark:ring-cyan-900/60 hover:bg-cyan-50 dark:hover:bg-cyan-900/30'
             }`}
           >
             <item.icon className="h-4 w-4" />
@@ -98,19 +98,19 @@ export function MapsFlagsPage() {
 
       {tab === 'explore' ? (
         <section className="grid gap-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(280px,1fr)]">
-          <div className="relative overflow-hidden rounded-2xl border border-violet-100 dark:border-violet-900/60 bg-white dark:bg-slate-900 p-2 shadow-soft">
+          <div className="relative overflow-hidden rounded-2xl border border-cyan-100 dark:border-cyan-900/60 bg-white dark:bg-slate-900 p-2 shadow-soft">
             <WorldMap selectedId={selected?.id} onCountryClick={handleExploreClick} />
             <button
               type="button"
               onClick={() => setMapExpanded(true)}
-              className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white dark:bg-slate-900 px-3 py-2 text-xs font-bold text-violet-700 dark:text-violet-300 shadow-md ring-1 ring-violet-100 dark:ring-violet-900/60 transition hover:bg-violet-50 dark:hover:bg-violet-900/30"
+              className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white dark:bg-slate-900 px-3 py-2 text-xs font-bold text-cyan-700 dark:text-cyan-300 shadow-md ring-1 ring-cyan-100 dark:ring-cyan-900/60 transition hover:bg-cyan-50 dark:hover:bg-cyan-900/30"
             >
               <Expand className="h-4 w-4" />
               Expand map
             </button>
             <p className="px-3 pb-2 pt-1 text-xs text-slate-400">
-              Purple countries have full profiles · Orange dots are small island/city destinations
-              · Use the buttons or double-click to zoom
+              Highlighted countries have full profiles Â· Orange dots are small island/city destinations
+              Â· Use the buttons or double-click to zoom
             </p>
           </div>
           <Card className="max-h-[560px] overflow-y-auto">
@@ -129,7 +129,7 @@ export function MapsFlagsPage() {
               type="button"
               aria-label="Close full map"
               onClick={() => setMapExpanded(false)}
-              className="inline-flex items-center gap-2 rounded-full bg-violet-50 dark:bg-violet-950/40 px-4 py-2 text-sm font-bold text-violet-700 dark:text-violet-300 transition hover:bg-violet-100 dark:hover:bg-violet-900/40"
+              className="inline-flex items-center gap-2 rounded-full bg-cyan-50 dark:bg-cyan-950/40 px-4 py-2 text-sm font-bold text-cyan-700 dark:text-cyan-300 transition hover:bg-cyan-100 dark:hover:bg-cyan-900/40"
             >
               <X className="h-4 w-4" />
               Close
@@ -137,10 +137,10 @@ export function MapsFlagsPage() {
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto">
             <div className="grid gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(280px,1fr)]">
-              <div className="rounded-2xl border border-violet-100 dark:border-violet-900/60 p-2">
+              <div className="rounded-2xl border border-cyan-100 dark:border-cyan-900/60 p-2">
                 <WorldMap selectedId={selected?.id} onCountryClick={handleExploreClick} />
               </div>
-              <div className="rounded-2xl border border-violet-100 dark:border-violet-900/60 p-4">
+              <div className="rounded-2xl border border-cyan-100 dark:border-cyan-900/60 p-4">
                 <CountryPanel country={selectedProfile} fallbackName={selected?.name} />
               </div>
             </div>
@@ -152,7 +152,7 @@ export function MapsFlagsPage() {
         <Card>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Map Challenge</h2>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-            We name a country — you find it on the map. Five rounds, three tries each.
+            We name a country â€” you find it on the map. Five rounds, three tries each.
           </p>
           <div className="mt-4">
             <FindCountryGame />
@@ -164,7 +164,7 @@ export function MapsFlagsPage() {
         <Card>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Flag Quiz</h2>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
-            Ten flags, four choices each. Answer 5 correctly to complete today’s flag challenge!
+            Ten flags, four choices each. Answer 5 correctly to complete todayâ€™s flag challenge!
           </p>
           <div className="mt-4">
             <FlagQuizGame />

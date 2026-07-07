@@ -86,7 +86,7 @@ export function SubjectDetailPage() {
         <div className="grid gap-4 md:grid-cols-3">
           {subject.lessons.slice(0, 3).map((lesson) => (
             <Card key={lesson.id} className="bg-slate-50 dark:bg-slate-800/60">
-              <p className="text-sm font-semibold text-violet-700 dark:text-violet-300">Lesson {lesson.order}</p>
+              <p className="text-sm font-semibold text-cyan-700 dark:text-cyan-300">Lesson {lesson.order}</p>
               <h3 className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{lesson.title}</h3>
               <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{lesson.summary}</p>
             </Card>

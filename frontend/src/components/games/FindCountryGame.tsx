@@ -65,7 +65,7 @@ export function FindCountryGame() {
       setRevealed(true);
       advance(false);
     } else {
-      setMessage(`That was ${clicked.name} — try again! (${MAX_ATTEMPTS - nextAttempts} tries left)`);
+      setMessage(`That was ${clicked.name} â€” try again! (${MAX_ATTEMPTS - nextAttempts} tries left)`);
     }
   };
 
@@ -87,7 +87,7 @@ export function FindCountryGame() {
         headline={`You found ${score}/${ROUNDS} countries!`}
         detail={
           score === ROUNDS
-            ? 'A true navigator — you know your world map!'
+            ? 'A true navigator â€” you know your world map!'
             : 'Explore the map in Explorer mode and try again to beat your score.'
         }
         xpEarned={20 + score * 5}
@@ -100,11 +100,11 @@ export function FindCountryGame() {
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="flex items-center gap-2 text-lg font-bold text-slate-900 dark:text-slate-100">
-          <Crosshair className="h-5 w-5 text-violet-600 dark:text-violet-400" />
-          Find: <span className="text-violet-700 dark:text-violet-300">{target.name}</span>
+          <Crosshair className="h-5 w-5 text-cyan-600 dark:text-cyan-400" />
+          Find: <span className="text-cyan-700 dark:text-cyan-300">{target.name}</span>
         </p>
         <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-          Round {round}/{ROUNDS} · Score: {score}
+          Round {round}/{ROUNDS} Â· Score: {score}
         </p>
       </div>
       {message ? (

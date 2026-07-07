@@ -14,7 +14,7 @@ export function XpBar() {
         </div>
         <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/25">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-amber-300 to-orange-400 transition-all duration-500"
+            className="h-full rounded-full bg-gradient-to-r from-cyan-200 to-cyan-400 transition-all duration-500"
             style={{ width: `${(level.currentLevelXp / level.nextLevelXp) * 100}%` }}
           />
         </div>
@@ -23,7 +23,7 @@ export function XpBar() {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className="animate-bounce rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-3 py-1.5 text-xs font-bold text-white shadow-pop"
+            className="animate-bounce rounded-full bg-gradient-to-r from-slate-950 to-cyan-700 px-3 py-1.5 text-xs font-bold text-white shadow-pop"
           >
             +{toast.amount} XP · {toast.reason}
           </div>

@@ -60,12 +60,12 @@ export function NotificationBell() {
       </button>
 
       {open ? (
-        <div className="absolute right-0 top-full z-40 mt-2 w-80 max-w-[90vw] overflow-hidden rounded-2xl border border-violet-100 bg-white shadow-2xl dark:border-violet-900/60 dark:bg-slate-900">
+        <div className="absolute right-0 top-full z-40 mt-2 w-80 max-w-[90vw] overflow-hidden rounded-2xl border border-cyan-100 bg-white shadow-2xl dark:border-cyan-900/60 dark:bg-slate-900">
           <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-slate-800">
             <p className="text-sm font-bold text-slate-900 dark:text-slate-100">Notifications</p>
             <button
               type="button"
-              className="text-xs font-semibold text-violet-600 hover:underline dark:text-violet-400"
+              className="text-xs font-semibold text-cyan-600 hover:underline dark:text-cyan-400"
               onClick={clearNotifications}
             >
               Clear all
@@ -84,7 +84,7 @@ export function NotificationBell() {
                     key={item.id}
                     className="flex gap-3 border-b border-slate-50 px-4 py-3 last:border-b-0 dark:border-slate-800/60"
                   >
-                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white shadow">
+                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-500 text-white shadow">
                       <Icon className="h-4 w-4" />
                     </span>
                     <div className="min-w-0">

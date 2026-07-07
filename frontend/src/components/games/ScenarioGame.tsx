@@ -53,10 +53,10 @@ export function ScenarioGame({
       percent >= 90
         ? 'Outstanding decision-making!'
         : percent >= 70
-          ? 'Great judgment — almost expert level.'
+          ? 'Great judgment â€” almost expert level.'
           : percent >= 50
-            ? 'Good effort — review the feedback and try again.'
-            : 'Keep practicing — every expert started somewhere.';
+            ? 'Good effort â€” review the feedback and try again.'
+            : 'Keep practicing â€” every expert started somewhere.';
     return (
       <GameResult
         mood={percent >= 90 ? 'perfect' : percent >= 70 ? 'great' : 'good'}
@@ -71,11 +71,11 @@ export function ScenarioGame({
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <p className="rounded-full bg-violet-100 dark:bg-violet-900/40 px-3 py-1 text-xs font-bold uppercase tracking-wide text-violet-800 dark:text-violet-300">
+        <p className="rounded-full bg-cyan-100 dark:bg-cyan-900/40 px-3 py-1 text-xs font-bold uppercase tracking-wide text-cyan-800 dark:text-cyan-300">
           {role}
         </p>
         <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-          Scenario {index + 1}/{scenarios.length} · Score: {score}
+          Scenario {index + 1}/{scenarios.length} Â· Score: {score}
         </p>
       </div>
       <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-4">
@@ -99,13 +99,13 @@ export function ScenarioGame({
                     : 'border-amber-400 bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300'
                   : revealed && isBest
                     ? 'border-emerald-300 bg-emerald-50/60 text-emerald-700 dark:text-emerald-300'
-                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 enabled:hover:border-violet-300 enabled:hover:bg-violet-50/50 dark:hover:bg-violet-900/20'
+                    : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 enabled:hover:border-cyan-300 enabled:hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20'
               }`}
             >
               {option.text}
               {revealed && isPicked ? (
                 <span className="mt-2 block text-xs font-semibold">
-                  +{option.points} points — {option.feedback}
+                  +{option.points} points â€” {option.feedback}
                 </span>
               ) : null}
             </button>

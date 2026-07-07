@@ -79,7 +79,7 @@ function PhraseTest({ language }: { language: TeachableLanguage }) {
         headline={`${score}/${TEST_ROUNDS} phrases understood!`}
         detail={
           score === TEST_ROUNDS
-            ? `Fantastic listening — your ${language.name} is taking off!`
+            ? `Fantastic listening â€” your ${language.name} is taking off!`
             : 'Listen to the phrases again and retake the test to beat your score.'
         }
         xpEarned={10 + score * 4}
@@ -91,13 +91,13 @@ function PhraseTest({ language }: { language: TeachableLanguage }) {
   return (
     <div className="space-y-4">
       <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-        Round {round + 1}/{rounds.length} · Score: {score}
+        Round {round + 1}/{rounds.length} Â· Score: {score}
       </p>
-      <div className="rounded-2xl border border-violet-100 bg-violet-50/60 p-5 text-center dark:border-violet-900/60 dark:bg-violet-950/40">
+      <div className="rounded-2xl border border-cyan-100 bg-cyan-50/60 p-5 text-center dark:border-cyan-900/60 dark:bg-cyan-950/40">
         <p className="text-2xl font-black text-slate-900 dark:text-slate-100">
           {current.phrase.translation}
         </p>
-        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">“{current.phrase.say}”</p>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">â€œ{current.phrase.say}â€</p>
         <Button
           variant="outline"
           className="mt-3"
@@ -124,7 +124,7 @@ function PhraseTest({ language }: { language: TeachableLanguage }) {
                   ? 'border-emerald-400 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
                   : revealed && isPicked
                     ? 'border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300'
-                    : 'border-slate-200 bg-white text-slate-700 enabled:hover:border-violet-300 enabled:hover:bg-violet-50/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+                    : 'border-slate-200 bg-white text-slate-700 enabled:hover:border-cyan-300 enabled:hover:bg-cyan-50/50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
               }`}
             >
               {option}
@@ -172,7 +172,7 @@ export function LanguagePage() {
             className={`rounded-full px-5 py-2.5 text-sm font-bold transition ${
               selected.id === language.id
                 ? 'brand-gradient-r text-white shadow-pop'
-                : 'bg-white text-slate-600 ring-1 ring-violet-100 hover:bg-violet-50 dark:bg-slate-900 dark:text-slate-400 dark:ring-violet-900/60 dark:hover:bg-violet-900/30'
+                : 'bg-white text-slate-600 ring-1 ring-cyan-100 hover:bg-cyan-50 dark:bg-slate-900 dark:text-slate-400 dark:ring-cyan-900/60 dark:hover:bg-cyan-900/30'
             }`}
           >
             {language.name}
@@ -185,7 +185,7 @@ export function LanguagePage() {
           <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
             {selected.name} survival phrases
           </h2>
-          <span className="rounded-full bg-violet-100 px-4 py-1.5 text-sm font-bold text-violet-800 dark:bg-violet-900/40 dark:text-violet-300">
+          <span className="rounded-full bg-cyan-100 px-4 py-1.5 text-sm font-bold text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300">
             {selected.hello}
           </span>
         </div>
@@ -205,13 +205,13 @@ export function LanguagePage() {
                 <p className="mt-1 text-lg font-bold text-slate-900 dark:text-slate-100">
                   {phrase.translation}
                 </p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">“{phrase.say}”</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">â€œ{phrase.say}â€</p>
               </div>
               <button
                 type="button"
                 aria-label={`Listen to "${phrase.translation}" in ${selected.name}`}
                 onClick={() => speak(phrase)}
-                className="shrink-0 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-3 text-white shadow-pop transition hover:opacity-90"
+                className="shrink-0 rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-500 p-3 text-white shadow-pop transition hover:opacity-90"
               >
                 <Volume2 className="h-5 w-5" />
               </button>
@@ -222,7 +222,7 @@ export function LanguagePage() {
 
       <Card className="space-y-4">
         <div className="flex items-start gap-3">
-          <div className="rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 p-2.5 text-white shadow-pop">
+          <div className="rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-500 p-2.5 text-white shadow-pop">
             <GraduationCap className="h-5 w-5" />
           </div>
           <div>
@@ -239,10 +239,10 @@ export function LanguagePage() {
       </Card>
 
       <ChatBox
-        title={`AI Language Teacher — ${selected.name}`}
+        title={`AI Language Teacher â€” ${selected.name}`}
         subtitle="Ask for new phrases, pronunciation tips, or roleplay a guest conversation."
         placeholder={`Ask: How do I say "enjoy your meal" in ${selected.name}?`}
-        intro={`${selected.hello} I am your AI language teacher. Ask me anything about ${selected.name} for tourism — greetings, hotel phrases, pronunciation, or let's roleplay a check-in conversation!`}
+        intro={`${selected.hello} I am your AI language teacher. Ask me anything about ${selected.name} for tourism â€” greetings, hotel phrases, pronunciation, or let's roleplay a check-in conversation!`}
         suggestions={[
           `Teach me 3 more hotel phrases in ${selected.name}.`,
           `How do I pronounce "${selected.phrases[0].translation}" correctly?`,

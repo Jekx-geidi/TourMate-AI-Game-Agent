@@ -44,13 +44,13 @@ export function AppShell() {
           />
           <div className="absolute left-0 top-0 h-full w-72 overflow-y-auto bg-white p-4 shadow-2xl dark:bg-slate-900">
             <div className="mb-3 flex items-center justify-between px-2">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-violet-700 dark:text-violet-300">
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-700 dark:text-cyan-300">
                 Menu
               </p>
               <button
                 type="button"
                 aria-label="Close menu"
-                className="rounded-full p-2 text-slate-500 hover:bg-violet-50 dark:text-slate-400 dark:hover:bg-violet-900/30"
+                className="rounded-full p-2 text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
                 onClick={() => setDrawerOpen(false)}
               >
                 <X className="h-5 w-5" />

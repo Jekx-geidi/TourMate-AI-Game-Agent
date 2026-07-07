@@ -59,16 +59,16 @@ export function WorldMap({
   const colors = dark
     ? {
         ocean: '#151022',
-        land: '#3b3554',
-        curated: '#6d28d9',
-        selected: '#c4b5fd',
+        land: '#334155',
+        curated: '#0e7490',
+        selected: '#67e8f9',
         stroke: '#0d0818',
       }
     : {
-        ocean: '#faf5ff',
+        ocean: '#f8fafc',
         land: '#e2e8f0',
-        curated: '#ddd6fe',
-        selected: '#7c3aed',
+        curated: '#bae6fd',
+        selected: '#0e7490',
         stroke: '#ffffff',
       };
   const [hovered, setHovered] = useState<{ name: string; x: number; y: number } | null>(null);
@@ -236,7 +236,7 @@ export function WorldMap({
         <button
           type="button"
           aria-label="Zoom in"
-          className="rounded-xl bg-white dark:bg-slate-900 p-2 text-violet-700 dark:text-violet-300 shadow-md ring-1 ring-violet-100 dark:ring-violet-900/60 transition hover:bg-violet-50 dark:hover:bg-violet-900/30 disabled:opacity-40"
+          className="rounded-xl bg-white dark:bg-slate-900 p-2 text-cyan-700 dark:text-cyan-300 shadow-md ring-1 ring-cyan-100 dark:ring-cyan-900/60 transition hover:bg-cyan-50 dark:hover:bg-cyan-900/30 disabled:opacity-40"
           disabled={view.k >= MAX_ZOOM}
           onClick={() => setZoom(view.k * 1.5)}
         >
@@ -245,7 +245,7 @@ export function WorldMap({
         <button
           type="button"
           aria-label="Zoom out"
-          className="rounded-xl bg-white dark:bg-slate-900 p-2 text-violet-700 dark:text-violet-300 shadow-md ring-1 ring-violet-100 dark:ring-violet-900/60 transition hover:bg-violet-50 dark:hover:bg-violet-900/30 disabled:opacity-40"
+          className="rounded-xl bg-white dark:bg-slate-900 p-2 text-cyan-700 dark:text-cyan-300 shadow-md ring-1 ring-cyan-100 dark:ring-cyan-900/60 transition hover:bg-cyan-50 dark:hover:bg-cyan-900/30 disabled:opacity-40"
           disabled={view.k <= 1}
           onClick={() => setZoom(view.k / 1.5)}
         >
@@ -254,7 +254,7 @@ export function WorldMap({
         <button
           type="button"
           aria-label="Reset view"
-          className="rounded-xl bg-white dark:bg-slate-900 p-2 text-violet-700 dark:text-violet-300 shadow-md ring-1 ring-violet-100 dark:ring-violet-900/60 transition hover:bg-violet-50 dark:hover:bg-violet-900/30 disabled:opacity-40"
+          className="rounded-xl bg-white dark:bg-slate-900 p-2 text-cyan-700 dark:text-cyan-300 shadow-md ring-1 ring-cyan-100 dark:ring-cyan-900/60 transition hover:bg-cyan-50 dark:hover:bg-cyan-900/30 disabled:opacity-40"
           disabled={view.k === 1}
           onClick={() => setView({ x: 0, y: 0, k: 1 })}
         >
@@ -263,8 +263,8 @@ export function WorldMap({
       </div>
 
       {view.k > 1 ? (
-        <p className="absolute bottom-2 left-2 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-violet-700 dark:text-violet-300 shadow">
-          Drag to move around · {view.k.toFixed(1)}x
+        <p className="absolute bottom-2 left-2 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-cyan-700 dark:text-cyan-300 shadow">
+          Drag to move around Â· {view.k.toFixed(1)}x
         </p>
       ) : null}
 
