@@ -1,0 +1,33 @@
+{
+  "keyword": "Best Places in Thailand",
+  "intent": "BOFU",
+  "tone": "conversational",
+  "word_count_target": 1500,
+  "word_count_actual": 96,
+  "sections": [
+    {
+      "type": "tldr",
+      "content": "Ready to book your dream Thai getaway and actually *make it happen*? We've pinpointed the top spots for unforgettable experiences, from buzzing cities to serene islands, so you can finally lock in your perfect vacation. Start planning your adventure today and get ready for an epic trip!"
+    },
+    {
+      "type": "h2",
+      "title": "Introduction",
+      "content": "[Best Places In Thailand \u2014 LLM unavailable for content generation]"
+    },
+    {
+      "type": "h2",
+      "title": "Main Content",
+      "content": "[Best Places In Thailand \u2014 LLM unavailable for content generation]"
+    },
+    {
+      "type": "cta",
+      "content": "Dreaming of white sand beaches and vibrant street food? Explore our curated list of Thailand's top spots and book your unforgettable adventure today!"
+    }
+  ],
+  "full_content": "TLDR\n\nReady to book your dream Thai getaway and actually *make it happen*? We've pinpointed the top spots for unforgettable experiences, from buzzing cities to serene islands, so you can finally lock in your perfect vacation. Start planning your adventure today and get ready for an epic trip!\n\nIntroduction\n\n[Best Places In Thailand \u2014 LLM unavailable for content generation]\n\nMain Content\n\n[Best Places In Thailand \u2014 LLM unavailable for content generation]\n\nNext Steps\n\nDreaming of white sand beaches and vibrant street food? Explore our curated list of Thailand's top spots and book your unforgettable adventure today!\n\n",
+  "status": "draft",
+  "ai_generated": true,
+  "human_edited": false,
+  "created_at": "2026-06-25T08:27:02.748791",
+  "notes": "This draft was written by Hermes (LLM). A human must review, edit, fact-check, and approve before publishing."
+}
