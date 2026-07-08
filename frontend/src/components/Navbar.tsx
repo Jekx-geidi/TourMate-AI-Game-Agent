@@ -32,7 +32,7 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
             </div>
             <div>
               <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-white">
-                TourMate <span className="text-cyan-200">Game</span>
+                TourMate <span className="text-[#00C9A9]">Game</span>
               </p>
               <p className="hidden text-xs text-white/75 sm:block">
                 Learn tourism by playing

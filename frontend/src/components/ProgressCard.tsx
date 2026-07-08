@@ -10,12 +10,12 @@ export function ProgressCard({
   return (
     <Card className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="font-semibold text-slate-900 dark:text-slate-100">{label}</p>
-        <span className="text-sm font-medium text-cyan-700 dark:text-cyan-300">{percent}%</span>
+        <p className="font-semibold text-[#19053B] dark:text-[#FBEAFF]">{label}</p>
+        <span className="text-sm font-medium text-[#49316B] dark:text-[#00C9A9]">{percent}%</span>
       </div>
-      <div className="h-3 rounded-full bg-slate-100 dark:bg-slate-800">
+      <div className="h-3 rounded-full bg-[#FBEAFF] dark:bg-white/10">
         <div
-          className="h-3 rounded-full bg-gradient-to-r from-slate-950 to-cyan-700"
+          className="h-3 rounded-full bg-gradient-to-r from-[#19053B] via-[#49316B] to-[#00C9A9]"
           style={{ width: `${percent}%` }}
         />
       </div>

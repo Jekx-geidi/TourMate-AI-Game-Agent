@@ -134,7 +134,7 @@ export function SubjectStudyModePage() {
 
   return (
     <div className="space-y-6">
-      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-950 via-cyan-950 to-amber-600 p-6 text-white shadow-pop sm:p-8">
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#19053B] via-[#49316B] to-[#00C9A9] p-6 text-white shadow-pop sm:p-8">
         <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
         <div className="relative grid gap-6 lg:grid-cols-[1fr_320px] lg:items-end">
           <div>
@@ -154,7 +154,7 @@ export function SubjectStudyModePage() {
             </div>
             <div className="mt-3 h-3 overflow-hidden rounded-full bg-white/20">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-cyan-200 via-teal-300 to-amber-300 transition-all duration-500"
+                className="h-full rounded-full bg-gradient-to-r from-[#FBEAFF] to-[#00C9A9] transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -165,7 +165,7 @@ export function SubjectStudyModePage() {
       <div className="grid gap-5 xl:grid-cols-[360px_1fr]">
         <Card className="space-y-5">
           <div className="flex items-start gap-3">
-            <div className="rounded-2xl bg-cyan-50 p-2.5 text-cyan-700 ring-1 ring-cyan-100 dark:bg-cyan-950/30 dark:text-cyan-300 dark:ring-cyan-900/50">
+            <div className="rounded-2xl bg-[#FBEAFF] p-2.5 text-[#49316B] ring-1 ring-[#49316B]/15 dark:bg-white/10 dark:text-[#FBEAFF] dark:ring-white/10">
               <Timer className="h-5 w-5" />
             </div>
             <div>
@@ -178,10 +178,10 @@ export function SubjectStudyModePage() {
             </div>
           </div>
           <div className="text-center">
-            <p className="font-mono text-5xl font-black text-slate-950 dark:text-white">
+            <p className="font-mono text-5xl font-black text-[#19053B] dark:text-white">
               {formatTime(secondsLeft)}
             </p>
-            <p className="mt-2 text-sm font-semibold text-cyan-700 dark:text-cyan-300">
+            <p className="mt-2 text-sm font-semibold text-[#49316B] dark:text-[#FBEAFF]">
               {focusMinutes}-minute study sprint
             </p>
           </div>
@@ -193,8 +193,8 @@ export function SubjectStudyModePage() {
                 onClick={() => selectFocus(minutes)}
                 className={`rounded-xl border px-2 py-2 text-sm font-bold transition ${
                   focusMinutes === minutes
-                    ? 'border-cyan-400 bg-cyan-50 text-cyan-800 ring-2 ring-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-300'
-                    : 'border-slate-200 bg-white text-slate-600 hover:border-cyan-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+                    ? 'border-[#00C9A9] bg-[#FBEAFF] text-[#19053B] ring-2 ring-[#00C9A9]/25 dark:bg-white/10 dark:text-[#FBEAFF]'
+                    : 'border-[#49316B]/15 bg-white text-[#49316B] hover:border-[#00C9A9] dark:border-white/10 dark:bg-[#19053B] dark:text-[#FBEAFF]'
                 }`}
               >
                 {minutes}
@@ -226,13 +226,13 @@ export function SubjectStudyModePage() {
               <Card
                 key={quest.id}
                 className={`space-y-4 transition ${
-                  activeQuest === index ? 'ring-2 ring-cyan-300 dark:ring-cyan-700' : ''
+                  activeQuest === index ? 'ring-2 ring-[#00C9A9]/60' : ''
                 }`}
                 onMouseEnter={() => setActiveQuest(index)}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-start gap-3">
-                    <div className="rounded-2xl bg-gradient-to-br from-cyan-600 to-amber-500 p-2.5 text-white shadow-pop">
+                    <div className="rounded-2xl bg-gradient-to-br from-[#49316B] to-[#00C9A9] p-2.5 text-white shadow-pop">
                       <Icon className="h-5 w-5" />
                     </div>
                     <div>
@@ -262,7 +262,7 @@ export function SubjectStudyModePage() {
 
       <Card className="grid gap-4 md:grid-cols-3">
         <div className="flex items-center gap-3">
-          <Flame className="h-5 w-5 text-amber-500" />
+          <Flame className="h-5 w-5 text-[#00C9A9]" />
           <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
             Clear all four quests for a full study cycle.
           </p>

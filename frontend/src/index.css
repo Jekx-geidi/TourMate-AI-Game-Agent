@@ -5,20 +5,24 @@
 @tailwind utilities;
 
 :root {
-  --background: 220 24% 98%;
-  --foreground: 222 47% 11%;
+  --brand-plum: #19053b;
+  --brand-purple: #49316b;
+  --brand-blush: #fbeaff;
+  --brand-mint: #00c9a9;
+  --background: 286 100% 96%;
+  --foreground: 264 84% 13%;
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  --border: 220 18% 89%;
-  --input: 220 18% 89%;
-  --muted: 220 22% 95%;
-  --muted-foreground: 215 16% 47%;
-  --primary: 210 82% 38%;
+  --card-foreground: 264 84% 13%;
+  --border: 277 34% 86%;
+  --input: 277 34% 86%;
+  --muted: 286 100% 97%;
+  --muted-foreground: 264 20% 42%;
+  --primary: 264 84% 13%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 188 65% 35%;
+  --secondary: 263 37% 31%;
   --secondary-foreground: 0 0% 100%;
-  --accent: 32 85% 45%;
-  --accent-foreground: 222 47% 11%;
+  --accent: 170 100% 39%;
+  --accent-foreground: 264 84% 13%;
   font-family: 'Poppins', system-ui, sans-serif;
 }
 
@@ -35,8 +39,10 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f6f8fb;
-  background-image: linear-gradient(180deg, #fbfcff 0%, #f1f5f9 100%);
+  background-color: #fbeaff;
+  background-image:
+    radial-gradient(circle at top left, rgba(0, 201, 169, 0.14), transparent 30rem),
+    linear-gradient(180deg, #fff9ff 0%, #fbeaff 48%, #f8f3ff 100%);
   background-attachment: fixed;
   color: hsl(var(--foreground));
   -webkit-font-smoothing: antialiased;
@@ -44,14 +50,16 @@ body {
 }
 
 .dark {
-  --background: 260 35% 7%;
-  --foreground: 260 20% 95%;
-  --border: 260 25% 22%;
+  --background: 264 84% 13%;
+  --foreground: 286 100% 96%;
+  --border: 264 36% 25%;
 }
 
 .dark body {
-  background-color: #0c111d;
-  background-image: linear-gradient(180deg, #111827 0%, #0c111d 100%);
+  background-color: #19053b;
+  background-image:
+    radial-gradient(circle at top right, rgba(0, 201, 169, 0.16), transparent 28rem),
+    linear-gradient(180deg, #19053b 0%, #130330 100%);
   color: hsl(var(--foreground));
 }
 
@@ -81,14 +89,38 @@ a {
 
 @layer utilities {
   .glass-panel {
-    @apply border border-slate-200/80 bg-white/90 backdrop-blur-xl dark:border-slate-700/70 dark:bg-slate-900/90;
+    @apply border backdrop-blur-xl;
+    border-color: rgba(73, 49, 107, 0.16);
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .dark .glass-panel {
+    border-color: rgba(251, 234, 255, 0.14);
+    background: rgba(25, 5, 59, 0.78);
   }
 
   .brand-gradient {
-    @apply bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-800;
+    background: linear-gradient(135deg, #19053b 0%, #49316b 58%, #00c9a9 100%);
   }
 
   .brand-gradient-r {
-    @apply bg-gradient-to-r from-slate-950 via-slate-900 to-cyan-800;
+    background: linear-gradient(90deg, #19053b 0%, #49316b 58%, #00c9a9 100%);
+  }
+
+  .palette-screen {
+    background:
+      radial-gradient(circle at 12% 12%, rgba(0, 201, 169, 0.22), transparent 18rem),
+      radial-gradient(circle at 90% 8%, rgba(73, 49, 107, 0.18), transparent 22rem),
+      linear-gradient(180deg, #fffaff 0%, #fbeaff 100%);
+  }
+
+  .palette-panel {
+    border-color: rgba(73, 49, 107, 0.18);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 24px 70px rgba(25, 5, 59, 0.14);
+  }
+
+  .palette-ring {
+    box-shadow: 0 0 0 4px rgba(0, 201, 169, 0.16);
   }
 }

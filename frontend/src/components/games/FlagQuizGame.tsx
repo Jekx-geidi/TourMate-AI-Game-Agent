@@ -91,14 +91,14 @@ export function FlagQuizGame() {
         </p>
         <div className="h-2 w-40 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-cyan-500 via-teal-500 to-amber-400 transition-all duration-500"
+            className="h-full rounded-full bg-gradient-to-r from-[#49316B] to-[#00C9A9] transition-all duration-500"
             style={{ width: `${((index + 1) / rounds.length) * 100}%` }}
           />
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-2xl border border-cyan-100 bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-900 p-5 text-white shadow-pop dark:border-cyan-900/70">
-        <div className="pointer-events-none absolute right-0 top-0 h-28 w-28 rounded-bl-full bg-amber-300/20" />
+      <div className="relative overflow-hidden rounded-2xl border border-[#49316B]/15 bg-gradient-to-br from-[#19053B] via-[#49316B] to-[#00C9A9] p-5 text-white shadow-pop dark:border-white/10">
+        <div className="pointer-events-none absolute right-0 top-0 h-28 w-28 rounded-bl-full bg-[#FBEAFF]/20" />
         <div className="relative mx-auto flex min-h-48 max-w-md items-center justify-center">
           {flagImage ? (
             <img
@@ -134,7 +134,7 @@ export function FlagQuizGame() {
                   ? 'border-emerald-400 bg-emerald-50 text-emerald-800 ring-2 ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300'
                   : revealed && isPicked
                     ? 'border-rose-400 bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300'
-                    : 'border-slate-200 bg-white text-slate-700 shadow-sm enabled:hover:-translate-y-0.5 enabled:hover:border-cyan-300 enabled:hover:bg-cyan-50/50 enabled:hover:shadow-md dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-cyan-900/20'
+                    : 'border-[#49316B]/15 bg-white text-[#49316B] shadow-sm enabled:hover:-translate-y-0.5 enabled:hover:border-[#00C9A9] enabled:hover:bg-[#FBEAFF] enabled:hover:shadow-md dark:border-white/10 dark:bg-[#19053B] dark:text-[#FBEAFF] dark:hover:bg-[#49316B]/50'
               }`}
             >
               {option.name}

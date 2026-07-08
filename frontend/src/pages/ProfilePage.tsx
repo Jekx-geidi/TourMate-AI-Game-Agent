@@ -49,7 +49,7 @@ function SectionHeader({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="rounded-2xl bg-gradient-to-br from-cyan-500 to-cyan-500 p-2.5 text-white shadow-pop">
+      <div className="rounded-2xl bg-gradient-to-br from-[#49316B] to-[#00C9A9] p-2.5 text-white shadow-pop">
         {icon}
       </div>
       <div>
@@ -78,7 +78,7 @@ function Toggle({
       onClick={() => onChange(!checked)}
       className={`relative h-7 w-12 rounded-full transition ${
         checked
-          ? 'bg-gradient-to-r from-cyan-600 to-cyan-500'
+          ? 'bg-gradient-to-r from-[#49316B] to-[#00C9A9]'
           : 'bg-slate-300 dark:bg-slate-700'
       }`}
     >
@@ -209,7 +209,7 @@ export function ProfilePage() {
               Profile picture
             </label>
             <div className="mt-2 flex flex-wrap items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
-              <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-white text-2xl font-black text-cyan-700 ring-1 ring-cyan-100 dark:bg-slate-950 dark:text-cyan-300 dark:ring-cyan-900/50">
+              <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-white text-2xl font-black text-[#49316B] ring-1 ring-[#49316B]/15 dark:bg-[#19053B] dark:text-[#FBEAFF] dark:ring-white/10">
                 {avatarUrl ? (
                   <img src={avatarUrl} alt="Profile preview" className="h-full w-full object-cover" />
                 ) : (
@@ -217,7 +217,7 @@ export function ProfilePage() {
                 )}
               </div>
               <div className="flex flex-wrap gap-2">
-                <label className="inline-flex cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-slate-950 to-cyan-700 px-5 py-2.5 text-sm font-semibold text-white shadow-pop transition hover:from-slate-900 hover:to-cyan-600">
+                <label className="inline-flex cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-[#19053B] via-[#49316B] to-[#00C9A9] px-5 py-2.5 text-sm font-semibold text-white shadow-pop transition hover:brightness-110">
                   <Upload className="mr-2 h-4 w-4" />
                   Upload photo
                   <input
@@ -302,7 +302,7 @@ export function ProfilePage() {
             onClick={() => setTheme('light')}
             className={`flex items-center gap-2 rounded-2xl border px-5 py-3 text-sm font-bold transition ${
               theme === 'light'
-                ? 'border-cyan-500 bg-cyan-50 text-cyan-800 ring-2 ring-cyan-300 dark:bg-cyan-950/40 dark:text-cyan-300'
+                ? 'border-[#00C9A9] bg-[#FBEAFF] text-[#19053B] ring-2 ring-[#00C9A9]/25 dark:bg-white/10 dark:text-[#FBEAFF]'
                 : 'border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400'
             }`}
           >
@@ -313,7 +313,7 @@ export function ProfilePage() {
             onClick={() => setTheme('dark')}
             className={`flex items-center gap-2 rounded-2xl border px-5 py-3 text-sm font-bold transition ${
               theme === 'dark'
-                ? 'border-cyan-500 bg-cyan-50 text-cyan-800 ring-2 ring-cyan-300 dark:bg-cyan-950/40 dark:text-cyan-300'
+                ? 'border-[#00C9A9] bg-[#FBEAFF] text-[#19053B] ring-2 ring-[#00C9A9]/25 dark:bg-white/10 dark:text-[#FBEAFF]'
                 : 'border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400'
             }`}
           >

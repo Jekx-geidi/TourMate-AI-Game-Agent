@@ -3,22 +3,22 @@ import type { ButtonHTMLAttributes } from 'react';
 import { cn } from '../../lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-200 disabled:cursor-not-allowed disabled:opacity-50',
+  'inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#00C9A9]/35 disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
         primary:
-          'bg-gradient-to-r from-slate-950 to-cyan-700 text-white shadow-pop hover:from-slate-900 hover:to-cyan-600',
+          'bg-gradient-to-r from-[#19053B] via-[#49316B] to-[#00C9A9] text-white shadow-pop hover:brightness-110',
         secondary:
-          'bg-gradient-to-r from-cyan-700 to-blue-700 text-white shadow-pop hover:from-cyan-600 hover:to-blue-600',
+          'bg-gradient-to-r from-[#49316B] to-[#00C9A9] text-white shadow-pop hover:brightness-110',
         ghost:
-          'bg-transparent text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800/80',
+          'bg-transparent text-[#49316B] hover:bg-[#FBEAFF] dark:text-[#FBEAFF] dark:hover:bg-white/10',
         outline:
-          'border border-slate-300 bg-white text-slate-800 hover:border-cyan-300 hover:bg-cyan-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-cyan-700 dark:hover:bg-cyan-950/30',
-        dark: 'bg-slate-900 text-white hover:bg-slate-800',
+          'border border-[#49316B]/25 bg-white text-[#19053B] hover:border-[#00C9A9] hover:bg-[#FBEAFF] dark:border-[#FBEAFF]/20 dark:bg-[#19053B] dark:text-[#FBEAFF] dark:hover:border-[#00C9A9] dark:hover:bg-[#49316B]/60',
+        dark: 'bg-[#19053B] text-white hover:bg-[#49316B]',
         amber:
-          'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-pop hover:from-amber-600 hover:to-orange-600',
-        white: 'bg-white text-slate-900 shadow-md hover:bg-cyan-50',
+          'bg-gradient-to-r from-[#49316B] to-[#00C9A9] text-white shadow-pop hover:brightness-110',
+        white: 'bg-white text-[#19053B] shadow-md hover:bg-[#FBEAFF]',
         glass: 'bg-white/12 text-white backdrop-blur hover:bg-white/22',
       },
     },
