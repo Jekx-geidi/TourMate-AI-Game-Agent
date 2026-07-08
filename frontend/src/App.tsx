@@ -25,6 +25,7 @@ import { SubjectGamesPage } from './pages/SubjectGamesPage';
 import { SubjectLessonsPage } from './pages/SubjectLessonsPage';
 import { SubjectNotesPage } from './pages/SubjectNotesPage';
 import { SubjectQuizPage } from './pages/SubjectQuizPage';
+import { SubjectStudyModePage } from './pages/SubjectStudyModePage';
 import { SubjectTutorPage } from './pages/SubjectTutorPage';
 import { SubjectsPage } from './pages/SubjectsPage';
 import { TermsPage } from './pages/TermsPage';
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
       { path: '/dashboard', element: <DashboardPage /> },
       { path: '/subjects', element: <SubjectsPage /> },
       { path: '/subjects/:id', element: <SubjectDetailPage /> },
+      { path: '/subjects/:id/study', element: <SubjectStudyModePage /> },
       { path: '/subjects/:id/lessons', element: <SubjectLessonsPage /> },
       { path: '/subjects/:id/notes', element: <SubjectNotesPage /> },
       { path: '/subjects/:id/quiz', element: <SubjectQuizPage /> },

@@ -32,6 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         id: response.id,
         name: response.name,
         email: response.email,
+        avatarUrl: response.avatarUrl ?? null,
       });
     } catch {
       localStorage.removeItem('tourmate_token');

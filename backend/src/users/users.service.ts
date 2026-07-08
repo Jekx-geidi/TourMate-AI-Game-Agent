@@ -47,7 +47,12 @@ export class UsersService {
       throw new UnauthorizedException('Please log in again to continue.');
     }
 
-    const data: { name?: string; email?: string; password?: string } = {};
+    const data: {
+      name?: string;
+      email?: string;
+      avatarUrl?: string | null;
+      password?: string;
+    } = {};
 
     if (dto.name && dto.name !== user.name) {
       data.name = dto.name;
@@ -61,6 +66,10 @@ export class UsersService {
         throw new BadRequestException('That email is already in use.');
       }
       data.email = dto.email;
+    }
+
+    if (dto.avatarUrl !== undefined && dto.avatarUrl !== user.avatarUrl) {
+      data.avatarUrl = dto.avatarUrl?.trim() || null;
     }
 
     if (dto.newPassword) {
@@ -77,7 +86,12 @@ export class UsersService {
     }
 
     if (Object.keys(data).length === 0) {
-      return { id: user.id, name: user.name, email: user.email };
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatarUrl: user.avatarUrl,
+      };
     }
 
     const updated = await this.prisma.user.update({
@@ -85,6 +99,11 @@ export class UsersService {
       data,
     });
 
-    return { id: updated.id, name: updated.name, email: updated.email };
+    return {
+      id: updated.id,
+      name: updated.name,
+      email: updated.email,
+      avatarUrl: updated.avatarUrl,
+    };
   }
 }

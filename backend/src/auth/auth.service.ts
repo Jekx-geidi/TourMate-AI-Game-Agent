@@ -141,6 +141,7 @@ export class AuthService {
     id: string;
     email: string;
     name: string;
+    avatarUrl?: string | null;
     password: string;
   }) {
     const payload: JwtPayload = {
@@ -155,6 +156,7 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
+        avatarUrl: user.avatarUrl ?? null,
       },
     };
   }

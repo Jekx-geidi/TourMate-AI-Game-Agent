@@ -1,8 +1,8 @@
 export const learningCategories = [
   {
     title: 'Study Mode',
-    description: 'Lessons, summaries, key terms, review notes, and Q&A.',
-    route: 'lessons',
+    description: 'A playable study board with focus rounds, lesson quests, notes, and review checkpoints.',
+    route: 'study',
   },
   {
     title: 'Practice Mode',

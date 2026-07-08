@@ -1,0 +1,72 @@
+const COUNTRY_FLAG_CODES: Record<string, string> = {
+  Philippines: 'ph',
+  Japan: 'jp',
+  'South Korea': 'kr',
+  China: 'cn',
+  Thailand: 'th',
+  Vietnam: 'vn',
+  Indonesia: 'id',
+  Malaysia: 'my',
+  Singapore: 'sg',
+  India: 'in',
+  Nepal: 'np',
+  'Sri Lanka': 'lk',
+  Cambodia: 'kh',
+  Taiwan: 'tw',
+  'Hong Kong': 'hk',
+  Maldives: 'mv',
+  'United Arab Emirates': 'ae',
+  Qatar: 'qa',
+  'Saudi Arabia': 'sa',
+  Israel: 'il',
+  Turkey: 'tr',
+  Greece: 'gr',
+  Italy: 'it',
+  France: 'fr',
+  Spain: 'es',
+  Portugal: 'pt',
+  'United Kingdom': 'gb',
+  Ireland: 'ie',
+  Germany: 'de',
+  Switzerland: 'ch',
+  Austria: 'at',
+  Netherlands: 'nl',
+  Belgium: 'be',
+  Czechia: 'cz',
+  Poland: 'pl',
+  Hungary: 'hu',
+  Croatia: 'hr',
+  Norway: 'no',
+  Sweden: 'se',
+  Denmark: 'dk',
+  Finland: 'fi',
+  Iceland: 'is',
+  Russia: 'ru',
+  Egypt: 'eg',
+  Morocco: 'ma',
+  Kenya: 'ke',
+  'South Africa': 'za',
+  'United States': 'us',
+  Canada: 'ca',
+  Mexico: 'mx',
+  Cuba: 'cu',
+  Brazil: 'br',
+  Peru: 'pe',
+  Argentina: 'ar',
+  Chile: 'cl',
+  Colombia: 'co',
+  Australia: 'au',
+  'New Zealand': 'nz',
+  Fiji: 'fj',
+};
+
+export function getFlagImageUrl(countryName: string, width = 320) {
+  const code = COUNTRY_FLAG_CODES[countryName];
+  return code ? `https://flagcdn.com/w${width}/${code}.png` : null;
+}
+
+export function getFlagImageSrcSet(countryName: string) {
+  const code = COUNTRY_FLAG_CODES[countryName];
+  if (!code) return undefined;
+  return `https://flagcdn.com/w160/${code}.png 160w, https://flagcdn.com/w320/${code}.png 320w, https://flagcdn.com/w640/${code}.png 640w`;
+}

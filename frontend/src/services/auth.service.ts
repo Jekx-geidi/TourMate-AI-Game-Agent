@@ -14,6 +14,7 @@ export const authService = {
   updateProfile: async (payload: {
     name?: string;
     email?: string;
+    avatarUrl?: string | null;
     currentPassword?: string;
     newPassword?: string;
   }) => (await api.patch('/users/me', payload)).data,

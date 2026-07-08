@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Bell, Moon, Paintbrush, ShieldAlert, Sun, UserRound } from 'lucide-react';
+import { Bell, Camera, Moon, Paintbrush, ShieldAlert, Sun, Trash2, Upload, UserRound } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -8,6 +8,35 @@ import { useAuth } from '../hooks/use-auth';
 import { useGame } from '../hooks/use-game';
 import { useTheme } from '../hooks/use-theme';
 import { authService } from '../services/auth.service';
+
+function resizeAvatar(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const image = new Image();
+      image.onload = () => {
+        const size = 420;
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        if (!context) {
+          reject(new Error('Could not prepare this image.'));
+          return;
+        }
+        canvas.width = size;
+        canvas.height = size;
+        const shortest = Math.min(image.width, image.height);
+        const sourceX = (image.width - shortest) / 2;
+        const sourceY = (image.height - shortest) / 2;
+        context.drawImage(image, sourceX, sourceY, shortest, shortest, 0, 0, size, size);
+        resolve(canvas.toDataURL('image/jpeg', 0.84));
+      };
+      image.onerror = () => reject(new Error('Could not load this image.'));
+      image.src = String(reader.result);
+    };
+    reader.onerror = () => reject(new Error('Could not read this file.'));
+    reader.readAsDataURL(file);
+  });
+}
 
 function SectionHeader({
   icon,
@@ -69,12 +98,40 @@ export function ProfilePage() {
 
   const [name, setName] = useState(user?.name ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(user?.avatarUrl ?? null);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNew, setConfirmNew] = useState('');
   const [message, setMessage] = useState<{ kind: 'ok' | 'error'; text: string } | null>(null);
   const [saving, setSaving] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+
+  useEffect(() => {
+    setName(user?.name ?? '');
+    setEmail(user?.email ?? '');
+    setAvatarUrl(user?.avatarUrl ?? null);
+  }, [user]);
+
+  const handleAvatarFile = async (file?: File) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setMessage({ kind: 'error', text: 'Please choose an image file.' });
+      return;
+    }
+    if (file.size > 4 * 1024 * 1024) {
+      setMessage({ kind: 'error', text: 'Choose an image under 4 MB.' });
+      return;
+    }
+    try {
+      setMessage(null);
+      setAvatarUrl(await resizeAvatar(file));
+    } catch (error) {
+      setMessage({
+        kind: 'error',
+        text: error instanceof Error ? error.message : 'Could not prepare this image.',
+      });
+    }
+  };
 
   const save = async () => {
     setMessage(null);
@@ -87,6 +144,7 @@ export function ProfilePage() {
       await authService.updateProfile({
         name: name.trim() || undefined,
         email: email.trim() || undefined,
+        avatarUrl,
         currentPassword: currentPassword || undefined,
         newPassword: newPassword || undefined,
       });
@@ -111,8 +169,12 @@ export function ProfilePage() {
       <div className="relative overflow-hidden rounded-[2rem] brand-gradient p-6 text-white shadow-pop sm:p-8">
         <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
         <div className="relative flex flex-wrap items-center gap-4">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-white/20 text-3xl font-black backdrop-blur">
-            {(user?.name ?? 'S').slice(0, 1).toUpperCase()}
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white/20 text-3xl font-black backdrop-blur ring-4 ring-white/20">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={user?.name ?? 'Profile'} className="h-full w-full object-cover" />
+            ) : (
+              (user?.name ?? 'S').slice(0, 1).toUpperCase()
+            )}
           </div>
           <div>
             <h1 className="text-3xl font-black">{user?.name}</h1>
@@ -142,6 +204,38 @@ export function ProfilePage() {
           </p>
         ) : null}
         <div className="grid gap-4 md:grid-cols-2">
+          <div className="md:col-span-2">
+            <label className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              Profile picture
+            </label>
+            <div className="mt-2 flex flex-wrap items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+              <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-white text-2xl font-black text-cyan-700 ring-1 ring-cyan-100 dark:bg-slate-950 dark:text-cyan-300 dark:ring-cyan-900/50">
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="Profile preview" className="h-full w-full object-cover" />
+                ) : (
+                  <Camera className="h-7 w-7" />
+                )}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <label className="inline-flex cursor-pointer items-center justify-center rounded-full bg-gradient-to-r from-slate-950 to-cyan-700 px-5 py-2.5 text-sm font-semibold text-white shadow-pop transition hover:from-slate-900 hover:to-cyan-600">
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload photo
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="sr-only"
+                    onChange={(event) => void handleAvatarFile(event.target.files?.[0])}
+                  />
+                </label>
+                {avatarUrl ? (
+                  <Button variant="outline" onClick={() => setAvatarUrl(null)}>
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Remove
+                  </Button>
+                ) : null}
+              </div>
+            </div>
+          </div>
           <div>
             <label className="text-xs font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
               Display name

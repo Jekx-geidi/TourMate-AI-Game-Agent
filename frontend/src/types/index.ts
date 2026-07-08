@@ -2,6 +2,7 @@ export type User = {
   id: string;
   name: string;
   email: string;
+  avatarUrl?: string | null;
 };
 
 export type Lesson = {
@@ -98,4 +99,3 @@ export type AgentStatus = {
   message: string;
   studyActivitySummary: string;
 };
-

@@ -10,9 +10,6 @@ import { PasswordInput } from '../components/ui/password-input';
 import { useAuth } from '../hooks/use-auth';
 import { authService } from '../services/auth.service';
 
-const DEMO_EMAIL = 'student@tourmate.ai';
-const DEMO_PASSWORD = 'Tourmate123!';
-
 export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,12 +18,6 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const fillDemoAccount = () => {
-    setEmail(DEMO_EMAIL);
-    setPassword(DEMO_PASSWORD);
-    setError('');
-  };
 
   const handleLogin = async () => {
     try {
@@ -123,15 +114,6 @@ export function LoginPage() {
               disabled={loading}
             >
               {loading ? 'Logging in…' : 'Log in'}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full rounded-xl"
-              onClick={fillDemoAccount}
-              disabled={loading}
-            >
-              Use demo account
             </Button>
           </form>
 
