@@ -23,3 +23,6 @@ coverage/
 *.mov
 .vercel
 .env*
+
+# Raw mascot design exports (69MB, source-only — cropped assets live in frontend/src/assets)
+/ANIMAL/

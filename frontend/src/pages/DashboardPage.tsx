@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Globe2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import mascotHero from '../assets/mascot-hero.png';
 import { ChallengePanel } from '../components/ChallengePanel';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -47,13 +48,20 @@ export function DashboardPage() {
         <div className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-black/10" />
         <div className="relative">
           <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
-                Dashboard
-              </p>
-              <h1 className="mt-3 text-4xl font-black">Welcome back, {user?.name}!</h1>
-              <p className="mt-3 text-lg text-white/85">How are your studies today?</p>
-              <p className="text-sm text-white/70">What did you achieve today?</p>
+            <div className="flex flex-wrap items-center gap-5">
+              <img
+                src={mascotHero}
+                alt="TourMate mascot"
+                className="h-20 w-20 shrink-0 rounded-full border-4 border-white/30 bg-white/10 object-cover shadow-lg sm:h-28 sm:w-28"
+              />
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
+                  Dashboard
+                </p>
+                <h1 className="mt-3 text-4xl font-black">Welcome back, {user?.name}!</h1>
+                <p className="mt-3 text-lg text-white/85">How are your studies today?</p>
+                <p className="text-sm text-white/70">What did you achieve today?</p>
+              </div>
             </div>
             <Link to="/subjects">
               <Button variant="white">Continue learning</Button>
