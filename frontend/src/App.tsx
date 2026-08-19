@@ -11,6 +11,7 @@ import { AiTutorPage } from './pages/AiTutorPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { LanguagePage } from './pages/LanguagePage';
 import { LandingPage } from './pages/LandingPage';
+import { AuthCallbackPage } from './pages/AuthCallbackPage';
 import { LoginPage } from './pages/LoginPage';
 import { MapsFlagsPage } from './pages/MapsFlagsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
   { path: '/', element: <RootGate /> },
   { path: '/welcome', element: <LandingPage /> },
   { path: '/login', element: <LoginPage /> },
+  { path: '/auth/callback', element: <AuthCallbackPage /> },
   { path: '/register', element: <RegisterPage /> },
   { path: '/terms', element: <TermsPage /> },
   { path: '/privacy', element: <PrivacyPage /> },

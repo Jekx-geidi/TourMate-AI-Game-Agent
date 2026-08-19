@@ -37,6 +37,11 @@ export class AuthController {
     return this.authService.registerWithSupabase(dto);
   }
 
+  @Post('supabase/continue')
+  supabaseContinue(@Body() dto: SupabaseAuthDto) {
+    return this.authService.continueWithSupabase(dto);
+  }
+
   @Post('logout')
   logout() {
     return {

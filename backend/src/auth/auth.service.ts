@@ -4,6 +4,7 @@ import {
   ServiceUnavailableException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { createClient, type User as SupabaseUser } from '@supabase/supabase-js';
 import * as bcrypt from 'bcrypt';
@@ -21,6 +22,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async requestRegisterCode(_dto: RequestRegisterCodeDto) {
@@ -125,6 +127,41 @@ export class AuthService {
     return this.buildAuthResponse(user);
   }
 
+  // For OAuth providers (Google, etc.) via Supabase: unlike email/password,
+  // there is no separate "register" step the user goes through first, so
+  // this finds an existing account by email or creates one transparently.
+  async continueWithSupabase(dto: SupabaseAuthDto) {
+    const supabaseUser = await this.getVerifiedSupabaseUser(dto.accessToken);
+    const email = supabaseUser.email?.trim().toLowerCase();
+
+    if (!email) {
+      throw new UnauthorizedException(
+        'The verified Supabase user does not have an email address.',
+      );
+    }
+
+    const existingUser = await this.usersService.findByEmail(email);
+    if (existingUser) {
+      return this.buildAuthResponse(existingUser);
+    }
+
+    const name =
+      String(
+        supabaseUser.user_metadata?.full_name ??
+          supabaseUser.user_metadata?.name ??
+          '',
+      ).trim() || email.split('@')[0];
+    const generatedPassword = randomBytes(24).toString('hex');
+    const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+    const user = await this.usersService.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    return this.buildAuthResponse(user);
+  }
+
   async getMe(userId: string) {
     const user = await this.usersService.findById(userId);
 
@@ -164,8 +201,8 @@ export class AuthService {
   private async getVerifiedSupabaseUser(
     accessToken: string,
   ): Promise<SupabaseUser> {
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+    const supabaseUrl = this.configService.get<string>('SUPABASE_URL');
+    const supabaseAnonKey = this.configService.get<string>('SUPABASE_ANON_KEY');
 
     if (!supabaseUrl || !supabaseAnonKey) {
       throw new ServiceUnavailableException(

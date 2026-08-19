@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { clearStoredToken, getStoredToken, setStoredToken } from '../lib/auth-storage';
 import { supabase } from '../lib/supabase';
 import { authService } from '../services/auth.service';
 import type { User } from '../types';
@@ -7,7 +8,7 @@ import type { User } from '../types';
 type AuthContextValue = {
   user: User | null;
   isLoading: boolean;
-  login: (token: string, user: User) => void;
+  login: (token: string, user: User, remember?: boolean) => void;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
 };
@@ -19,7 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const refreshUser = async () => {
-    const token = localStorage.getItem('tourmate_token');
+    const token = getStoredToken();
     if (!token) {
       setUser(null);
       setIsLoading(false);
@@ -35,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         avatarUrl: response.avatarUrl ?? null,
       });
     } catch {
-      localStorage.removeItem('tourmate_token');
+      clearStoredToken();
       setUser(null);
     } finally {
       setIsLoading(false);
@@ -50,8 +51,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       user,
       isLoading,
-      login: (token, nextUser) => {
-        localStorage.setItem('tourmate_token', token);
+      login: (token, nextUser, remember = true) => {
+        setStoredToken(token, remember);
         setUser(nextUser);
       },
       logout: async () => {
@@ -61,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             await supabase.auth.signOut({ scope: 'local' });
           }
         } finally {
-          localStorage.removeItem('tourmate_token');
+          clearStoredToken();
           setUser(null);
         }
       },

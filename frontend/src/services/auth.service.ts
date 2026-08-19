@@ -9,6 +9,8 @@ export const authService = {
   }) => (await api.post('/auth/register', payload)).data,
   login: async (payload: { email: string; password: string }) =>
     (await api.post('/auth/login', payload)).data,
+  continueWithSupabase: async (accessToken: string) =>
+    (await api.post('/auth/supabase/continue', { accessToken })).data,
   me: async () => (await api.get('/auth/me')).data,
   logout: async () => (await api.post('/auth/logout')).data,
   updateProfile: async (payload: {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getStoredToken } from '../lib/auth-storage';
 
 const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim();
 const runtimeBaseUrl = typeof window !== 'undefined' && window.location.hostname !== 'localhost'
@@ -14,7 +15,7 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('tourmate_token');
+  const token = getStoredToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
