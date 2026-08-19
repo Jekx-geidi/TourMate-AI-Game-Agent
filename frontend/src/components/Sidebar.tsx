@@ -9,6 +9,7 @@ import {
   Languages,
   MessageCircle,
   Plane,
+  Target,
   User,
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
@@ -17,12 +18,13 @@ import { cn } from '../lib/utils';
 const links = [
   { to: '/dashboard', label: 'Dashboard', icon: GraduationCap },
   { to: '/subjects', label: 'Subjects', icon: BookOpen },
+  { to: '/simulations', label: 'Missions', icon: Target },
   { to: '/maps-flags', label: 'Maps & Flags', icon: Globe },
   { to: '/quiz-studio', label: 'Quiz Studio', icon: ClipboardList },
   { to: '/language', label: 'Language', icon: Languages },
   { to: '/ai-tutor', label: 'AI Tutor', icon: MessageCircle },
   { to: '/agent-status', label: 'Agent Status', icon: Plane },
-  { to: '/progress', label: 'Progress', icon: Gamepad2 },
+  { to: '/progress', label: 'Career Passport', icon: Gamepad2 },
   { to: '/profile', label: 'Profile', icon: User },
 ];
 

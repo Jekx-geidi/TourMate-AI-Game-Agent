@@ -4,22 +4,27 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id          String       @id @default(uuid())
-  name        String
-  email       String       @unique
-  avatarUrl   String?
-  password    String
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  notes       Note[]
-  progress    Progress[]
-  quizResults QuizResult[]
-  chatLogs    ChatLog[]
+  id                 String                @id @default(uuid())
+  name               String
+  email              String                @unique
+  avatarUrl          String?
+  password           String
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  notes              Note[]
+  progress           Progress[]
+  quizResults        QuizResult[]
+  chatLogs           ChatLog[]
+  gameProfile        GameProfile?
+  activityEvents     ActivityEvent[]
+  simulationSessions SimulationSession[]
+  competencyEvidence CompetencyEvidence[]
 }
 
 model EmailVerificationCode {
@@ -48,18 +53,20 @@ model Subject {
   notes       Note[]
   progress    Progress[]
   chatLogs    ChatLog[]
+  simulations Simulation[]
   createdAt   DateTime     @default(now())
 }
 
 model Lesson {
-  id        String   @id @default(uuid())
-  subjectId String
-  title     String
-  content   String
-  summary   String?
-  order     Int      @default(0)
-  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  id                String             @id @default(uuid())
+  subjectId         String
+  title             String
+  content           String
+  summary           String?
+  order             Int                @default(0)
+  subject           Subject            @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt         DateTime           @default(now())
+  simulationLessons SimulationLesson[]
 
   @@index([subjectId, order])
 }
@@ -154,4 +161,217 @@ model ChatLog {
   subject   Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
 
   @@index([userId, createdAt])
+}
+
+// --- TourMate Quest: gamification and simulation domain ---
+//
+// Status/type fields below are plain String columns rather than Prisma
+// `enum`s: this schema is mirrored by prisma/schema.local.prisma (SQLite for
+// local dev), and the SQLite connector does not support Prisma enums. This
+// matches the existing convention already used by Quiz.type. Allowed values
+// are enforced in application code (see backend/src/simulations/simulation.constants.ts).
+
+model GameProfile {
+  id           String    @id @default(uuid())
+  userId       String    @unique
+  xp           Int       @default(0)
+  level        Int       @default(1)
+  streakCount  Int       @default(0)
+  lastActiveOn DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ActivityEvent {
+  id             String   @id @default(uuid())
+  userId         String
+  type           String
+  idempotencyKey String   @unique
+  xpDelta        Int      @default(0)
+  sourceType     String?
+  sourceId       String?
+  policyVersion  String?
+  metadata       Json?
+  createdAt      DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([userId, type])
+}
+
+model Simulation {
+  id         String   @id @default(uuid())
+  slug       String   @unique
+  title      String
+  summary    String
+  subjectId  String?
+  difficulty String   @default("BEGINNER")
+  status     String   @default("DRAFT")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  subject  Subject?            @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  versions SimulationVersion[]
+
+  @@index([status, subjectId])
+}
+
+model SimulationVersion {
+  id                 String    @id @default(uuid())
+  simulationId       String
+  version            Int
+  role               String
+  context            String
+  objectives         Json
+  competencyCodes    Json
+  scoringWeights     Json
+  scorePolicyVersion String
+  estimatedStepCount Int
+  publishedAt        DateTime?
+  createdAt          DateTime  @default(now())
+
+  simulation     Simulation          @relation(fields: [simulationId], references: [id], onDelete: Cascade)
+  steps          SimulationStep[]
+  sessions       SimulationSession[]
+  relatedLessons SimulationLesson[]
+
+  @@unique([simulationId, version])
+  @@index([simulationId, publishedAt])
+}
+
+model SimulationStep {
+  id                  String   @id @default(uuid())
+  simulationVersionId String
+  orderIndex          Int
+  title               String
+  prompt              String
+  guidance            String?
+  createdAt           DateTime @default(now())
+
+  simulationVersion SimulationVersion    @relation(fields: [simulationVersionId], references: [id], onDelete: Cascade)
+  options           SimulationOption[]
+  decisions         SimulationDecision[]
+
+  @@unique([simulationVersionId, orderIndex])
+  @@index([simulationVersionId])
+}
+
+model SimulationOption {
+  id           String   @id @default(uuid())
+  stepId       String
+  optionKey    String
+  text         String
+  consequence  String
+  rubricPoints Json
+  learningTags Json
+  createdAt    DateTime @default(now())
+
+  step      SimulationStep       @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  decisions SimulationDecision[]
+
+  @@unique([stepId, optionKey])
+  @@index([stepId])
+}
+
+model SimulationLesson {
+  simulationVersionId String
+  lessonId            String
+  relationType        String @default("RECOMMENDED")
+  orderIndex          Int    @default(0)
+
+  simulationVersion SimulationVersion @relation(fields: [simulationVersionId], references: [id], onDelete: Cascade)
+  lesson            Lesson            @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@id([simulationVersionId, lessonId])
+}
+
+model SimulationSession {
+  id                  String    @id @default(uuid())
+  userId              String
+  simulationVersionId String
+  status              String    @default("IN_PROGRESS")
+  currentStepOrder    Int       @default(0)
+  startRequestKey     String?   @unique
+  startedAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  completedAt         DateTime?
+  abandonedAt         DateTime?
+
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  simulationVersion SimulationVersion    @relation(fields: [simulationVersionId], references: [id], onDelete: Cascade)
+  decisions         SimulationDecision[]
+  result            SimulationResult?
+
+  @@index([userId, status, updatedAt])
+  @@index([userId, simulationVersionId, startedAt])
+}
+
+model SimulationDecision {
+  id          String   @id @default(uuid())
+  sessionId   String
+  stepId      String
+  optionId    String
+  requestKey  String?  @unique
+  submittedAt DateTime @default(now())
+
+  session SimulationSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  step    SimulationStep    @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  option  SimulationOption  @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, stepId])
+  @@index([sessionId, submittedAt])
+}
+
+model SimulationResult {
+  id                    String   @id @default(uuid())
+  sessionId             String   @unique
+  overallScore          Int
+  categoryScores        Json
+  resultBand            String
+  scorePolicyVersion    String
+  deterministicFeedback Json
+  aiFeedback            Json?
+  feedbackSource        String   @default("DETERMINISTIC_FALLBACK")
+  aiProviderId          String?
+  aiModelId             String?
+  aiPromptVersion       String?
+  xpAwarded             Int      @default(0)
+  resultSnapshot        Json
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  session            SimulationSession    @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  competencyEvidence CompetencyEvidence[]
+}
+
+model Competency {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  evidence CompetencyEvidence[]
+}
+
+model CompetencyEvidence {
+  id           String   @id @default(uuid())
+  userId       String
+  competencyId String
+  resultId     String
+  score        Int
+  weight       Int
+  evidence     String
+  createdAt    DateTime @default(now())
+
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  competency Competency       @relation(fields: [competencyId], references: [id], onDelete: Cascade)
+  result     SimulationResult @relation(fields: [resultId], references: [id], onDelete: Cascade)
+
+  @@unique([resultId, competencyId])
+  @@index([userId, competencyId, createdAt])
 }

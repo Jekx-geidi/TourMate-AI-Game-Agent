@@ -24,6 +24,10 @@ import { SubjectFlashcardsPage } from './pages/SubjectFlashcardsPage';
 import { SubjectGamesPage } from './pages/SubjectGamesPage';
 import { SubjectLessonsPage } from './pages/SubjectLessonsPage';
 import { SubjectNotesPage } from './pages/SubjectNotesPage';
+import { SimulationDetailPage } from './pages/SimulationDetailPage';
+import { SimulationPlayPage } from './pages/SimulationPlayPage';
+import { SimulationResultPage } from './pages/SimulationResultPage';
+import { SimulationsPage } from './pages/SimulationsPage';
 import { SubjectQuizPage } from './pages/SubjectQuizPage';
 import { SubjectStudyModePage } from './pages/SubjectStudyModePage';
 import { SubjectTutorPage } from './pages/SubjectTutorPage';
@@ -63,6 +67,10 @@ const router = createBrowserRouter([
       { path: '/subjects/:id/flashcards', element: <SubjectFlashcardsPage /> },
       { path: '/subjects/:id/games', element: <SubjectGamesPage /> },
       { path: '/subjects/:id/tutor', element: <SubjectTutorPage /> },
+      { path: '/simulations', element: <SimulationsPage /> },
+      { path: '/simulations/:slug', element: <SimulationDetailPage /> },
+      { path: '/simulations/:slug/play', element: <SimulationPlayPage /> },
+      { path: '/simulation-sessions/:sessionId/results', element: <SimulationResultPage /> },
       { path: '/language', element: <LanguagePage /> },
       { path: '/maps-flags', element: <MapsFlagsPage /> },
       { path: '/quiz-studio', element: <QuizStudioPage /> },

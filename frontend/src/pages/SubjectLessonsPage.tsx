@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { LessonCard } from '../components/LessonCard';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -10,6 +10,8 @@ import type { Lesson } from '../types';
 
 export function SubjectLessonsPage() {
   const { id = '' } = useParams();
+  const [searchParams] = useSearchParams();
+  const requestedLessonId = searchParams.get('lesson');
   const { data, isLoading, isError } = useQuery<Lesson[]>({
     queryKey: ['subject-lessons', id],
     queryFn: () => subjectsService.lessons(id),
@@ -19,7 +21,12 @@ export function SubjectLessonsPage() {
   if (isLoading) return <LoadingSpinner label="Loading lessons..." />;
   if (isError || !data) return <ErrorMessage message="We could not load the lessons for this subject." />;
 
-  const selected = data.find((lesson) => lesson.id === selectedId) ?? data[0];
+  // A related-mission result can deep-link here via ?lesson=<id> (e.g. from
+  // the simulation results page); fall back to the first lesson otherwise.
+  const selected =
+    data.find((lesson) => lesson.id === selectedId) ??
+    data.find((lesson) => lesson.id === requestedLessonId) ??
+    data[0];
 
   return (
     <div className="grid gap-6 xl:grid-cols-[360px_1fr]">

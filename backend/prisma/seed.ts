@@ -1,10 +1,27 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { SUBJECT_SEEDS } from './seed-data';
+import { seedDelayedFlightMission } from './seed-simulations';
 
 const prisma = new PrismaClient();
 
 async function main() {
+  // Simulation/gamification tables are wiped here too so a full reseed stays
+  // internally consistent (their upsert-based seeding in seed-simulations.ts
+  // is what makes it safe to run standalone WITHOUT this wipe).
+  await prisma.competencyEvidence.deleteMany();
+  await prisma.simulationResult.deleteMany();
+  await prisma.simulationDecision.deleteMany();
+  await prisma.simulationSession.deleteMany();
+  await prisma.simulationLesson.deleteMany();
+  await prisma.simulationOption.deleteMany();
+  await prisma.simulationStep.deleteMany();
+  await prisma.simulationVersion.deleteMany();
+  await prisma.simulation.deleteMany();
+  await prisma.competency.deleteMany();
+  await prisma.activityEvent.deleteMany();
+  await prisma.gameProfile.deleteMany();
+
   await prisma.chatLog.deleteMany();
   await prisma.quizResult.deleteMany();
   await prisma.progress.deleteMany();
@@ -27,6 +44,8 @@ async function main() {
   });
 
   const createdSubjects: Array<{ id: string; code: string }> = [];
+  let airmgtSubjectId: string | undefined;
+  let delayedFlightLessonId: string | undefined;
 
   for (const subject of SUBJECT_SEEDS) {
     const created = await prisma.subject.create({
@@ -69,11 +88,24 @@ async function main() {
       },
       include: {
         quizzes: true,
+        lessons: true,
       },
     });
 
     createdSubjects.push({ id: created.id, code: created.code });
+
+    if (created.code === 'AIRMGT') {
+      airmgtSubjectId = created.id;
+      delayedFlightLessonId = created.lessons.find(
+        (lesson) => lesson.title === 'Passenger Handling and Ground Services',
+      )?.id;
+    }
   }
+
+  await seedDelayedFlightMission(prisma, {
+    airmgtSubjectId,
+    relatedLessonId: delayedFlightLessonId,
+  });
 
   await prisma.note.createMany({
     data: createdSubjects.slice(0, 3).map((subject, index) => ({
