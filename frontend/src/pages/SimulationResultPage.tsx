@@ -56,12 +56,12 @@ export function SimulationResultPage() {
           </div>
         </div>
 
-        <div className="space-y-3 rounded-2xl bg-[#FBEAFF] p-4 dark:bg-white/5">
+        <div className="space-y-3 rounded-2xl bg-[#FFE9F1] p-4 dark:bg-white/5">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold uppercase tracking-wide text-[#49316B] dark:text-[#FBEAFF]/80">
+            <h2 className="text-sm font-bold uppercase tracking-wide text-[#2E50E6] dark:text-[#FFE9F1]/80">
               Coaching feedback
             </h2>
-            <span className="text-xs font-semibold text-[#49316B]/70 dark:text-[#FBEAFF]/60">
+            <span className="text-xs font-semibold text-[#2E50E6]/70 dark:text-[#FFE9F1]/60">
               {result.coachFeedback.source === 'AI' ? 'AI-generated' : 'Reviewed guidance'}
             </span>
           </div>
@@ -93,7 +93,7 @@ export function SimulationResultPage() {
         </div>
 
         {result.reward.xpAwarded > 0 || result.reward.newPersonalBest ? (
-          <div className="flex items-center justify-between rounded-2xl border border-[#00C9A9]/40 bg-white p-4 text-sm font-semibold text-slate-800 dark:bg-[#19053B]/60 dark:text-slate-100">
+          <div className="flex items-center justify-between rounded-2xl border border-[#00C351]/40 bg-white p-4 text-sm font-semibold text-slate-800 dark:bg-[#0A0A0F]/60 dark:text-slate-100">
             <span>+{result.reward.xpAwarded} XP</span>
             {result.reward.newPersonalBest ? <span>New personal best!</span> : null}
           </div>

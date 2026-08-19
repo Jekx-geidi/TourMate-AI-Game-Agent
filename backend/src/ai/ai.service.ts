@@ -1,3 +1,5 @@
+import { readFileSync, readdirSync } from 'fs';
+import { join } from 'path';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios from 'axios';
@@ -6,32 +8,24 @@ import { PrismaService } from '../prisma/prisma.service';
 import { ChatDto } from './dto/chat.dto';
 import { GenerateContentDto } from './dto/generate-content.dto';
 
-const TOURMATE_SYSTEM_PROMPT = `You are TourMate AI, a warm and hospitable study companion for BS Tourism Management students.
-Speak in simple, friendly, encouraging English.
-Help the student understand Tourism, Airline Management, MICE, Foreign Language, PE, and Tourism Elective subjects.
-Always support the student emotionally and academically.
-Ask how their studies are going, what they achieved today, and what they want to improve.
-Never shame the student.
-Never encourage cheating or academic dishonesty.
-Explain difficult concepts using examples from tourism, hotels, airlines, events, maps, countries, destinations, customer service, and real-life travel situations.
-When the student asks for answers, explain the reasoning so they can learn.
-When useful, offer a short quiz or flashcard review.
-Keep explanations clear and beginner-friendly.`;
+// Prompt content lives in prompts/*.md (not hardcoded here) so tone, scope,
+// and per-subject persona can be edited without touching code. See
+// prompts/system-prompt.md for the off-topic refusal rule specifically.
+const PROMPTS_DIR = join(__dirname, 'prompts');
 
-const SUBJECT_AGENT_PROMPTS: Record<string, string> = {
-  TMEL03:
-    'You are acting as the TMEL03 Eco Agent, a specialist in sustainable tourism, ecotourism, tourism trends, destination development, and responsible travel.',
-  NMICE:
-    'You are acting as the NMICE Events Agent, a specialist in Meetings, Incentives, Conferences, and Exhibitions: event planning, venue selection, registration, and event evaluation.',
-  AIRMGT:
-    'You are acting as the AIRMGT Aviation Agent, a specialist in airline and airport operations, ticketing, reservations, passenger handling, ground services, aviation safety, and airline marketing.',
-  TMEL04:
-    'You are acting as the TMEL04 Heritage Agent, a specialist in heritage tourism, cultural tourism, tourism innovation, travel technology, and tourism product development.',
-  FOLA01:
-    'You are acting as the FOLA01 Language Agent, a specialist in foreign language basics for tourism: greetings, self-introduction, numbers, directions, hotel, airport, restaurant, and tourist assistance phrases. Include pronunciation help when teaching phrases.',
-  TMEL02:
-    'You are acting as the TMEL02 Travel Biz Agent, a specialist in tourism marketing, tour operations, travel agency basics, itinerary planning, and customer service.',
-};
+const TOURMATE_SYSTEM_PROMPT = readFileSync(
+  join(PROMPTS_DIR, 'system-prompt.md'),
+  'utf-8',
+).trim();
+
+const SUBJECT_AGENT_PROMPTS: Record<string, string> = Object.fromEntries(
+  readdirSync(join(PROMPTS_DIR, 'subjects'))
+    .filter((file) => file.endsWith('.md'))
+    .map((file) => [
+      file.replace(/\.md$/, ''),
+      readFileSync(join(PROMPTS_DIR, 'subjects', file), 'utf-8').trim(),
+    ]),
+);
 
 type ProviderName = 'hermes' | 'ollama' | 'gemma' | 'openrouter' | 'local';
 
@@ -147,10 +141,10 @@ export class AiService {
       ? 'hermes'
       : ollamaConnected
         ? 'ollama'
-        : gemmaReady
-          ? 'gemma'
-          : openRouterReady
-            ? 'openrouter'
+        : openRouterReady
+          ? 'openrouter'
+          : gemmaReady
+            ? 'gemma'
             : 'local';
 
     return {
@@ -165,9 +159,11 @@ export class AiService {
         ? 'Hermes Agent is connected. TourMate AI will use Hermes first.'
         : ollamaConnected
           ? 'Ollama is available and will be used as the next-choice provider.'
-          : gemmaReady
-            ? 'Gemma is configured and will be used as the next-choice provider.'
-            : 'Hermes Agent is not connected yet. TourMate AI is using TOURMATE AGENT fallback.',
+          : openRouterReady
+            ? 'OpenRouter is configured and will be used as the next-choice provider.'
+            : gemmaReady
+              ? 'Gemma is configured and will be used as the fallback provider.'
+              : 'Hermes Agent is not connected yet. TourMate AI is using TOURMATE AGENT fallback.',
     };
   }
 
@@ -190,7 +186,48 @@ export class AiService {
         : TOURMATE_SYSTEM_PROMPT;
     const userPrompt = `Subject: ${subjectCode ?? 'General Tourism Study'}\n${message}`;
 
-    // 1) Google AI Studio — Gemma (primary provider).
+    // 1) OpenRouter (primary provider).
+    if (openRouterKey) {
+      try {
+        const response = await axios.post(
+          'https://openrouter.ai/api/v1/chat/completions',
+          {
+            model:
+              this.configService.get<string>('OPENROUTER_MODEL') ??
+              'openai/gpt-4o-mini',
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt },
+            ],
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${openRouterKey}`,
+              'HTTP-Referer':
+                this.configService.get<string>('OPENROUTER_SITE_URL') ??
+                'http://localhost:5173',
+              'X-Title':
+                this.configService.get<string>('OPENROUTER_APP_NAME') ??
+                'TourMate AI',
+            },
+            timeout: 15000,
+          },
+        );
+
+        const reply: string | undefined =
+          response.data?.choices?.[0]?.message?.content || undefined;
+
+        if (reply) {
+          this.lastProvider = 'openrouter';
+          return { reply, provider: 'openrouter' as const };
+        }
+        this.logger.warn('OpenRouter returned an empty reply, trying next provider.');
+      } catch (error) {
+        this.logger.warn(`OpenRouter request failed: ${String(error)}`);
+      }
+    }
+
+    // 2) Google AI Studio — Gemma (fallback).
     // Gemma models do not support a system role, so the system prompt is prepended.
     if (gemmaKey) {
       const gemmaModel =
@@ -229,44 +266,6 @@ export class AiService {
         this.logger.warn('Gemma returned an empty reply, trying next provider.');
       } catch (error) {
         this.logger.warn(`Gemma (Google AI Studio) request failed: ${String(error)}`);
-      }
-    }
-
-    // 2) OpenRouter fallback.
-    if (openRouterKey) {
-      try {
-        const response = await axios.post(
-          'https://openrouter.ai/api/v1/chat/completions',
-          {
-            model:
-              this.configService.get<string>('OPENROUTER_MODEL') ??
-              'openai/gpt-4o-mini',
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: userPrompt },
-            ],
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${openRouterKey}`,
-              'HTTP-Referer':
-                this.configService.get<string>('OPENROUTER_SITE_URL') ??
-                'http://localhost:5173',
-              'X-Title':
-                this.configService.get<string>('OPENROUTER_APP_NAME') ??
-                'TourMate AI',
-            },
-            timeout: 15000,
-          },
-        );
-
-        const reply =
-          response.data?.choices?.[0]?.message?.content ??
-          this.localFallback(message, subjectCode, mode);
-        this.lastProvider = 'openrouter';
-        return { reply, provider: 'openrouter' as const };
-      } catch (error) {
-        this.logger.warn(`OpenRouter request failed: ${String(error)}`);
       }
     }
 

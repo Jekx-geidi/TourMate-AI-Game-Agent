@@ -1,18 +1,18 @@
 import { ArrowRight, Compass, MapPinned, MessageCircle, Sparkles, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg';
-import { DotGridBackground } from '../components/DotGridBackground';
+import { GradientWavesBackground } from '../components/GradientWavesBackground';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 
 export function LandingPage() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-100">
-      <DotGridBackground />
+      <GradientWavesBackground waveColor="#bc20b6" horizonColor="#27c3ff" />
       <div className="relative mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
         <header className="flex flex-col gap-4 rounded-[1.75rem] border border-slate-200/80 bg-white/90 px-4 py-4 shadow-soft backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:rounded-full sm:px-6 sm:py-3">
           <div className="flex items-center gap-3">
-            <img src={logo} alt="TourMate AI logo" className="h-12 w-12 rounded-2xl bg-white p-2 shadow-soft" />
+            <img src={logo} alt="TourMate AI logo" className="h-12 w-auto rounded-2xl bg-white p-2 shadow-soft dark:bg-[#0A0A0F]" />
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.38em] text-cyan-700 dark:text-cyan-300">TourMate AI</p>
               <p className="text-sm text-slate-500 dark:text-slate-400">Built for BS Tourism Management students</p>

@@ -21,7 +21,7 @@ export function CompetencyBreakdown({ scores }: { scores: Record<CompetencyCode,
             className="h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700"
           >
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#19053B] via-[#49316B] to-[#00C9A9]"
+              className="h-full rounded-full bg-gradient-to-r from-[#E62E6B] via-[#2E50E6] to-[#00C351]"
               style={{ width: `${Math.max(0, Math.min(100, score))}%` }}
             />
           </div>

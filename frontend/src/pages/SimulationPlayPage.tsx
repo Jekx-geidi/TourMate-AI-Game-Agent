@@ -127,7 +127,7 @@ export function SimulationPlayPage() {
               {step.options.map((option) => (
                 <label
                   key={option.id}
-                  className="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#49316B]/20 bg-white p-4 text-sm transition hover:border-[#00C9A9]/60 has-[:checked]:border-[#00C9A9] has-[:checked]:bg-[#FBEAFF] dark:border-white/10 dark:bg-[#19053B]/60 dark:has-[:checked]:bg-white/10"
+                  className="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#2E50E6]/20 bg-white p-4 text-sm transition hover:border-[#00C351]/60 has-[:checked]:border-[#00C351] has-[:checked]:bg-[#FFE9F1] dark:border-white/10 dark:bg-[#0A0A0F]/60 dark:has-[:checked]:bg-white/10"
                 >
                   <input
                     type="radio"
@@ -136,7 +136,7 @@ export function SimulationPlayPage() {
                     checked={selectedOptionId === option.id}
                     onChange={() => setSelectedOptionId(option.id)}
                     disabled={answerMutation.isPending}
-                    className="mt-1 h-4 w-4 accent-[#19053B]"
+                    className="mt-1 h-4 w-4 accent-[#E62E6B]"
                   />
                   <span className="text-slate-800 dark:text-slate-100">{option.text}</span>
                 </label>

@@ -63,23 +63,23 @@ export function RegisterPage() {
   };
 
   return (
-    <div className="palette-screen flex min-h-screen items-center justify-center px-4 py-10 dark:bg-[#19053B]">
+    <div className="palette-screen flex min-h-screen items-center justify-center px-4 py-10 dark:bg-[#0A0A0F]">
       <div className="w-full max-w-sm">
         <Link
-          className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#49316B] transition hover:text-[#19053B] dark:text-[#FBEAFF] dark:hover:text-white"
+          className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-[#2E50E6] transition hover:text-[#E62E6B] dark:text-[#FFE9F1] dark:hover:text-white"
           to="/welcome"
         >
           <ChevronLeft className="h-4 w-4" />
           Back
         </Link>
 
-        <div className="palette-panel rounded-2xl border p-7 sm:p-8 dark:border-white/10 dark:bg-[#19053B]/90">
+        <div className="palette-panel rounded-2xl border p-7 sm:p-8 dark:border-white/10 dark:bg-[#0A0A0F]/90">
           <div className="mb-6 text-center">
-            <img src={logo} alt="TourMate AI" className="palette-ring mx-auto h-14 w-14 rounded-2xl" />
-            <h1 className="mt-4 text-xl font-semibold text-[#19053B] dark:text-[#FBEAFF]">
+            <img src={logo} alt="TourMate AI" className="palette-ring mx-auto h-14 w-auto rounded-2xl" />
+            <h1 className="mt-4 text-xl font-semibold text-[#E62E6B] dark:text-[#FFE9F1]">
               Create your account
             </h1>
-            <p className="mt-1 text-sm text-[#49316B]/75 dark:text-[#FBEAFF]/70">
+            <p className="mt-1 text-sm text-[#2E50E6]/75 dark:text-[#FFE9F1]/70">
               Start learning with TourMate AI.
             </p>
           </div>
@@ -98,7 +98,7 @@ export function RegisterPage() {
             }}
           >
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#49316B] dark:text-[#FBEAFF]">Name</label>
+              <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">Name</label>
               <Input
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -107,7 +107,7 @@ export function RegisterPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#49316B] dark:text-[#FBEAFF]">Email</label>
+              <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">Email</label>
               <Input
                 type="email"
                 value={form.email}
@@ -117,7 +117,7 @@ export function RegisterPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#49316B] dark:text-[#FBEAFF]">
+              <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">
                 Password
               </label>
               <PasswordInput
@@ -128,7 +128,7 @@ export function RegisterPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#49316B] dark:text-[#FBEAFF]">
+              <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">
                 Confirm password
               </label>
               <PasswordInput
@@ -149,9 +149,9 @@ export function RegisterPage() {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-[#49316B]/75 dark:text-[#FBEAFF]/70">
+          <p className="mt-6 text-center text-sm text-[#2E50E6]/75 dark:text-[#FFE9F1]/70">
             Already have an account?{' '}
-            <Link className="font-medium text-[#19053B] hover:underline dark:text-white" to="/login">
+            <Link className="font-medium text-[#E62E6B] hover:underline dark:text-white" to="/login">
               Log in
             </Link>
           </p>

@@ -27,12 +27,12 @@ export function Navbar({ onMenuClick }: { onMenuClick?: () => void }) {
             </button>
           ) : null}
           <Link to="/dashboard" className="flex items-center gap-2.5">
-            <div className="rounded-2xl bg-white p-1 shadow-md">
-              <img src={logo} alt="TourMate Game logo" className="h-10 w-10" />
+            <div className="rounded-2xl bg-white p-1 shadow-md dark:bg-[#0A0A0F]">
+              <img src={logo} alt="TourMate Game logo" className="h-10 w-auto" />
             </div>
             <div>
               <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-white">
-                TourMate <span className="text-[#00C9A9]">Game</span>
+                TourMate <span className="text-[#00C351]">Game</span>
               </p>
               <p className="hidden text-xs text-white/75 sm:block">
                 Learn tourism by playing

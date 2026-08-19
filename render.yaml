@@ -1,30 +1,31 @@
 services:
   - type: web
-    name: tourmate-ai-backend
+    name: tourmate-ai-game-agent
     runtime: node
-    repo: https://github.com/Jekjek110805/TOURMATE-AI
-    branch: main
+    plan: free
     rootDir: backend
-    buildCommand: npm install && npm run build
+    buildCommand: npm install && npm run build && npm run prisma:deploy
     startCommand: npm run start:prod
     envVars:
       - key: NODE_VERSION
-        value: 22
-      - key: PORT
-        value: 10000
+        value: 20
       - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
         sync: false
       - key: JWT_SECRET
         sync: false
-      - key: FRONTEND_URL
-        value: https://tourmate-ai-tan.vercel.app
-      - key: GEMMA_API_KEY
-        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
       - key: OPENROUTER_API_KEY
         sync: false
-      - key: SUPABASE_URL
+      - key: OPENROUTER_MODEL
+        value: nvidia/nemotron-3.5-lightning:free
+      - key: OPENROUTER_SITE_URL
         sync: false
-      - key: SUPABASE_ANON_KEY
+      - key: OPENROUTER_APP_NAME
+        value: TourMate AI
+      - key: GEMMA_API_KEY
         sync: false
-      - key: SUPABASE_SERVICE_ROLE_KEY
+      - key: FRONTEND_URL
         sync: false

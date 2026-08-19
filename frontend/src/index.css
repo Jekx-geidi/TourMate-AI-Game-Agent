@@ -5,10 +5,10 @@
 @tailwind utilities;
 
 :root {
-  --brand-plum: #19053b;
-  --brand-purple: #49316b;
-  --brand-blush: #fbeaff;
-  --brand-mint: #00c9a9;
+  --brand-plum: #E62E6B;
+  --brand-purple: #2E50E6;
+  --brand-blush: #FFE9F1;
+  --brand-mint: #00C351;
   --background: 286 100% 96%;
   --foreground: 264 84% 13%;
   --card: 0 0% 100%;
@@ -39,10 +39,10 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #fbeaff;
+  background-color: #FFE9F1;
   background-image:
-    radial-gradient(circle at top left, rgba(0, 201, 169, 0.14), transparent 30rem),
-    linear-gradient(180deg, #fff9ff 0%, #fbeaff 48%, #f8f3ff 100%);
+    radial-gradient(circle at top left, rgba(0, 195, 81, 0.14), transparent 30rem),
+    linear-gradient(180deg, #fff9ff 0%, #FFE9F1 48%, #f8f3ff 100%);
   background-attachment: fixed;
   color: hsl(var(--foreground));
   -webkit-font-smoothing: antialiased;
@@ -56,10 +56,10 @@ body {
 }
 
 .dark body {
-  background-color: #19053b;
+  background-color: #0A0A0F;
   background-image:
-    radial-gradient(circle at top right, rgba(0, 201, 169, 0.16), transparent 28rem),
-    linear-gradient(180deg, #19053b 0%, #130330 100%);
+    radial-gradient(circle at top right, rgba(0, 195, 81, 0.16), transparent 28rem),
+    linear-gradient(180deg, #0A0A0F 0%, #130330 100%);
   color: hsl(var(--foreground));
 }
 
@@ -90,37 +90,37 @@ a {
 @layer utilities {
   .glass-panel {
     @apply border backdrop-blur-xl;
-    border-color: rgba(73, 49, 107, 0.16);
+    border-color: rgba(46, 80, 230, 0.16);
     background: rgba(255, 255, 255, 0.9);
   }
 
   .dark .glass-panel {
-    border-color: rgba(251, 234, 255, 0.14);
-    background: rgba(25, 5, 59, 0.78);
+    border-color: rgba(255, 233, 241, 0.14);
+    background: rgba(10, 10, 15, 0.78);
   }
 
   .brand-gradient {
-    background: linear-gradient(135deg, #19053b 0%, #49316b 58%, #00c9a9 100%);
+    background: linear-gradient(135deg, #E62E6B 0%, #2E50E6 58%, #00C351 100%);
   }
 
   .brand-gradient-r {
-    background: linear-gradient(90deg, #19053b 0%, #49316b 58%, #00c9a9 100%);
+    background: linear-gradient(90deg, #E62E6B 0%, #2E50E6 58%, #00C351 100%);
   }
 
   .palette-screen {
     background:
-      radial-gradient(circle at 12% 12%, rgba(0, 201, 169, 0.22), transparent 18rem),
-      radial-gradient(circle at 90% 8%, rgba(73, 49, 107, 0.18), transparent 22rem),
-      linear-gradient(180deg, #fffaff 0%, #fbeaff 100%);
+      radial-gradient(circle at 12% 12%, rgba(0, 195, 81, 0.22), transparent 18rem),
+      radial-gradient(circle at 90% 8%, rgba(46, 80, 230, 0.18), transparent 22rem),
+      linear-gradient(180deg, #fffaff 0%, #FFE9F1 100%);
   }
 
   .palette-panel {
-    border-color: rgba(73, 49, 107, 0.18);
+    border-color: rgba(46, 80, 230, 0.18);
     background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 24px 70px rgba(25, 5, 59, 0.14);
+    box-shadow: 0 24px 70px rgba(230, 46, 107, 0.14);
   }
 
   .palette-ring {
-    box-shadow: 0 0 0 4px rgba(0, 201, 169, 0.16);
+    box-shadow: 0 0 0 4px rgba(0, 195, 81, 0.16);
   }
 }
