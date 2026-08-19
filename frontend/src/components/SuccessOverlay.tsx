@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Lottie from 'lottie-react';
+import { LottieLight } from 'lottie-react';
 import doneAnimation from '../assets/done-animation.json';
 
 // The app-wide "done" animation -- use this for save/complete confirmations
@@ -26,7 +26,7 @@ export function SuccessOverlay({
       aria-live="polite"
     >
       <div className="flex flex-col items-center gap-2 rounded-3xl bg-white px-8 py-8 text-center shadow-2xl dark:bg-slate-900">
-        <Lottie animationData={doneAnimation} loop={false} className="h-28 w-28" />
+        <LottieLight src={doneAnimation} loop={false} autoplay className="h-28 w-28" />
         <p className="text-base font-bold text-slate-900 dark:text-slate-100">{message}</p>
       </div>
     </div>
