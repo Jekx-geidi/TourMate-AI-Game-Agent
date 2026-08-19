@@ -48,10 +48,16 @@ export class AiService {
   }
 
   async chat(userId: string, dto: ChatDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { name: true },
+    });
+
     const { reply, provider } = await this.askProvider(
       dto.message,
       dto.subjectCode,
       'chat',
+      user?.name,
     );
 
     await this.prisma.chatLog.create({
@@ -176,15 +182,36 @@ export class AiService {
       | 'generate-notes'
       | 'generate-flashcards'
       | 'study-plan' = 'chat',
+    studentName?: string,
   ) {
-    const gemmaKey = this.configService.get<string>('GEMMA_API_KEY');
-    const openRouterKey = this.configService.get<string>('OPENROUTER_API_KEY');
-
     const systemPrompt =
       subjectCode && SUBJECT_AGENT_PROMPTS[subjectCode]
         ? `${TOURMATE_SYSTEM_PROMPT}\n\n${SUBJECT_AGENT_PROMPTS[subjectCode]}`
         : TOURMATE_SYSTEM_PROMPT;
-    const userPrompt = `Subject: ${subjectCode ?? 'General Tourism Study'}\n${message}`;
+    const namePrefix = studentName ? `Student name: ${studentName}\n` : '';
+    const userPrompt = `${namePrefix}Subject: ${subjectCode ?? 'General Tourism Study'}\n${message}`;
+    const fallbackReply = this.localFallback(message, subjectCode, mode);
+
+    return this.completeWithProviders(systemPrompt, userPrompt, fallbackReply);
+  }
+
+  // Used outside the tourism-tutor flow (e.g. document study help) where the
+  // caller supplies its own system prompt instead of the tourism-scoped one.
+  async generateWithPrompt(systemPrompt: string, userPrompt: string) {
+    return this.completeWithProviders(
+      systemPrompt,
+      userPrompt,
+      "I'm having trouble reaching an AI provider right now. Please try again in a moment.",
+    );
+  }
+
+  private async completeWithProviders(
+    systemPrompt: string,
+    userPrompt: string,
+    fallbackReply: string,
+  ) {
+    const gemmaKey = this.configService.get<string>('GEMMA_API_KEY');
+    const openRouterKey = this.configService.get<string>('OPENROUTER_API_KEY');
 
     // 1) OpenRouter (primary provider).
     if (openRouterKey) {
@@ -274,13 +301,11 @@ export class AiService {
     const ollamaModel = this.configService.get<string>('OLLAMA_MODEL') ?? 'ollama-v3';
 
     try {
-      const prompt = `Subject: ${subjectCode ?? 'General Tourism Study'}\n${message}`;
-
       const response = await axios.post(
         `${ollamaUrl}/api/generate`,
         {
           model: ollamaModel,
-          prompt,
+          prompt: userPrompt,
         },
         { timeout: 20000 },
       );
@@ -298,9 +323,8 @@ export class AiService {
       this.logger.warn(`Ollama request failed, falling back: ${String(err)}`);
     }
 
-    const reply = this.localFallback(message, subjectCode, mode);
     this.lastProvider = 'local';
-    return { reply, provider: 'local' as const };
+    return { reply: fallbackReply, provider: 'local' as const };
   }
 
   private localFallback(message: string, subjectCode?: string, mode?: string) {

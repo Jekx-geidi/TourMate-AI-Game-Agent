@@ -1,13 +1,22 @@
+import { useEffect, useState } from 'react';
 import { ArrowRight, Compass, MapPinned, MessageCircle, Sparkles, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 import { GradientWavesBackground } from '../components/GradientWavesBackground';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
+import { VISITOR_NAME_KEY, WelcomeMascotPopup } from '../components/WelcomeMascotPopup';
 
 export function LandingPage() {
+  const [visitorName, setVisitorName] = useState<string | null>(null);
+
+  useEffect(() => {
+    setVisitorName(localStorage.getItem(VISITOR_NAME_KEY));
+  }, []);
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-50 text-slate-950 dark:bg-slate-950 dark:text-slate-100">
+      <WelcomeMascotPopup />
       <GradientWavesBackground waveColor="#bc20b6" horizonColor="#27c3ff" />
       <div className="relative mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-6 lg:px-8">
         <header className="flex flex-col gap-4 rounded-[1.75rem] border border-slate-200/80 bg-white/90 px-4 py-4 shadow-soft backdrop-blur-xl dark:border-slate-800 dark:bg-slate-900/80 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:rounded-full sm:px-6 sm:py-3">
@@ -35,7 +44,7 @@ export function LandingPage() {
         <section className="grid gap-6 pb-8 pt-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-10 lg:pb-16 lg:pt-16">
           <div>
             <p className="inline-flex rounded-full border border-slate-200/80 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.34em] text-cyan-700 shadow-soft backdrop-blur dark:border-slate-800 dark:bg-slate-900/80 dark:text-cyan-300">
-              Interactive study hub
+              {visitorName ? `Welcome back, ${visitorName}!` : 'Interactive study hub'}
             </p>
             <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[1.02] text-slate-950 dark:text-slate-50 sm:text-5xl lg:text-7xl">
               Learn tourism in a space that feels like motion, progress, and real direction.

@@ -11,15 +11,27 @@ import { useAuth } from '../hooks/use-auth';
 import { supabase } from '../lib/supabase';
 import { authService } from '../services/auth.service';
 
+function describeError(err: unknown, fallback: string) {
+  if (axios.isAxiosError(err)) {
+    if (!err.response) return 'Unable to reach the server. Please try again in a moment.';
+    const message = err.response.data?.message;
+    return (Array.isArray(message) ? message.join(', ') : message) ?? fallback;
+  }
+  if (err instanceof Error) return err.message;
+  return fallback;
+}
+
 export function RegisterPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [step, setStep] = useState<'form' | 'code'>('form');
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+  const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -38,12 +50,25 @@ export function RegisterPage() {
     }
   };
 
-  const handleRegister = async () => {
+  const handleRequestCode = async () => {
     if (form.password !== form.confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
 
+    try {
+      setLoading(true);
+      setError('');
+      await authService.requestRegisterCode({ email: form.email.trim() });
+      setStep('code');
+    } catch (err) {
+      setError(describeError(err, 'Could not send a verification code. Please try again.'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyAndRegister = async () => {
     try {
       setLoading(true);
       setError('');
@@ -53,26 +78,25 @@ export function RegisterPage() {
         email: form.email.trim(),
         password: form.password,
         confirmPassword: form.confirmPassword,
+        code: code.trim(),
       });
 
       login(response.accessToken, response.user);
       navigate('/dashboard');
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        if (!err.response) {
-          setError('Unable to reach the server. Please try again in a moment.');
-        } else {
-          const message = err.response.data?.message;
-          setError(
-            (Array.isArray(message) ? message.join(', ') : message) ??
-              'Registration failed. Please try again.',
-          );
-        }
-      } else if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('Registration failed. Please try again.');
-      }
+      setError(describeError(err, 'Registration failed. Please try again.'));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      await authService.requestRegisterCode({ email: form.email.trim() });
+    } catch (err) {
+      setError(describeError(err, 'Could not resend the code. Please try again.'));
     } finally {
       setLoading(false);
     }
@@ -93,10 +117,12 @@ export function RegisterPage() {
           <div className="mb-6 text-center">
             <img src={logo} alt="TourMate AI" className="palette-ring mx-auto h-14 w-auto rounded-2xl" />
             <h1 className="mt-4 text-xl font-semibold text-[#E62E6B] dark:text-[#FFE9F1]">
-              Create your account
+              {step === 'form' ? 'Create your account' : 'Check your email'}
             </h1>
             <p className="mt-1 text-sm text-[#2E50E6]/75 dark:text-[#FFE9F1]/70">
-              Start learning with TourMate AI.
+              {step === 'form'
+                ? 'Start learning with TourMate AI.'
+                : `Enter the 6-digit code we sent to ${form.email.trim()}.`}
             </p>
           </div>
 
@@ -106,7 +132,7 @@ export function RegisterPage() {
             </div>
           ) : null}
 
-          {supabase ? (
+          {step === 'form' && supabase ? (
             <>
               <Button
                 type="button"
@@ -145,64 +171,109 @@ export function RegisterPage() {
             </>
           ) : null}
 
-          <form
-            className="space-y-4"
-            onSubmit={(e) => {
-              e.preventDefault();
-              void handleRegister();
-            }}
-          >
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">Name</label>
-              <Input
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                placeholder="Your name"
-                autoComplete="name"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">Email</label>
-              <Input
-                type="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                placeholder="you@example.com"
-                autoComplete="email"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">
-                Password
-              </label>
-              <PasswordInput
-                value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-                placeholder="At least 8 characters"
-                autoComplete="new-password"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">
-                Confirm password
-              </label>
-              <PasswordInput
-                value={form.confirmPassword}
-                onChange={(e) =>
-                  setForm({ ...form, confirmPassword: e.target.value })
-                }
-                placeholder="Re-enter your password"
-                autoComplete="new-password"
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full rounded-xl"
-              disabled={loading}
+          {step === 'form' ? (
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                void handleRequestCode();
+              }}
             >
-              {loading ? 'Creating account…' : 'Create account'}
-            </Button>
-          </form>
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">Name</label>
+                <Input
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  placeholder="Your name"
+                  autoComplete="name"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">Email</label>
+                <Input
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">
+                  Password
+                </label>
+                <PasswordInput
+                  value={form.password}
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
+                  placeholder="At least 8 characters"
+                  autoComplete="new-password"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">
+                  Confirm password
+                </label>
+                <PasswordInput
+                  value={form.confirmPassword}
+                  onChange={(e) =>
+                    setForm({ ...form, confirmPassword: e.target.value })
+                  }
+                  placeholder="Re-enter your password"
+                  autoComplete="new-password"
+                />
+              </div>
+              <Button
+                type="submit"
+                className="w-full rounded-xl"
+                disabled={loading}
+              >
+                {loading ? 'Sending code…' : 'Send verification code'}
+              </Button>
+            </form>
+          ) : (
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                void handleVerifyAndRegister();
+              }}
+            >
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-[#2E50E6] dark:text-[#FFE9F1]">
+                  Verification code
+                </label>
+                <Input
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  placeholder="123456"
+                  inputMode="numeric"
+                  maxLength={6}
+                  autoComplete="one-time-code"
+                  autoFocus
+                />
+              </div>
+              <Button type="submit" className="w-full rounded-xl" disabled={loading || code.trim().length !== 6}>
+                {loading ? 'Verifying…' : 'Verify and create account'}
+              </Button>
+              <div className="flex items-center justify-between text-sm">
+                <button
+                  type="button"
+                  className="font-medium text-[#2E50E6] hover:underline dark:text-[#FFE9F1]"
+                  onClick={() => setStep('form')}
+                >
+                  Change email
+                </button>
+                <button
+                  type="button"
+                  className="font-medium text-[#2E50E6] hover:underline dark:text-[#FFE9F1] disabled:opacity-50"
+                  disabled={loading}
+                  onClick={() => void handleResendCode()}
+                >
+                  Resend code
+                </button>
+              </div>
+            </form>
+          )}
 
           <p className="mt-6 text-center text-sm text-[#2E50E6]/75 dark:text-[#FFE9F1]/70">
             Already have an account?{' '}

@@ -41,6 +41,24 @@ export class UsersService {
     return this.prisma.user.create({ data });
   }
 
+  // Refreshes name/avatar from a verified Google profile on every sign-in.
+  // No password/email checks -- unlike updateProfile, this is only ever
+  // called with data Supabase has already verified came from Google.
+  syncFromGoogleProfile(
+    userId: string,
+    profile: { name?: string; avatarUrl?: string },
+  ) {
+    const data: { name?: string; avatarUrl?: string } = {};
+    if (profile.name?.trim()) data.name = profile.name.trim();
+    if (profile.avatarUrl?.trim()) data.avatarUrl = profile.avatarUrl.trim();
+
+    if (Object.keys(data).length === 0) {
+      return this.prisma.user.findUnique({ where: { id: userId } });
+    }
+
+    return this.prisma.user.update({ where: { id: userId }, data });
+  }
+
   async updateProfile(userId: string, dto: UpdateProfileDto) {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user) {

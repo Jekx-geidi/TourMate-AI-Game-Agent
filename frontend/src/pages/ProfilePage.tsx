@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Bell, Camera, Moon, Paintbrush, ShieldAlert, Sun, Trash2, Upload, UserRound } from 'lucide-react';
+import { SuccessOverlay } from '../components/SuccessOverlay';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -192,16 +193,13 @@ export function ProfilePage() {
           title="Profile"
           description="Edit your display name, email, and password."
         />
-        {message ? (
-          <p
-            className={`rounded-xl px-4 py-3 text-sm font-semibold ${
-              message.kind === 'ok'
-                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300'
-                : 'bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300'
-            }`}
-          >
+        {message && message.kind === 'error' ? (
+          <p className="rounded-xl bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 dark:bg-rose-950/40 dark:text-rose-300">
             {message.text}
           </p>
+        ) : null}
+        {message && message.kind === 'ok' ? (
+          <SuccessOverlay message={message.text} onDone={() => setMessage(null)} />
         ) : null}
         <div className="grid gap-4 md:grid-cols-2">
           <div className="md:col-span-2">

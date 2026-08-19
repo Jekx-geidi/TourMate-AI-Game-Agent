@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Globe2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import mascotHero from '../assets/mascot-hero.png';
+import mascotSleeping from '../assets/mascot-sleeping.png';
 import { ChallengePanel } from '../components/ChallengePanel';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -111,12 +112,21 @@ export function DashboardPage() {
           </Card>
           <Card className="space-y-3">
             <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Recent notes</h2>
-            {data.recentNotes.map((note) => (
-              <div key={note.id} className="rounded-2xl bg-slate-50 dark:bg-slate-800/60 p-4">
-                <p className="font-semibold text-slate-900 dark:text-slate-100">{note.title}</p>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{note.subject.code}</p>
+            {data.recentNotes.length === 0 ? (
+              <div className="flex flex-col items-center gap-2 py-4 text-center">
+                <img src={mascotSleeping} alt="" className="h-20 w-20" />
+                <p className="text-sm text-slate-500 dark:text-slate-400">
+                  No notes yet. Write one from any subject to see it here.
+                </p>
               </div>
-            ))}
+            ) : (
+              data.recentNotes.map((note) => (
+                <div key={note.id} className="rounded-2xl bg-slate-50 dark:bg-slate-800/60 p-4">
+                  <p className="font-semibold text-slate-900 dark:text-slate-100">{note.title}</p>
+                  <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{note.subject.code}</p>
+                </div>
+              ))
+            )}
           </Card>
           <Card className="space-y-3">
             <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Recent quiz results</h2>

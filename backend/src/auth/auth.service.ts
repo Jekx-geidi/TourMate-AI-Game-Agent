@@ -8,8 +8,10 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { createClient, type User as SupabaseUser } from '@supabase/supabase-js';
 import * as bcrypt from 'bcrypt';
-import { randomBytes } from 'crypto';
+import { randomBytes, randomInt } from 'crypto';
 import { JwtPayload } from '../common/interfaces/jwt-payload.interface';
+import { MailService } from '../mail/mail.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RequestRegisterCodeDto } from './dto/request-register-code.dto';
@@ -19,16 +21,46 @@ import { SupabaseRegisterDto } from './dto/supabase-register.dto';
 
 @Injectable()
 export class AuthService {
+  private static readonly REGISTER_PURPOSE = 'register';
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly prisma: PrismaService,
+    private readonly mailService: MailService,
   ) {}
 
-  async requestRegisterCode(_dto: RequestRegisterCodeDto) {
-    throw new ServiceUnavailableException(
-      'Email verification is currently disabled. Create your account with email and password instead.',
+  async requestRegisterCode(dto: RequestRegisterCodeDto) {
+    const email = dto.email.trim().toLowerCase();
+
+    const existingUser = await this.usersService.findByEmail(email);
+    if (existingUser) {
+      throw new BadRequestException(
+        'An account with this email already exists.',
+      );
+    }
+
+    const code = randomInt(0, 1_000_000).toString().padStart(6, '0');
+    const codeHash = await bcrypt.hash(code, 10);
+    const ttlMinutes = Number(
+      this.configService.get<string>('EMAIL_VERIFICATION_CODE_TTL_MINUTES') ?? '10',
     );
+
+    await this.prisma.emailVerificationCode.upsert({
+      where: { email_purpose: { email, purpose: AuthService.REGISTER_PURPOSE } },
+      update: { codeHash, expiresAt: new Date(Date.now() + ttlMinutes * 60_000) },
+      create: {
+        email,
+        purpose: AuthService.REGISTER_PURPOSE,
+        codeHash,
+        expiresAt: new Date(Date.now() + ttlMinutes * 60_000),
+      },
+    });
+
+    await this.mailService.sendVerificationCode(email, code);
+
+    return { message: `A verification code was sent to ${email}.` };
   }
 
   async register(dto: RegisterDto) {
@@ -45,12 +77,29 @@ export class AuthService {
       );
     }
 
+    const verification = await this.prisma.emailVerificationCode.findUnique({
+      where: { email_purpose: { email, purpose: AuthService.REGISTER_PURPOSE } },
+    });
+
+    if (!verification || verification.expiresAt < new Date()) {
+      throw new BadRequestException(
+        'This verification code has expired. Please request a new one.',
+      );
+    }
+
+    const codeMatches = await bcrypt.compare(dto.code, verification.codeHash);
+    if (!codeMatches) {
+      throw new BadRequestException('That verification code is not correct.');
+    }
+
     const hashedPassword = await bcrypt.hash(dto.password, 10);
     const user = await this.usersService.create({
       name: dto.name,
       email,
       password: hashedPassword,
     });
+
+    await this.prisma.emailVerificationCode.delete({ where: { id: verification.id } });
 
     return this.buildAuthResponse(user);
   }
@@ -140,17 +189,27 @@ export class AuthService {
       );
     }
 
+    const googleName = String(
+      supabaseUser.user_metadata?.full_name ??
+        supabaseUser.user_metadata?.name ??
+        '',
+    ).trim();
+    const googleAvatarUrl = String(
+      supabaseUser.user_metadata?.avatar_url ?? '',
+    ).trim();
+
     const existingUser = await this.usersService.findByEmail(email);
     if (existingUser) {
-      return this.buildAuthResponse(existingUser);
+      // Refresh from the verified Google profile on every sign-in, not just
+      // the first one -- catches a changed photo or display name.
+      const synced = await this.usersService.syncFromGoogleProfile(
+        existingUser.id,
+        { name: googleName, avatarUrl: googleAvatarUrl },
+      );
+      return this.buildAuthResponse(synced ?? existingUser);
     }
 
-    const name =
-      String(
-        supabaseUser.user_metadata?.full_name ??
-          supabaseUser.user_metadata?.name ??
-          '',
-      ).trim() || email.split('@')[0];
+    const name = googleName || email.split('@')[0];
     const generatedPassword = randomBytes(24).toString('hex');
     const hashedPassword = await bcrypt.hash(generatedPassword, 10);
     const user = await this.usersService.create({
@@ -159,7 +218,13 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    return this.buildAuthResponse(user);
+    const withAvatar = googleAvatarUrl
+      ? await this.usersService.syncFromGoogleProfile(user.id, {
+          avatarUrl: googleAvatarUrl,
+        })
+      : user;
+
+    return this.buildAuthResponse(withAvatar ?? user);
   }
 
   async getMe(userId: string) {

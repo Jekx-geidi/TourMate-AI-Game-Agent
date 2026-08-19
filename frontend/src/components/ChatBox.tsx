@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SendHorizontal } from 'lucide-react';
+import mascotThinking from '../assets/mascot-thinking.png';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Input } from './ui/input';
@@ -81,7 +82,8 @@ export function ChatBox({
           </div>
         ))}
         {isSending ? (
-          <div className="rounded-3xl bg-white dark:bg-slate-900 px-4 py-3 text-sm text-slate-400">
+          <div className="flex items-center gap-2 rounded-3xl bg-white dark:bg-slate-900 px-4 py-3 text-sm text-slate-400">
+            <img src={mascotThinking} alt="" className="h-8 w-8" />
             Thinking...
           </div>
         ) : null}
