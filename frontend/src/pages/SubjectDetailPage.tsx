@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Bot, Gamepad2 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
+import mascotHero from '../assets/mascot-hero.png';
 import { CategoryCard } from '../components/CategoryCard';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -36,11 +37,20 @@ export function SubjectDetailPage() {
         <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-black/10" />
         <div className="relative">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
-            {subject.code}
-          </p>
-          <h1 className="mt-3 text-4xl font-black">{subject.title}</h1>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-white/85">{subject.description}</p>
+          <div className="flex flex-wrap items-center gap-5">
+            <img
+              src={mascotHero}
+              alt="TourMate mascot"
+              className="h-20 w-20 shrink-0 rounded-full border-4 border-white/30 bg-white/10 object-cover shadow-lg sm:h-28 sm:w-28"
+            />
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
+                {subject.code}
+              </p>
+              <h1 className="mt-3 text-4xl font-black">{subject.title}</h1>
+              <p className="mt-4 max-w-3xl text-lg leading-8 text-white/85">{subject.description}</p>
+            </div>
+          </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to={`/subjects/${subject.id}/lessons`}>
               <Button variant="white">Start lesson</Button>
