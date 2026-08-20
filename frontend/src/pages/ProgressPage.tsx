@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { LoadingSpinner } from '../components/LoadingSpinner';
+import { Mascot } from '../components/Mascot';
 import { ProgressCard } from '../components/ProgressCard';
 import { Card } from '../components/ui/card';
 import { gamificationService } from '../services/gamification.service';
@@ -24,9 +25,12 @@ export function ProgressPage() {
   return (
     <div className="space-y-6">
       <Card className="space-y-4">
-        <h1 className="text-4xl font-black text-slate-950 dark:text-white">Career Passport</h1>
+        <div className="flex items-center gap-3">
+          <Mascot pose="coolHead" alt="" size="avatar" />
+          <h1 className="text-4xl font-black text-slate-950 dark:text-white">Progress</h1>
+        </div>
         <p className="text-sm text-slate-600 dark:text-slate-400">
-          Track your quiz consistency, subject momentum, mission history, and overall growth.
+          Track your XP, level, streak, and overall growth.
         </p>
       </Card>
 

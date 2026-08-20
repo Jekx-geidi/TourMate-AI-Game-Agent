@@ -1,30 +1,25 @@
 import {
-  BookOpen,
   ChevronLeft,
   ChevronRight,
-  ClipboardList,
   Gamepad2,
-  Globe,
   GraduationCap,
-  Languages,
   MessageCircle,
-  Plane,
-  Target,
+  TrendingUp,
   User,
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { cn } from '../lib/utils';
 
+// TourMate is now a game-first language app (docs/BRD.md v2.0), not a
+// subject/lesson/mission LMS -- see docs/BRD.md section 0 for why Subjects,
+// Missions, Maps & Flags, Quiz Studio, and Career Passport were dropped from
+// primary nav. Their routes/pages still exist (nothing was deleted), they're
+// just no longer the app's main navigation.
 const links = [
   { to: '/dashboard', label: 'Dashboard', icon: GraduationCap },
-  { to: '/subjects', label: 'Subjects', icon: BookOpen },
-  { to: '/simulations', label: 'Missions', icon: Target },
-  { to: '/maps-flags', label: 'Maps & Flags', icon: Globe },
-  { to: '/quiz-studio', label: 'Quiz Studio', icon: ClipboardList },
-  { to: '/language', label: 'Language', icon: Languages },
+  { to: '/language', label: 'Games', icon: Gamepad2 },
   { to: '/ai-tutor', label: 'AI Tutor', icon: MessageCircle },
-  { to: '/agent-status', label: 'Agent Status', icon: Plane },
-  { to: '/progress', label: 'Career Passport', icon: Gamepad2 },
+  { to: '/progress', label: 'Progress', icon: TrendingUp },
   { to: '/profile', label: 'Profile', icon: User },
 ];
 
