@@ -28,6 +28,7 @@ model User {
   uploadedDocuments     UploadedDocument[]
   documentQuizResults   DocumentQuizResult[]
   documentChatLogs      DocumentChatLog[]
+  gameAttempts          GameAttempt[]
 }
 
 model EmailVerificationCode {
@@ -478,4 +479,49 @@ model DocumentChatLog {
   user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([documentId, createdAt])
+}
+
+// --- Language game (BRD.md v2.0 / PRD.md): reading & writing vocab games ---
+//
+// `languageCode` and `mode` are plain String columns, not Prisma enums, for
+// the same cross-connector reason as the gamification/simulation domain
+// above (schema.local.prisma runs on SQLite). Allowed values live in
+// backend/src/language-game/language-game.constants.ts.
+
+model VocabWord {
+  id             String   @id @default(uuid())
+  languageCode   String
+  script         String
+  romanization   String?
+  promptEnglish  String
+  englishAnswers Json
+  category       String?
+  difficulty     Int      @default(1)
+  createdAt      DateTime @default(now())
+
+  attempts GameAttempt[]
+
+  @@unique([languageCode, script])
+  @@index([languageCode, category])
+}
+
+model GameAttempt {
+  id               String   @id @default(uuid())
+  userId           String
+  vocabWordId      String
+  mode             String
+  rawAnswer        String
+  normalizedAnswer String
+  tier             String
+  similarity       Float
+  xpAwarded        Int      @default(0)
+  comboAtAnswer    Int      @default(0)
+  requestKey       String   @unique
+  createdAt        DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vocabWord VocabWord @relation(fields: [vocabWordId], references: [id], onDelete: Cascade)
+
+  @@index([userId, vocabWordId])
+  @@index([userId, createdAt])
 }

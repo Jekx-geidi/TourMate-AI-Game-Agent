@@ -5,6 +5,7 @@ import { AiModule } from './ai/ai.module';
 import { AuthModule } from './auth/auth.module';
 import { FlashcardsModule } from './flashcards/flashcards.module';
 import { GamificationModule } from './gamification/gamification.module';
+import { LanguageGameModule } from './language-game/language-game.module';
 import { LessonsModule } from './lessons/lessons.module';
 import { NotesModule } from './notes/notes.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -31,6 +32,7 @@ import { AppController } from './app.controller';
     AgentModule,
     GamificationModule,
     SimulationsModule,
+    LanguageGameModule,
   ],
   controllers: [AppController],
 })

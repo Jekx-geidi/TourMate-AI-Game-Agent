@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { GraduationCap, Volume2 } from 'lucide-react';
 import { ChatBox } from '../components/ChatBox';
 import { GameResult } from '../components/games/GameResult';
+import { ReadingWritingGame } from '../components/games/ReadingWritingGame';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { useGame } from '../hooks/use-game';
@@ -162,6 +163,8 @@ export function LanguagePage() {
           </p>
         </div>
       </div>
+
+      <ReadingWritingGame languageCode="ja" languageName="Japanese" />
 
       <div className="flex flex-wrap gap-2">
         {LANGUAGES.map((language) => (
