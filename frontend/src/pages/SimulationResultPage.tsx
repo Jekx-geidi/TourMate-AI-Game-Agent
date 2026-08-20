@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { CompetencyBreakdown } from '../components/simulations/CompetencyBreakdown';
+import { Mascot } from '../components/Mascot';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { RESULT_BAND_HINT, RESULT_BAND_LABELS } from '../lib/competencies';
@@ -29,6 +30,9 @@ export function SimulationResultPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-5">
       <Card className="space-y-5">
+        <div className="text-center">
+          <Mascot pose="success" alt="" size="modal" className="mx-auto" />
+        </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-700 dark:text-cyan-300">
             Mission complete

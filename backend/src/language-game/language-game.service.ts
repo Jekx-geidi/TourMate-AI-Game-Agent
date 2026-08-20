@@ -135,6 +135,36 @@ export class LanguageGameService {
     });
   }
 
+  /**
+   * Recent non-perfect attempts for the "Mistake Review" progress feature
+   * (docs pasted 2026-08-20 section 8) -- lets a learner revisit exactly
+   * what they got wrong, not just an aggregate score.
+   */
+  async getMistakes(userId: string, limit = 20) {
+    const attempts = await this.prisma.gameAttempt.findMany({
+      where: { userId, tier: { not: 'PERFECT' } },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      include: { vocabWord: true },
+    });
+
+    return {
+      mistakes: attempts.map((attempt) => ({
+        attemptId: attempt.id,
+        mode: attempt.mode,
+        tier: attempt.tier,
+        yourAnswer: attempt.rawAnswer,
+        prompt: attempt.mode === 'READING' ? attempt.vocabWord.script : attempt.vocabWord.promptEnglish,
+        correctAnswer:
+          attempt.mode === 'READING'
+            ? (attempt.vocabWord.englishAnswers as string[])[0]
+            : attempt.vocabWord.script,
+        romanization: attempt.vocabWord.romanization,
+        createdAt: attempt.createdAt,
+      })),
+    };
+  }
+
   private buildResult(
     attempt: GameAttempt,
     word: VocabWord,

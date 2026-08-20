@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Flashcard as FlashcardComponent } from '../components/Flashcard';
 import { GameCard } from '../components/GameCard';
+import { Mascot } from '../components/Mascot';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { MatchingGame } from '../components/games/MatchingGame';
 import { ScenarioGame } from '../components/games/ScenarioGame';
@@ -64,17 +65,24 @@ export function SubjectGamesPage() {
       <div className="relative overflow-hidden rounded-[2rem] brand-gradient p-8 text-white shadow-pop">
         <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-black/10" />
-        <div className="relative">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
-            Game Mode
-          </p>
-          <h1 className="mt-2 text-4xl font-black">
-            {subject ? `${subject.code} Arcade` : 'Subject Arcade'}
-          </h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
-            Every game earns XP toward your level and daily challenges. Beat the signature
-            challenge, master the matching game, and survive the timed quiz!
-          </p>
+        <div className="relative flex flex-wrap items-start gap-5">
+          <Mascot
+            pose="playGame"
+            alt="TourMate mascot"
+            className="h-20 w-20 shrink-0 rounded-full border-4 border-white/30 bg-white/10 object-cover shadow-lg sm:h-28 sm:w-28"
+          />
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
+              Game Mode
+            </p>
+            <h1 className="mt-2 text-4xl font-black">
+              {subject ? `${subject.code} Arcade` : 'Subject Arcade'}
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
+              Every game earns XP toward your level and daily challenges. Beat the signature
+              challenge, master the matching game, and survive the timed quiz!
+            </p>
+          </div>
         </div>
       </div>
 

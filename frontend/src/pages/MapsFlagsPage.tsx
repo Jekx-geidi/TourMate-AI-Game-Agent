@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { Compass, Crosshair, Expand, Flag, Globe2, Plane, X } from 'lucide-react';
+import { Mascot } from '../components/Mascot';
 import { CountryPanel } from '../components/CountryPanel';
 import { FindCountryGame } from '../components/games/FindCountryGame';
 import { FlagQuizGame } from '../components/games/FlagQuizGame';
@@ -61,20 +62,27 @@ export function MapsFlagsPage() {
       <div className="relative overflow-hidden rounded-[2rem] brand-gradient p-6 text-white shadow-pop sm:p-8">
         <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-black/10" />
-        <div className="relative">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
-            Tourism Special Mode
-          </p>
-          <h1 className="mt-2 text-3xl font-black sm:text-4xl">World Explorer</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
-            Tap any country on the interactive map to discover its flag, capital, culture, food,
-            destinations, and airport codes â€” then test yourself in the map, flag, and airport
-            challenges to earn XP!
-          </p>
-          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1.5 text-sm font-bold backdrop-blur">
-            <Compass className="h-4 w-4" />
-            Countries explored: {stats.countriesExplored.length}/{COUNTRIES.length}
-          </p>
+        <div className="relative flex flex-wrap items-start gap-5">
+          <Mascot
+            pose="arMap"
+            alt="TourMate mascot"
+            className="h-20 w-20 shrink-0 rounded-full border-4 border-white/30 bg-white/10 object-cover shadow-lg sm:h-28 sm:w-28"
+          />
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
+              Tourism Special Mode
+            </p>
+            <h1 className="mt-2 text-3xl font-black sm:text-4xl">World Explorer</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
+              Tap any country on the interactive map to discover its flag, capital, culture, food,
+              destinations, and airport codes â€” then test yourself in the map, flag, and airport
+              challenges to earn XP!
+            </p>
+            <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1.5 text-sm font-bold backdrop-blur">
+              <Compass className="h-4 w-4" />
+              Countries explored: {stats.countriesExplored.length}/{COUNTRIES.length}
+            </p>
+          </div>
         </div>
       </div>
 

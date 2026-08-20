@@ -1,5 +1,6 @@
 import { Zap } from 'lucide-react';
 import { useGame } from '../hooks/use-game';
+import { Mascot } from './Mascot';
 
 export function XpBar() {
   const { stats, level, toasts } = useGame();
@@ -23,8 +24,9 @@ export function XpBar() {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className="animate-bounce rounded-full bg-gradient-to-r from-slate-950 to-cyan-700 px-3 py-1.5 text-xs font-bold text-white shadow-pop"
+            className="flex animate-bounce items-center gap-1.5 rounded-full bg-gradient-to-r from-slate-950 to-cyan-700 py-1.5 pl-1.5 pr-3 text-xs font-bold text-white shadow-pop"
           >
+            <Mascot pose="thumbsUp" alt="" size="avatar" className="h-6 w-6" />
             +{toast.amount} XP · {toast.reason}
           </div>
         ))}

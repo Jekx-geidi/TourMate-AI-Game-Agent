@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { LoadingSpinner } from '../components/LoadingSpinner';
+import { Mascot } from '../components/Mascot';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { COMPETENCY_LABELS } from '../lib/competencies';
@@ -51,15 +52,18 @@ export function SimulationDetailPage() {
 
         <p className="text-sm leading-6 text-slate-600 dark:text-slate-400">{mission.context}</p>
 
-        <div>
-          <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
-            Learning objectives
-          </h2>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600 dark:text-slate-400">
-            {mission.objectives.map((objective) => (
-              <li key={objective}>{objective}</li>
-            ))}
-          </ul>
+        <div className="flex flex-wrap items-start gap-4">
+          <Mascot pose="generate" alt="" size="avatar" className="h-16 w-16 shrink-0" />
+          <div className="min-w-0 flex-1">
+            <h2 className="text-sm font-bold uppercase tracking-wide text-slate-700 dark:text-slate-300">
+              Learning objectives
+            </h2>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-600 dark:text-slate-400">
+              {mission.objectives.map((objective) => (
+                <li key={objective}>{objective}</li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div>

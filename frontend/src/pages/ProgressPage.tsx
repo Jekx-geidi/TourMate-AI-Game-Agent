@@ -1,26 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { LoadingSpinner } from '../components/LoadingSpinner';
 import { Mascot } from '../components/Mascot';
-import { ProgressCard } from '../components/ProgressCard';
 import { Card } from '../components/ui/card';
 import { gamificationService } from '../services/gamification.service';
-import { progressService } from '../services/progress.service';
-import type { GamificationProfile, ProgressSummary } from '../types';
+import type { GamificationProfile } from '../types';
 
+// TourMate is game-first, not subject-first (per the pasted PRDs) -- this
+// page only shows server-backed XP/level/streak now, not subject percentages.
 export function ProgressPage() {
-  const { data, isLoading } = useQuery<ProgressSummary>({
-    queryKey: ['progress-summary'],
-    queryFn: progressService.summary,
-  });
-  // Server-backed game profile (XP/level/mission activity). Kept as its own
-  // query so a failure here doesn't blank the existing subject-progress
-  // section -- see docs/UF.md UF-06 "partial data unavailable" behavior.
   const gameProfileQuery = useQuery<GamificationProfile>({
     queryKey: ['gamification', 'me'],
     queryFn: gamificationService.me,
   });
 
-  if (isLoading || !data) return <LoadingSpinner label="Loading your progress..." />;
+  if (gameProfileQuery.isLoading) return <LoadingSpinner label="Loading your progress..." />;
 
   return (
     <div className="space-y-6">
@@ -75,26 +68,6 @@ export function ProgressPage() {
           ) : null}
         </Card>
       ) : null}
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Overall progress</p>
-          <p className="mt-2 text-4xl font-black text-cyan-700 dark:text-cyan-300">{data.overallProgress}%</p>
-        </Card>
-        <Card>
-          <p className="text-sm text-slate-500 dark:text-slate-400">Quiz average</p>
-          <p className="mt-2 text-4xl font-black text-blue-600">{data.quizAverage}%</p>
-        </Card>
-      </div>
-      <div className="grid gap-4">
-        {data.subjectProgress.map((item) => (
-          <ProgressCard
-            key={item.id}
-            label={`${item.subject.code} - ${item.subject.title}`}
-            percent={item.percent}
-          />
-        ))}
-      </div>
     </div>
   );
 }

@@ -22,4 +22,9 @@ export class LanguageGameController {
   ) {
     return this.languageGameService.submitAnswer(user.sub, dto);
   }
+
+  @Get('mistakes')
+  getMistakes(@CurrentUser() user: { sub: string }) {
+    return this.languageGameService.getMistakes(user.sub);
+  }
 }

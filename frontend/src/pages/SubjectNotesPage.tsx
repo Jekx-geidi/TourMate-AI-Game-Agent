@@ -86,6 +86,7 @@ export function SubjectNotesPage() {
           <div className="space-y-3">
             {filtered.length === 0 ? (
               <EmptyState
+                pose="research"
                 title="No notes yet"
                 description="Create your first note to capture key tourism ideas."
               />

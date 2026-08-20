@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Bot, Gamepad2 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
-import mascotHero from '../assets/mascot-hero.png';
+import { Mascot } from '../components/Mascot';
 import { CategoryCard } from '../components/CategoryCard';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -38,8 +38,8 @@ export function SubjectDetailPage() {
         <div className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-black/10" />
         <div className="relative">
           <div className="flex flex-wrap items-center gap-5">
-            <img
-              src={mascotHero}
+            <Mascot
+              pose="hero"
               alt="TourMate mascot"
               className="h-20 w-20 shrink-0 rounded-full border-4 border-white/30 bg-white/10 object-cover shadow-lg sm:h-28 sm:w-28"
             />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import mascotWave from '../assets/mascot-wave.png';
+import { Mascot } from './Mascot';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 
@@ -42,7 +42,7 @@ export function WelcomeMascotPopup() {
       aria-label="Welcome"
     >
       <div className="relative w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl dark:bg-slate-900">
-        <img src={mascotWave} alt="TourMate mascot waving" className="mx-auto h-28 w-28" />
+        <Mascot pose="wave" alt="TourMate mascot waving" className="mx-auto h-28 w-28" />
         <div className="mt-3 rounded-2xl bg-cyan-50 px-4 py-3 text-sm font-semibold text-cyan-900 dark:bg-cyan-950/40 dark:text-cyan-200">
           Hi, I&apos;m TourMate! How can I call you?
         </div>

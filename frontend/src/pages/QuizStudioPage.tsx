@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Check, ClipboardList, X } from 'lucide-react';
 import { GameResult } from '../components/games/GameResult';
+import { Mascot } from '../components/Mascot';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -83,16 +84,23 @@ export function QuizStudioPage() {
     <div className="space-y-6">
       <div className="relative overflow-hidden rounded-[2rem] brand-gradient p-6 text-white shadow-pop sm:p-8">
         <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10" />
-        <div className="relative">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
-            Practice Mode
-          </p>
-          <h1 className="mt-2 text-3xl font-black sm:text-4xl">Quiz Studio</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
-            Build your own quiz: pick your topics, choose the question style, set how many items â€”
-            every quiz is freshly shuffled from a bank of {QUESTION_BANK.length.toLocaleString()}{' '}
-            questions.
-          </p>
+        <div className="relative flex flex-wrap items-start gap-5">
+          <Mascot
+            pose="plan"
+            alt="TourMate mascot"
+            className="h-20 w-20 shrink-0 rounded-full border-4 border-white/30 bg-white/10 object-cover shadow-lg sm:h-28 sm:w-28"
+          />
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70">
+              Practice Mode
+            </p>
+            <h1 className="mt-2 text-3xl font-black sm:text-4xl">Quiz Studio</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/85">
+              Build your own quiz: pick your topics, choose the question style, set how many items â€”
+              every quiz is freshly shuffled from a bank of {QUESTION_BANK.length.toLocaleString()}{' '}
+              questions.
+            </p>
+          </div>
         </div>
       </div>
 

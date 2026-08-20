@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Globe2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import mascotHero from '../assets/mascot-hero.png';
-import mascotSleeping from '../assets/mascot-sleeping.png';
+import { Mascot } from '../components/Mascot';
 import { ChallengePanel } from '../components/ChallengePanel';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -50,8 +49,8 @@ export function DashboardPage() {
         <div className="relative">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="flex flex-wrap items-center gap-5">
-              <img
-                src={mascotHero}
+              <Mascot
+                pose="hero"
                 alt="TourMate mascot"
                 className="h-20 w-20 shrink-0 rounded-full border-4 border-white/30 bg-white/10 object-cover shadow-lg sm:h-28 sm:w-28"
               />
@@ -114,7 +113,7 @@ export function DashboardPage() {
             <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Recent notes</h2>
             {data.recentNotes.length === 0 ? (
               <div className="flex flex-col items-center gap-2 py-4 text-center">
-                <img src={mascotSleeping} alt="" className="h-20 w-20" />
+                <Mascot pose="sleeping" alt="" className="h-20 w-20" />
                 <p className="text-sm text-slate-500 dark:text-slate-400">
                   No notes yet. Write one from any subject to see it here.
                 </p>
