@@ -54,6 +54,37 @@ export class GamificationService {
     };
   }
 
+  async getLeaderboard(userId: string, limit = 20) {
+    const top = await this.prisma.gameProfile.findMany({
+      orderBy: { xp: 'desc' },
+      take: limit,
+      include: { user: { select: { id: true, name: true, avatarUrl: true } } },
+    });
+
+    const entries = top.map((profile, index) => ({
+      rank: index + 1,
+      userId: profile.userId,
+      name: profile.user.name,
+      avatarUrl: profile.user.avatarUrl,
+      xp: profile.xp,
+      level: profile.level,
+      isCurrentUser: profile.userId === userId,
+    }));
+
+    const me = entries.find((entry) => entry.isCurrentUser);
+    let myRank = me?.rank ?? null;
+
+    if (!me) {
+      const myProfile = await this.getOrCreateProfile(this.prisma, userId);
+      const higherCount = await this.prisma.gameProfile.count({
+        where: { xp: { gt: myProfile.xp } },
+      });
+      myRank = higherCount + 1;
+    }
+
+    return { entries, myRank };
+  }
+
   async getOrCreateProfile(client: Db, userId: string): Promise<GameProfile> {
     const existing = await client.gameProfile.findUnique({ where: { userId } });
     if (existing) return existing;

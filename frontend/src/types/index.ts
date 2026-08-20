@@ -237,3 +237,18 @@ export type GamificationProfile = {
     createdAt: string;
   }>;
 };
+
+export type LeaderboardEntry = {
+  rank: number;
+  userId: string;
+  name: string;
+  avatarUrl: string | null;
+  xp: number;
+  level: number;
+  isCurrentUser: boolean;
+};
+
+export type Leaderboard = {
+  entries: LeaderboardEntry[];
+  myRank: number | null;
+};

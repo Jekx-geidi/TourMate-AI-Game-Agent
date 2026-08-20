@@ -12,6 +12,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { LanguagePage } from './pages/LanguagePage';
 import { LandingPage } from './pages/LandingPage';
 import { AuthCallbackPage } from './pages/AuthCallbackPage';
+import { LeaderboardPage } from './pages/LeaderboardPage';
 import { LoginPage } from './pages/LoginPage';
 import { MapsFlagsPage } from './pages/MapsFlagsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
       { path: '/agent-status', element: <AgentStatusPage /> },
       { path: '/profile', element: <ProfilePage /> },
       { path: '/progress', element: <ProgressPage /> },
+      { path: '/leaderboard', element: <LeaderboardPage /> },
     ],
   },
   { path: '*', element: <NotFoundPage /> },

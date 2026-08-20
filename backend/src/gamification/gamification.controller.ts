@@ -12,4 +12,10 @@ export class GamificationController {
   getMyProfile(@CurrentUser() user: { sub: string }) {
     return this.gamificationService.getMyProfile(user.sub);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('leaderboard')
+  getLeaderboard(@CurrentUser() user: { sub: string }) {
+    return this.gamificationService.getLeaderboard(user.sub);
+  }
 }
