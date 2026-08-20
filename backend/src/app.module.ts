@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AgentModule } from './agent/agent.module';
 import { AiModule } from './ai/ai.module';
+import { AmadeusModule } from './amadeus/amadeus.module';
 import { AuthModule } from './auth/auth.module';
 import { FlashcardsModule } from './flashcards/flashcards.module';
 import { GamificationModule } from './gamification/gamification.module';
@@ -33,6 +34,7 @@ import { AppController } from './app.controller';
     GamificationModule,
     SimulationsModule,
     LanguageGameModule,
+    AmadeusModule,
   ],
   controllers: [AppController],
 })

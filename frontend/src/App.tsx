@@ -8,6 +8,7 @@ import { ThemeProvider } from './hooks/use-theme';
 import { AppShell } from './routes/AppShell';
 import { AgentStatusPage } from './pages/AgentStatusPage';
 import { AiTutorPage } from './pages/AiTutorPage';
+import { AmadeusPage } from './pages/AmadeusPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { LanguagePage } from './pages/LanguagePage';
 import { LandingPage } from './pages/LandingPage';
@@ -82,6 +83,7 @@ const router = createBrowserRouter([
       { path: '/profile', element: <ProfilePage /> },
       { path: '/progress', element: <ProgressPage /> },
       { path: '/leaderboard', element: <LeaderboardPage /> },
+      { path: '/amadeus', element: <AmadeusPage /> },
     ],
   },
   { path: '*', element: <NotFoundPage /> },

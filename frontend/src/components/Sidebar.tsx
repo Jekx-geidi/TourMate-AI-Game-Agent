@@ -6,6 +6,7 @@ import {
   Languages,
   MessageCircle,
   Plane,
+  Terminal,
   Trophy,
   User,
 } from 'lucide-react';
@@ -28,6 +29,7 @@ const GROUPS = [
     label: 'Play',
     links: [
       { to: '/language', label: 'Language Games', icon: Languages },
+      { to: '/amadeus', label: 'Amadeus Practice', icon: Terminal },
       { to: '/ai-tutor', label: 'AI Tutor', icon: MessageCircle },
       { to: '/simulations', label: 'Airline Academy', icon: Plane },
     ],

@@ -37,6 +37,7 @@ export const ACTIVITY_EVENT_TYPES = [
   'ACHIEVEMENT_UNLOCKED',
   'MANUAL_ADJUSTMENT',
   'LANGUAGE_GAME_ANSWERED',
+  'AMADEUS_COMMAND_SCORED',
 ] as const;
 export type ActivityEventType = (typeof ACTIVITY_EVENT_TYPES)[number];
 

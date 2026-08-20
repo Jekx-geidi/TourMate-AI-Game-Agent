@@ -29,6 +29,7 @@ model User {
   documentQuizResults   DocumentQuizResult[]
   documentChatLogs      DocumentChatLog[]
   gameAttempts          GameAttempt[]
+  amadeusSessions       AmadeusSession[]
 }
 
 model EmailVerificationCode {
@@ -524,4 +525,78 @@ model GameAttempt {
 
   @@index([userId, vocabWordId])
   @@index([userId, createdAt])
+}
+
+// --- Amadeus Practice (Reservation Lab): educational reservation-console
+// simulator. `difficulty`/`status` are plain Strings for the same
+// cross-connector reason as the rest of this file -- see
+// backend/src/amadeus/amadeus.constants.ts for allowed values.
+// `requiredTokens`/`hints` on AmadeusScenarioStep and `briefJson` on
+// AmadeusScenario are curated scenario data, not AI-generated or scraped
+// real Amadeus command syntax -- see docs pasted 2026-08-20 section 15/42.
+
+model AmadeusScenario {
+  id         String   @id @default(uuid())
+  slug       String   @unique
+  title      String
+  difficulty String
+  category   String
+  briefJson  Json
+  createdAt  DateTime @default(now())
+
+  steps    AmadeusScenarioStep[]
+  sessions AmadeusSession[]
+}
+
+model AmadeusScenarioStep {
+  id             String   @id @default(uuid())
+  scenarioId     String
+  orderIndex     Int
+  intent         String
+  title          String
+  instruction    String
+  requiredTokens Json
+  hints          Json
+  createdAt      DateTime @default(now())
+
+  scenario AmadeusScenario  @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+  attempts AmadeusAttempt[]
+
+  @@unique([scenarioId, orderIndex])
+}
+
+model AmadeusSession {
+  id               String    @id @default(uuid())
+  userId           String
+  scenarioId       String
+  status           String    @default("IN_PROGRESS")
+  currentStepOrder Int       @default(0)
+  combo            Int       @default(0)
+  hintCount        Int       @default(0)
+  startRequestKey  String?   @unique
+  startedAt        DateTime  @default(now())
+  completedAt      DateTime?
+
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scenario AmadeusScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+  attempts AmadeusAttempt[]
+
+  @@index([userId, status])
+}
+
+model AmadeusAttempt {
+  id            String   @id @default(uuid())
+  sessionId     String
+  stepId        String
+  rawCommand    String
+  tier          String
+  xpAwarded     Int      @default(0)
+  comboAtAnswer Int      @default(0)
+  requestKey    String   @unique
+  createdAt     DateTime @default(now())
+
+  session AmadeusSession      @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  step    AmadeusScenarioStep @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
 }
